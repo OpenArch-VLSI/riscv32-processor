@@ -38,7 +38,7 @@ if [ -f "$CHECKER" ]; then
     if [ $? -ne 0 ]; then
         echo ""
         echo "COMMIT BLOCKED: Documentation is stale."
-        echo "Update Docs/ai_context.md, Docs/planning/status.md, and write a session log."
+        echo "Update docs/ai_context.md, docs/roadmap.md, and write a session log."
         echo "Then try your commit again."
         echo ""
         exit 1
@@ -95,7 +95,7 @@ if [ -f "$CHECKER" ]; then
     if [ $? -ne 0 ]; then
         echo ""
         echo "PUSH BLOCKED: Documentation is stale."
-        echo "Update Docs/ai_context.md, Docs/planning/status.md, and write a session log."
+        echo "Update docs/ai_context.md, docs/roadmap.md, and write a session log."
         echo "Then try your push again."
         echo ""
         exit 1

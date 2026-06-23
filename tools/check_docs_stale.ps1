@@ -48,7 +48,7 @@ $UpdatesDir = "$DocsDir/updates"
 # ---------------------------------------------------------------
 $RequiredDocs = @(
     "$DocsDir/ai_context.md",
-    "$DocsDir/planning/status.md"
+    "$DocsDir/roadmap.md"
 )
 
 # ---------------------------------------------------------------
@@ -100,8 +100,8 @@ if (-not $latestSessionFile) {
     Write-Host " CHECK FAILED: NO SESSION LOGS FOUND    " -ForegroundColor Red
     Write-Host "========================================" -ForegroundColor Red
     Write-Host ""
-    Write-Host "Every agent session MUST write a log to Docs/updates/session_YYYY-MM-DD_HHMM_<name>.md"
-    Write-Host "Run:  New-Item Docs/updates/session_$(Get-Date -Format 'yyyy-MM-dd_HHmm')_agent.md"
+    Write-Host "Every agent session MUST write a log to docs/updates/session_YYYY-MM-DD_HHMM_<name>.md"
+    Write-Host "Run:  New-Item docs/updates/session_$(Get-Date -Format 'yyyy-MM-dd_HHmm')_agent.md"
     Write-Host ""
     exit 1
 }
@@ -124,9 +124,9 @@ if ($latestSessionTime -lt $latestSourceTime) {
     Write-Host "  modified:   $($latestSessionTime.ToString('yyyy-MM-dd HH:mm:ss'))"
     Write-Host ""
     Write-Host "MANDATORY: Before committing or claiming completion:"
-    Write-Host "  1. Update Docs/ai_context.md, Docs/planning/status.md"
-    Write-Host "  2. Write a new session log to Docs/updates/"
-    Write-Host "  3. Append the log link to Docs/updates/README.md"
+    Write-Host "  1. Update docs/ai_context.md, docs/roadmap.md"
+    Write-Host "  2. Write a new session log to docs/updates/"
+    Write-Host "  3. Append the log link to docs/updates/README.md"
     Write-Host "  4. Run this script again to verify"
     Write-Host ""
     exit 1
@@ -154,7 +154,7 @@ foreach ($doc in $RequiredDocs) {
 }
 
 # ---------------------------------------------------------------
-# Check: is the latest session log indexed in Docs/updates/README.md?
+# Check: is the latest session log indexed in docs/updates/README.md?
 # ---------------------------------------------------------------
 $readmePath = "$UpdatesDir/README.md"
 if (Test-Path $readmePath) {
@@ -166,12 +166,12 @@ if (Test-Path $readmePath) {
         Write-Host " CHECK FAILED: SESSION LOG NOT INDEXED  " -ForegroundColor Red
         Write-Host "========================================" -ForegroundColor Red
         Write-Host ""
-        Write-Host "Latest session log '$logFileName' is not linked in Docs/updates/README.md"
-        Write-Host "Add a line to Docs/updates/README.md referencing this log."
+        Write-Host "Latest session log '$logFileName' is not linked in docs/updates/README.md"
+        Write-Host "Add a line to docs/updates/README.md referencing this log."
         Write-Host ""
         exit 1
     }
-    Write-Host "CHECK_DOCS: Session log indexed in Docs/updates/README.md" -ForegroundColor Cyan
+    Write-Host "CHECK_DOCS: Session log indexed in docs/updates/README.md" -ForegroundColor Cyan
 }
 
 # ---------------------------------------------------------------
