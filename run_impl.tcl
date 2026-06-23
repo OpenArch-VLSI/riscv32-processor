@@ -1,4 +1,4 @@
-open_project C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.xpr
+open_project <repo>/riscv_pipeline_offline/riscv_pipeline_offline.xpr
 
 # Reset runs
 reset_run synth_1

@@ -1,27 +1,40 @@
-# Pipelined RV32I RISC-V Processor
+# Pipelined RV32IM RISC-V Processor
 
-A 32-bit, 5-stage pipelined RISC-V processor core implementing the RV32I base integer instruction set. The core is written in SystemVerilog and designed for FPGA implementation.
+A 32-bit, 5-stage pipelined RISC-V processor core written in SystemVerilog,
+targeting the PYNQ-Z2 (Zynq-7000) FPGA.
 
-## Architecture Highlights
-* **ISA**: RV32I Base Integer Instruction Set
-* **Pipeline**: 5-stage (Fetch, Decode, Execute, Memory, Writeback)
-* **Language**: SystemVerilog
-* **Target Environment**: Xilinx Vivado
+## Features
+
+| Feature | Description |
+|---------|-------------|
+| **ISA** | RV32I base + RV32M multiply + custom packed-SIMD (PADD8/PSUB8/PMAXU8/PMINU8/PAVG8) |
+| **Pipeline** | 5-stage (IF, ID, EX, MEM, WB) with forwarding, load-use stalls, branch flush |
+| **Branch Prediction** | 64-entry BHT dynamic predictor |
+| **Traps & CSRs** | M-mode CSRs, ECALL/EBREAK, timer interrupts, MRET |
+| **UART** | TX/RX at 115200 baud with interactive monitor (help/load/run/reset/regs/mem/perf/trace) |
+| **C Toolchain** | Custom linker script, C runtime, and benchmark suite in `sw/` |
+| **Synthesis** | 7,127 LUTs (13.4%), WNS +5.265 ns @ 25 MHz on xc7z020 |
 
 ## Repository Structure
-* `riscv_pipeline_offline.srcs/` - Contains all SystemVerilog source files, modules, and testbenches.
-* `tools/` - Python and TCL automation scripts.
-* `Docs/` - Project documentation and development notes.
+
+| Directory | Contents |
+|-----------|----------|
+| `riscv_pipeline_offline/` | Vivado project, RTL sources, testbenches, constraints |
+| `sw/` | C toolchain, linker script, runtime, benchmarks |
+| `results/` | Benchmark results and performance reports |
+| `tools/` | Automation scripts (loader, report generation) |
+| `docs/` | Architecture docs, ADRs, verification, guides |
 
 ## Getting Started
 
-This project is built using Xilinx Vivado. To open and build the project:
+1. Clone the repository.
+2. Open Vivado and load `riscv_pipeline_offline/riscv_pipeline_offline.xpr`.
+3. Or use TCL automation:
+   - `source run_synthesis.tcl` -- synthesis only
+   - `source run_build.tcl` -- full synthesis + implementation
 
-1. Clone the repository to your local machine.
-2. Open Vivado and load the `.xpr` project file.
-3. Alternatively, you can use the provided TCL scripts in the root directory to automate the build process from the Vivado TCL console:
-   * `source run_synthesis.tcl` - Runs RTL synthesis.
-   * `source run_build.tcl` - Runs the full synthesis and implementation flow.
+See `docs/hardware/setup.md` for board wiring and build details.
 
 ## License
-This project is licensed under the Apache License 2.0.
+
+Apache License 2.0

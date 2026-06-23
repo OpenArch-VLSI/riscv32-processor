@@ -1,6 +1,6 @@
 # run_sim_live.tcl
 # Add the new fpga_top testbench to the simulation fileset
-add_files -fileset sim_1 -norecurse C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sim_1/imports/sim/tb_fpga_top.sv
+add_files -fileset sim_1 -norecurse <repo>/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sim_1/imports/sim/tb_fpga_top.sv
 update_compile_order -fileset sim_1
 
 # Set it as the active top-level simulation module
