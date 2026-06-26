@@ -116,6 +116,88 @@ module mem_stage (
     assign ram_mem_write = ex_mem_mem_write & ram_sel;
 
     // ------------------------------------------------------------------
+    // Internal Peripheral Bus Definition
+    // ------------------------------------------------------------------
+    
+    // RAM Bus
+    logic [31:0] bus_ram_addr;
+    logic [31:0] bus_ram_wdata;
+    logic [31:0] bus_ram_rdata;
+    logic [3:0]  bus_ram_byte_en;
+    logic        bus_ram_re;
+    logic        bus_ram_we;
+    logic        bus_ram_ready;
+    logic        bus_ram_valid;
+
+    // UART Bus
+    logic [31:0] bus_uart_addr;
+    logic [31:0] bus_uart_wdata;
+    logic [31:0] bus_uart_rdata;
+    logic [3:0]  bus_uart_byte_en;
+    logic        bus_uart_re;
+    logic        bus_uart_we;
+    logic        bus_uart_ready;
+    logic        bus_uart_valid;
+
+    // Timer Bus
+    logic [31:0] bus_timer_addr;
+    logic [31:0] bus_timer_wdata;
+    logic [31:0] bus_timer_rdata;
+    logic [3:0]  bus_timer_byte_en;
+    logic        bus_timer_re;
+    logic        bus_timer_we;
+    logic        bus_timer_ready;
+    logic        bus_timer_valid;
+
+    // Perf Counters Bus
+    logic [31:0] bus_perf_addr;
+    logic [31:0] bus_perf_wdata;
+    logic [31:0] bus_perf_rdata;
+    logic [3:0]  bus_perf_byte_en;
+    logic        bus_perf_re;
+    logic        bus_perf_we;
+    logic        bus_perf_ready;
+    logic        bus_perf_valid;
+
+    // Debug MMIO Bus
+    logic [31:0] bus_debug_addr;
+    logic [31:0] bus_debug_wdata;
+    logic [31:0] bus_debug_rdata;
+    logic [3:0]  bus_debug_byte_en;
+    logic        bus_debug_re;
+    logic        bus_debug_we;
+    logic        bus_debug_ready;
+    logic        bus_debug_valid;
+
+    // ------------------------------------------------------------------
+    // Master to Bus Routing
+    // ------------------------------------------------------------------
+    
+    assign bus_uart_addr    = uart_sel ? ex_mem_alu_result : 32'd0;
+    assign bus_uart_wdata   = uart_sel ? ex_mem_rs2_data : 32'd0;
+    assign bus_uart_byte_en = uart_sel ? 4'b1111 : 4'd0;
+    assign bus_uart_re      = uart_sel ? ex_mem_mem_read : 1'b0;
+    assign bus_uart_we      = uart_sel ? ex_mem_mem_write : 1'b0;
+
+    assign bus_timer_addr    = timer_sel ? ex_mem_alu_result : 32'd0;
+    assign bus_timer_wdata   = timer_sel ? ex_mem_rs2_data : 32'd0;
+    assign bus_timer_byte_en = timer_sel ? 4'b1111 : 4'd0;
+    assign bus_timer_re      = timer_sel ? ex_mem_mem_read : 1'b0;
+    assign bus_timer_we      = timer_sel ? ex_mem_mem_write : 1'b0;
+
+    assign bus_perf_addr     = perf_sel ? ex_mem_alu_result : 32'd0;
+    assign bus_perf_wdata    = perf_sel ? ex_mem_rs2_data : 32'd0;
+    assign bus_perf_byte_en  = perf_sel ? 4'b1111 : 4'd0;
+    assign bus_perf_re       = perf_sel ? ex_mem_mem_read : 1'b0;
+    assign bus_perf_we       = perf_sel ? ex_mem_mem_write : 1'b0;
+
+    assign bus_debug_addr    = debug_sel ? ex_mem_alu_result : 32'd0;
+    assign bus_debug_wdata   = debug_sel ? ex_mem_rs2_data : 32'd0;
+    assign bus_debug_byte_en = debug_sel ? 4'b1111 : 4'd0;
+    assign bus_debug_re      = debug_sel ? ex_mem_mem_read : 1'b0;
+    assign bus_debug_we      = debug_sel ? ex_mem_mem_write : 1'b0;
+
+    // ------------------------------------------------------------------
     // Debug trace buffer
     // ------------------------------------------------------------------
     always_ff @(posedge clk) begin
@@ -225,14 +307,21 @@ module mem_stage (
         end
     end
 
+    // Route aligned RAM outputs to the bus interface
+    assign bus_ram_addr    = ram_sel ? ex_mem_alu_result : 32'd0;
+    assign bus_ram_wdata   = ram_sel ? ram_write_data : 32'd0;
+    assign bus_ram_byte_en = ram_sel ? ram_byte_en : 4'd0;
+    assign bus_ram_re      = ram_sel ? ex_mem_mem_read : 1'b0;
+    assign bus_ram_we      = ram_sel ? ex_mem_mem_write : 1'b0;
+
     data_mem u_data_mem (
         .clk       (clk),
         .rst       (rst),
-        .mem_read  (ram_mem_read),
-        .mem_write (ram_mem_write),
-        .byte_en   (ram_byte_en),
-        .word_addr (ex_mem_alu_result[11:2]),
-        .write_data(ram_write_data),
+        .mem_read  (bus_ram_re),
+        .mem_write (bus_ram_we),
+        .byte_en   (bus_ram_byte_en),
+        .word_addr (bus_ram_addr[11:2]),
+        .write_data(bus_ram_wdata),
         .read_data (ram_read_data),
         .dbg_addr  (dbg_dmem_addr),
         .dbg_data  (dbg_dmem_data)
@@ -275,6 +364,10 @@ module mem_stage (
         end
     end
 
+    assign bus_ram_rdata = ram_load_data;
+    assign bus_ram_ready = 1'b1;
+    assign bus_ram_valid = ram_sel;
+
     // ------------------------------------------------------------------
     // UART peripheral
     // ------------------------------------------------------------------
@@ -283,38 +376,50 @@ module mem_stage (
     uart_peripheral #(.CLKS_PER_BIT(217)) u_uart (
         .clk       (clk),
         .rst       (rst),
-        .uart_sel  (uart_sel),
-        .mem_read  (ex_mem_mem_read),
-        .mem_write (ex_mem_mem_write),
-        .reg_addr  (ex_mem_alu_result[3:0]),
-        .write_data(ex_mem_rs2_data),
+        .uart_sel  (uart_sel), // Note: uart_sel parameter is connected correctly to not break interface
+        .mem_read  (bus_uart_re),
+        .mem_write (bus_uart_we),
+        .reg_addr  (bus_uart_addr[3:0]),
+        .write_data(bus_uart_wdata),
         .read_data (uart_read_data),
         .uart_rxd  (uart_rxd),
         .uart_txd  (uart_txd)
     );
 
+    assign bus_uart_rdata = uart_read_data;
+    assign bus_uart_ready = 1'b1;
+    assign bus_uart_valid = uart_sel;
+
     // ------------------------------------------------------------------
     // Timer peripheral (0xC0000200 region)
     // ------------------------------------------------------------------
+    logic [31:0] timer_read_data_internal;
+
     timer u_timer (
         .clk        (clk),
         .rst        (rst),
-        .timer_sel  (timer_sel),
-        .mem_read   (ex_mem_mem_read),
-        .mem_write  (ex_mem_mem_write),
-        .reg_addr   (ex_mem_alu_result[3:0]),
-        .write_data (ex_mem_rs2_data),
-        .read_data  (timer_read_data),
+        .timer_sel  (timer_sel), // Same logic as UART
+        .mem_read   (bus_timer_re),
+        .mem_write  (bus_timer_we),
+        .reg_addr   (bus_timer_addr[3:0]),
+        .write_data (bus_timer_wdata),
+        .read_data  (timer_read_data_internal),
         .timer_irq  (timer_irq)
     );
+
+    assign bus_timer_rdata = timer_read_data_internal;
+    assign bus_timer_ready = 1'b1;
+    assign bus_timer_valid = timer_sel;
+
+    assign timer_read_data = bus_timer_rdata;
 
     // ------------------------------------------------------------------
     // Performance counter MMIO (read-only)
     // ------------------------------------------------------------------
     always_comb begin
         perf_read_data = 32'd0;
-        if (perf_sel && ex_mem_mem_read) begin
-            unique case (ex_mem_alu_result[3:2])
+        if (bus_perf_valid && bus_perf_re) begin
+            unique case (bus_perf_addr[3:2])
                 2'b00:   perf_read_data = perf_cycle_count;
                 2'b01:   perf_read_data = perf_instr_count;
                 2'b10:   perf_read_data = perf_stall_count;
@@ -324,12 +429,16 @@ module mem_stage (
         end
     end
 
+    assign bus_perf_rdata = perf_read_data;
+    assign bus_perf_ready = 1'b1;
+    assign bus_perf_valid = perf_sel;
+
     always_comb begin
         debug_read_data = 32'd0;
-        if (debug_sel && ex_mem_mem_read) begin
-            unique case (ex_mem_alu_result[7:4])
+        if (bus_debug_valid && bus_debug_re) begin
+            unique case (bus_debug_addr[7:4])
                 4'h1: begin
-                    unique case (ex_mem_alu_result[3:2])
+                    unique case (bus_debug_addr[3:2])
                         2'b00: debug_read_data = debug_pc_current;
                         2'b01: debug_read_data = debug_last_commit_pc;
                         2'b10: debug_read_data = debug_last_commit_instr;
@@ -338,7 +447,7 @@ module mem_stage (
                 end
 
                 4'h2: begin
-                    unique case (ex_mem_alu_result[3:2])
+                    unique case (bus_debug_addr[3:2])
                         2'b00: debug_read_data = {26'd0, debug_last_wb_reg_write, debug_last_wb_rd};
                         2'b01: debug_read_data = debug_fault_pc;
                         2'b10: debug_read_data = debug_fault_instr;
@@ -357,7 +466,7 @@ module mem_stage (
                 end
 
                 4'h3: begin
-                    unique case (ex_mem_alu_result[3:2])
+                    unique case (bus_debug_addr[3:2])
                         2'b00: debug_read_data = {27'd0, trace_count, trace_head};
                         2'b01: debug_read_data = {25'd0, debug_commit_valid, debug_last_wb_reg_write, debug_last_wb_rd};
                         2'b10: debug_read_data = {
@@ -379,32 +488,38 @@ module mem_stage (
                 4'h5,
                 4'h6,
                 4'h7: begin
-                    unique case (ex_mem_alu_result[3:2])
-                        2'b00: debug_read_data = trace_pc[ex_mem_alu_result[5:4]];
-                        2'b01: debug_read_data = trace_instr[ex_mem_alu_result[5:4]];
-                        2'b10: debug_read_data = trace_wb_data[ex_mem_alu_result[5:4]];
-                        2'b11: debug_read_data = trace_status[ex_mem_alu_result[5:4]];
+                    unique case (bus_debug_addr[3:2])
+                        2'b00: debug_read_data = trace_pc[bus_debug_addr[5:4]];
+                        2'b01: debug_read_data = trace_instr[bus_debug_addr[5:4]];
+                        2'b10: debug_read_data = trace_wb_data[bus_debug_addr[5:4]];
+                        2'b11: debug_read_data = trace_status[bus_debug_addr[5:4]];
                     endcase
                 end
             endcase
         end
     end
 
+    assign bus_debug_rdata = debug_read_data;
+    assign bus_debug_ready = 1'b1;
+    assign bus_debug_valid = debug_sel;
+
     // ------------------------------------------------------------------
-    // Read-data mux: select MMIO, timer, or SRAM based on address
+    // Read-data mux: select MMIO, timer, or SRAM based on bus valid
     // ------------------------------------------------------------------
     always_comb begin
         mem_wb_mem_read_data_in = 32'd0;
-        if (timer_sel) begin
-            mem_wb_mem_read_data_in = timer_read_data;
-        end else if (debug_sel) begin
-            mem_wb_mem_read_data_in = debug_read_data;
-        end else if (uart_sel) begin
-            mem_wb_mem_read_data_in = uart_read_data;
-        end else if (perf_sel) begin
-            mem_wb_mem_read_data_in = perf_read_data;
-        end else if (ram_sel) begin
-            mem_wb_mem_read_data_in = ram_load_data;
+        if (bus_timer_valid) begin
+            mem_wb_mem_read_data_in = bus_timer_rdata;
+        end else if (bus_debug_valid) begin
+            mem_wb_mem_read_data_in = bus_debug_rdata;
+        end else if (bus_uart_valid) begin
+            mem_wb_mem_read_data_in = bus_uart_rdata;
+        end else if (bus_perf_valid) begin
+            mem_wb_mem_read_data_in = bus_perf_rdata;
+        end else if (bus_ram_valid) begin
+            mem_wb_mem_read_data_in = bus_ram_rdata;
+        end else begin
+            mem_wb_mem_read_data_in = 32'd0;
         end
     end
 
