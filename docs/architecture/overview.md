@@ -1,8 +1,8 @@
 # Architecture
 
-Last updated: 2026-06-22
+Last updated: 2026-06-24
 
-<!-- This file is manually maintained. Last updated: 2026-06-22 -->
+<!-- This file is manually maintained. Last updated: 2026-06-24 -->
 
 
 
@@ -112,7 +112,7 @@ The `.dot` files are generated text source diagrams. Render them to SVG or PNG w
 | `if_stage.sv` | `if_stage` | Instruction fetch and PC update |
 | `imm_gen.sv` | `imm_gen` | Immediate generation |
 | `instr_mem.sv` | `instr_mem` | Preloaded instruction memory with loader write-port foundation |
-| `mem_stage.sv` | `mem_stage` | Data memory, UART MMIO, performance-counter MMIO, debug MMIO, commit trace buffer, subword access formatting |
+| `mem_stage.sv` | `mem_stage` | Data memory, UART MMIO, timer MMIO, performance-counter MMIO, debug MMIO, commit trace buffer, subword access formatting. Phase 11: all peripherals routed through an internal signal-bundle bus (`bus_<periph>_*`). |
 | `pipeline_registers.sv` | `if_id_reg`, `id_ex_reg`, `ex_mem_reg`, `mem_wb_reg` | IF/ID, ID/EX, EX/MEM, MEM/WB registers with stall/flush/valid handling |
 | `reg_file.sv` | `reg_file` | Integer register file |
 | `top.sv` | `top` | CPU top level, stage wiring, hazard/forwarding wiring, performance counters, halt logic |

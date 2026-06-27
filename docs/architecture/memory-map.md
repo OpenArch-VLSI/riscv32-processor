@@ -24,4 +24,20 @@
 | `0xC000002C` | pipeline/debug status | implemented as debug MMIO; packs halt, illegal, stall, flush, PC-select, and trace metadata |
 | `0xC0000030` | trace head/count | implemented as debug MMIO |
 | `0xC0000040-0xC000007F` | 4-entry commit trace buffer | implemented as debug MMIO; each entry stores PC, instruction, writeback data, and a packed status word |
+| `0xC0000200` | timer mtime (free-running counter) | implemented as read/write timer MMIO |
+| `0xC0000204` | timer mtimecmp (compare value) | implemented as read/write timer MMIO |
+| `0xC0000208` | timer control/status (bit 0 = enable, bit 1 = pending) | implemented as read/write timer MMIO |
 
+## Internal Peripheral Bus
+
+As of Phase 11, `mem_stage` routes every peripheral (RAM, UART, Timer,
+Performance Counters, Debug MMIO) through an internal signal-bundle bus
+rather than ad-hoc per-peripheral wiring. Each peripheral has its own
+`bus_<periph>_addr` / `bus_<periph>_wdata` / `bus_<periph>_rdata` /
+`bus_<periph>_byte_en` / `bus_<periph>_re` / `bus_<periph>_we` /
+`bus_<periph>_ready` / `bus_<periph>_valid` signal group. The final
+read-data mux selects among peripherals by valid signal, in the same
+priority order used before the refactor (timer, debug, UART, performance
+counters, RAM). This is an internal RTL refactor only — it does not
+change any address in the table above. See `tb_memory_map.sv` for the
+regression test covering this bus.
