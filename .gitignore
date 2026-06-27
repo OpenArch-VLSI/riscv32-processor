@@ -44,4 +44,10 @@ docs_verification_report.md
 docs_pass3_report.md
 docs_pass4_report.md
 docs_pass5_report.md
+docs_phase11_report.md
 docs/updates/docs_issues.md 
+dup_report.txt
+
+# Temporary session scripts
+fix*.py
+append_report.py
