@@ -93,10 +93,20 @@ This project is a 5-stage pipelined RV32I-style soft SoC implemented on the PYNQ
 - **Phase 8 (Branch Prediction & CPI Experiments):** Complete in RTL. Created a bubble sort benchmark program. Implemented Static Branch Prediction (BTFNT) followed by Dynamic Branch Prediction (64-entry BHT with 2-bit counters). Pipeline misprediction flush logic optimized. Pending final simulation runs for metrics validation.
 - **Phase 9 (Custom Packed-SIMD Extension):** RTL complete. Five packed operations (PADD8, PSUB8, PMAXU8, PMINU8, PAVG8) on custom-0 opcode (0001011). Per-lane 8-bit operations use existing forwarding/hazard logic. Testbench `tb_phase9.sv` created. Simulation pending.
 - **Phase 10 (Real Workloads and Benchmark Demos):** Complete in Simulation. Created workload suite (checksums, bubble sort). Resolved 8-bit lane overflow and unaligned access correctness bugs in SIMD benchmarking. Extracted and documented cycles, instructions, stalls, and flushes, proving a 3.85x cycle speedup for PADD8 over scalar.
+- **Phase 11 (Memory System and Bus Cleanup):** Complete in Simulation.
+  Refactored `mem_stage.sv` to route RAM, UART, Timer, Performance
+  Counters, and Debug MMIO through an internal signal-bundle bus
+  (`bus_<periph>_*`). Added `tb_memory_map.sv` regression testbench
+  (6 checks, all passing). Updated `docs/architecture/memory-map.md`
+  with the previously-undocumented timer register addresses. No
+  address-map or behavior changes; this was a pure internal refactor.
 
 ## 🎯 Next Priorities (For the Next Agent)
-1. **Phase 11 (Memory System and Bus Cleanup):** Define a cleaner internal bus and move peripherals behind it. Establish memory-map regression tests.
-2. **Board Arrival Checklist:** Once the board is acquired, immediately execute `docs/board_arrival_checklist.md`.
+1. **Phase 12 (Optional Peripherals):** Add GPIO peripheral, button/switch
+   input, LED control register, or simple SPI master. Simulate any new
+   peripheral. Physical board proof deferred until PYNQ-Z2 is available.
+2. **Board Arrival Checklist:** Once the board is acquired, immediately
+   execute `docs/board_arrival_checklist.md`.
 
 ## 📁 Key Documentation References
 - [`docs/GETTING_STARTED.md`](./GETTING_STARTED.md): **User guide for the project owner.** Prompt template, folder structure, roadmap summary, troubleshooting.
@@ -130,6 +140,7 @@ Any AI agent modifying a doc file MUST verify its entry is still accurate.
 | `docs/known_issues.md` | Living issue tracker. Bugs, limitations, technical debt, future investigations. | ✅ Complete | 2026-06-04 |
 | `docs/no_board_execution_plan.md` | Detailed breakdown of phase executability without the PYNQ-Z2 board. | ✅ Complete | 2026-06-04 |
 | `docs/board_arrival_checklist.md` | Mandatory checklist of hardware verification tasks to run once the board arrives. | ⌛ Complete | 2026-06-04 |
+| `docs/updates/session_2026-06-26_1645_antigravity.md` | Session log: Phase 11 documentation persistence pass. | ✅ Complete | 2026-06-26 |
 | `.gitignore` | Git exclusion list for Vivado artifacts, build outputs, OS files. | ✅ Active | 2026-06-04 |
 | `tools/check_docs_stale.ps1` | Doc freshness checker. Compares source mtimes vs session log. Verifies README index. | ✅ Active | 2026-06-04 |
 | `tools/install_hooks.ps1` | Installs pre-commit, post-commit, pre-push git hooks. Run once after git init. | ✅ Active | 2026-06-04 |
@@ -150,7 +161,8 @@ Any AI agent modifying a doc file MUST verify its entry is still accurate.
 - **2026-06-14**: Analyzed project documentation to determine the next step. Confirmed that Phases 1-6 are fully implemented and verified in simulation, and hardware verification is deferred until the PYNQ-Z2 board arrives. Concluded that the next immediate priority is **Phase 7: Run Small C Programs**.
 - **2026-06-14**: Verified Phase 6 RTL (RV32M Multiply Extension) using `tb_phase6.sv`. All `MUL` family tests (`MUL`, `MULH`, `MULHSU`, `MULHU`) passed seamlessly in simulation on the first run. Phase 6 is complete in simulation.
 - **2026-06-14**: Debugged and fixed Phase 5 simulation failures in `tb_phase5.sv`. Resolved Timer interrupt logic, forced proper 32-bit `mtimecmp` values, enabled the timer `ctrl` register, and padded the test payload with `jal x0, 0` to prevent safely asynchronous trap returns from tumbling into zeroes and triggering infinite illegal instruction traps. Phase 5 is now fully verified in simulation.
-- **2026-06-14**: Implemented Phase 5 RTL (Traps, Exceptions, Timer Interrupts). Created csr_file.sv (mstatus/mtvec/mepc/mcause), timer.sv (0xC0000200), tb_phase5.sv. Updated 7 existing source files for CSR decode, trap entry, MRET execution, and timer MMIO. Phase 5 RTL is complete; simulation pending.`n- **2026-06-13**: Identified and fixed a major hardware anti-pattern in `uart_monitor.sv` (multiple array writes per cycle causing a massive MUX network that hung Vivado synthesis). Rewrote the FSM to use a strict single-write-per-cycle shift register. Created `tb_fpga_top.sv` and fully verified the monitor end-to-end in xsim. Generated the Phase 5 Implementation Plan.
+- **2026-06-14**: Implemented Phase 5 RTL (Traps, Exceptions, Timer Interrupts). Created csr_file.sv (mstatus/mtvec/mepc/mcause), timer.sv (0xC0000200), tb_phase5.sv. Updated 7 existing source files for CSR decode, trap entry, MRET execution, and timer MMIO. Phase 5 RTL is complete; simulation pending.
+- **2026-06-13**: Identified and fixed a major hardware anti-pattern in `uart_monitor.sv` (multiple array writes per cycle causing a massive MUX network that hung Vivado synthesis). Rewrote the FSM to use a strict single-write-per-cycle shift register. Created `tb_fpga_top.sv` and fully verified the monitor end-to-end in xsim. Generated the Phase 5 Implementation Plan.
 - **2026-06-05**: Updated `docs/ownership.md` to add DS srijith, Raunit kapoor, and Hemanth v as contributors per user request.
 - **2026-06-04**: Created `docs/no_board_execution_plan.md` and `docs/board_arrival_checklist.md` to clarify what can be developed in simulation/RTL without the physical FPGA board, and what must be done immediately once the board arrives. Appended both files to `status.md` and `ai_context.md`.
 - **2026-06-04**: Created `docs/GETTING_STARTED.md` — comprehensive user guide for the project owner. Includes prompt template, folder structure walkthrough, 13-phase roadmap summary, session log explanation, git safety net overview, and troubleshooting section.
