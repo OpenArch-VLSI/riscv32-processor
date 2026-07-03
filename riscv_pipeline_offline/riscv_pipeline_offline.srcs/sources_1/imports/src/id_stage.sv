@@ -27,7 +27,7 @@ module id_stage (
     output logic [4:0]  id_ex_rd,
     output logic [2:0]  id_ex_funct3,
     output logic [6:0]  id_ex_opcode,
-    output logic [3:0]  id_ex_alu_control,
+    output logic [4:0]  id_ex_alu_control,
     output logic        id_ex_reg_write,
     output logic        id_ex_mem_read,
     output logic        id_ex_mem_write,
@@ -74,7 +74,7 @@ module id_stage (
     logic       is_csr_inst_dec;
     logic [2:0] packed_op_dec;
     logic [31:0] imm_dec;
-    logic [3:0] alu_control_dec;
+    logic [4:0] alu_control_dec;
 
     assign opcode      = if_id_instr[6:0];
     assign id_ex_rd    = if_id_instr[11:7];
@@ -188,7 +188,7 @@ module id_stage (
 
     always_comb begin
         if (rst || flush) begin
-            id_ex_alu_control   = 4'd0;
+            id_ex_alu_control   = 5'd0;
             id_ex_reg_write     = 1'b0;
             id_ex_mem_read      = 1'b0;
             id_ex_mem_write     = 1'b0;

@@ -70,7 +70,7 @@ module top (
     logic [4:0]  id_rd;
     logic [2:0]  id_funct3;
     logic [6:0]  id_opcode;
-    logic [3:0]  id_alu_control;
+    logic [4:0]  id_alu_control;
     logic        id_reg_write;
     logic        id_mem_read;
     logic        id_mem_write;
@@ -104,7 +104,7 @@ module top (
     logic [4:0]  id_ex_rd;
     logic [2:0]  id_ex_funct3;
     logic [6:0]  id_ex_opcode;
-    logic [3:0]  id_ex_alu_control;
+    logic [4:0]  id_ex_alu_control;
     logic        id_ex_reg_write;
     logic        id_ex_mem_read;
     logic        id_ex_mem_write;

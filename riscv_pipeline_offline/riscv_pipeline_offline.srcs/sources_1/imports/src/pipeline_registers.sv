@@ -61,7 +61,7 @@ module id_ex_reg (
     input  logic [4:0]  rd_in,
     input  logic [2:0]  funct3_in,
     input  logic [6:0]  opcode_in,
-    input  logic [3:0]  alu_control_in,
+    input  logic [4:0]  alu_control_in,
     input  logic        reg_write_in,
     input  logic        mem_read_in,
     input  logic        mem_write_in,
@@ -88,7 +88,7 @@ module id_ex_reg (
     output logic [4:0]  rd_out,
     output logic [2:0]  funct3_out,
     output logic [6:0]  opcode_out,
-    output logic [3:0]  alu_control_out,
+    output logic [4:0]  alu_control_out,
     output logic        reg_write_out,
     output logic        mem_read_out,
     output logic        mem_write_out,
@@ -119,7 +119,7 @@ module id_ex_reg (
             rd_out            <= 5'd0;
             funct3_out        <= 3'd0;
             opcode_out        <= 7'b0010011;
-            alu_control_out   <= 4'd0;
+            alu_control_out   <= 5'd0;
             reg_write_out     <= 1'b0;
             mem_read_out      <= 1'b0;
             mem_write_out     <= 1'b0;
