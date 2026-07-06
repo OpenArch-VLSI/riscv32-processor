@@ -18,7 +18,7 @@ module ex_stage (
     input  logic [4:0]  id_ex_rd,
     input  logic [2:0]  id_ex_funct3,
     input  logic [6:0]  id_ex_opcode,
-    input  logic [3:0]  id_ex_alu_control,
+    input  logic [4:0]  id_ex_alu_control,
     input  logic        id_ex_reg_write,
     input  logic        id_ex_mem_read,
     input  logic        id_ex_mem_write,

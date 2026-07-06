@@ -149,6 +149,100 @@ module tb_phase6;
         check_reg(6, 32'hFFFFFFFE, "MULHU result");
 
         // ------------------------------------------------------------------
+        // DIV/REM tests
+        // ------------------------------------------------------------------
+        $display("\n=== Phase 6 Test: RV32M Divide/Remainder Instructions ===");
+
+        // Load DIV/REM test program at 0x140 (word addr 80)
+        // Common register init
+        load_word(10'd80, 32'h00A00513); // addi x10, x0, 10
+        load_word(10'd81, 32'h00300593); // addi x11, x0, 3
+        load_word(10'd82, 32'hFF600693); // addi x13, x0, -10
+        load_word(10'd83, 32'hFFD00713); // addi x14, x0, -3
+        load_word(10'd84, 32'h00500993); // addi x19, x0, 5
+        load_word(10'd85, 32'hFFF00613); // addi x12, x0, -1
+
+        // Test  1: DIV positive/positive   — 10/3 = 3
+        load_word(10'd86, 32'h02B547B3); // DIV x15, x10, x11
+        // Test  2: DIV negative/positive   — (-10)/3 = -3 (0xFFFFFFFD)
+        load_word(10'd87, 32'h02B6C833); // DIV x16, x13, x11
+        // Test  3: DIV positive/negative   — 10/(-3) = -3 (0xFFFFFFFD)
+        load_word(10'd88, 32'h02E548B3); // DIV x17, x10, x14
+        // Test  4: DIV negative/negative   — (-10)/(-3) = 3
+        load_word(10'd89, 32'h02E6C933); // DIV x18, x13, x14
+        // Test  5: DIV divide by zero      — 5/0 = 0xFFFFFFFF
+        load_word(10'd90, 32'h0209CA33); // DIV x20, x19, x0
+        // Test  6: DIV signed overflow     — 0x80000000/(-1) = 0x80000000
+        load_word(10'd91, 32'h80000AB7); // lui x21, 0x80000
+        load_word(10'd92, 32'h02CACB33); // DIV x22, x21, x12
+
+        // Test  7: DIVU basic             — 0x80000000/2 = 0x40000000
+        load_word(10'd93, 32'h80000BB7); // lui x23, 0x80000
+        load_word(10'd94, 32'h00200C13); // addi x24, x0, 2
+        load_word(10'd95, 32'h038BDCB3); // DIVU x25, x23, x24
+        // Test  8: DIVU divide by zero     — 5/0 = 0xFFFFFFFF
+        load_word(10'd96, 32'h0209DD33); // DIVU x26, x19, x0
+
+        // Test  9: REM positive/positive   — 10%3 = 1
+        load_word(10'd97, 32'h02B56DB3); // REM x27, x10, x11
+        // Test 10: REM negative/positive   — (-10)%3 = -1 (0xFFFFFFFF)
+        load_word(10'd98, 32'h02B6EE33); // REM x28, x13, x11
+        // Test 11: REM positive/negative   — 10%(-3) = 1
+        load_word(10'd99, 32'h02E56EB3); // REM x29, x10, x14
+        // Test 12: REM divide by zero      — 5%0 = 5
+        load_word(10'd100, 32'h0209EF33); // REM x30, x19, x0
+        // Test 13: REM overflow            — 0x80000000%(-1) = 0
+        load_word(10'd101, 32'h02CAE133); // REM x2, x21, x12
+
+        // Test 14: REMU basic             — 0x80000000%3 = 2
+        load_word(10'd102, 32'h02BBF1B3); // REMU x3, x23, x11
+        // Test 15: REMU divide by zero     — 5%0 = 5
+        load_word(10'd103, 32'h0209F233); // REMU x4, x19, x0
+
+        // Test 16: Combined back-to-back DIV/DIVU/REM/REMU — 100/7
+        load_word(10'd104, 32'h06400293); // addi x5, x0, 100
+        load_word(10'd105, 32'h00700313); // addi x6, x0, 7
+        load_word(10'd106, 32'h0262C3B3); // DIV  x7, x5, x6   — 100/7 = 14
+        load_word(10'd107, 32'h0262D433); // DIVU x8, x5, x6   — 100/7 = 14
+        load_word(10'd108, 32'h0262E4B3); // REM  x9, x5, x6   — 100%7 = 2
+        load_word(10'd109, 32'h0262FFB3); // REMU x31, x5, x6  — 100%7 = 2
+        load_word(10'd110, 32'h0000006F); // jal x0, 0 (spin)
+
+        // Force PC to 0x140 and run
+        force uut.u_if_stage.pc_current = 32'h140;
+        run_cycles(1); release uut.u_if_stage.pc_current;
+        run_cycles(100);
+
+        // Check DIV results (tests 1-6)
+        check_reg(15, 32'd3,            "DIV  10/3");
+        check_reg(16, 32'hFFFFFFFD,     "DIV  (-10)/3");
+        check_reg(17, 32'hFFFFFFFD,     "DIV  10/(-3)");
+        check_reg(18, 32'd3,            "DIV  (-10)/(-3)");
+        check_reg(20, 32'hFFFFFFFF,     "DIV  5/0");
+        check_reg(22, 32'h80000000,     "DIV  0x80000000/(-1)");
+
+        // Check DIVU results (tests 7-8)
+        check_reg(25, 32'h40000000,     "DIVU 0x80000000/2");
+        check_reg(26, 32'hFFFFFFFF,     "DIVU 5/0");
+
+        // Check REM results (tests 9-13)
+        check_reg(27, 32'd1,            "REM  10%3");
+        check_reg(28, 32'hFFFFFFFF,     "REM  (-10)%3");
+        check_reg(29, 32'd1,            "REM  10%(-3)");
+        check_reg(30, 32'd5,            "REM  5%0");
+        check_reg(2,  32'd0,            "REM  0x80000000%(-1)");
+
+        // Check REMU results (tests 14-15)
+        check_reg(3,  32'd2,            "REMU 0x80000000%3");
+        check_reg(4,  32'd5,            "REMU 5%0");
+
+        // Check combined program results (test 16)
+        check_reg(7,  32'd14,           "DIV  100/7");
+        check_reg(8,  32'd14,           "DIVU 100/7");
+        check_reg(9,  32'd2,            "REM  100%7");
+        check_reg(31, 32'd2,            "REMU 100%7");
+
+        // ------------------------------------------------------------------
         // Final
         // ------------------------------------------------------------------
         if (failures == 0)
