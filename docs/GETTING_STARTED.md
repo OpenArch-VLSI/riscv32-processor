@@ -60,23 +60,27 @@ riscv32-processor/
 │   ├── GETTING_STARTED.md         ← 👈 YOU ARE HERE — this guide
 │   ├── ai_context.md              ← 🔴 THE PRIMARY BRAIN. AI reads this first.
 │   │                                Project state, priorities, file list, rules.
+│   ├── board_arrival_checklist.md ← Mandatory physical verification
+│   ├── known_issues.md            ← Open bugs and limitations
+│   ├── no_board_execution_plan.md ← What to do without the board
+│   ├── README.md                  ← Project landing page
+│   ├── roadmap.md                 ← 13-phase long-term plan
 │   ├── architecture/              ← How the processor is built
-│   │   ├── architecture.md        ← Full technical design
-│   │   ├── instruction-set.md ← Which RISC-V instructions work
-│   │   └── uart-monitor.md    ← Serial terminal command reference
+│   │   ├── instruction-set.md     ← Which RISC-V instructions work
+│   │   ├── memory-map.md          ← Address spaces and internal bus
+│   │   ├── overview.md            ← Full technical design
+│   │   ├── uart-monitor.md        ← Serial terminal command reference
+│   │   └── viva_prep.md           ← Notes and prep
+│   ├── decisions/                 ← Architecture Decision Records
+│   ├── diagrams/                  ← Graphviz source files (.dot)
 │   ├── guides/                    ← Tutorials and step-by-step verification guides
-│   ├── planning/                  ← Project management
-│   │   ├── status.md              ← Live tracker: what's done, what's left
-│   │   ├── roadmap.md             ← 13-phase long-term plan
-│   │   ├── known_issues.md        ← Open bugs and limitations
-│   │   └── ownership.md           ← Who contributed what
+│   ├── hardware/                  ← Hardware specific guides
+│   │   ├── board_arrival_shopping_list.md ← Required purchases
+│   │   └── setup.md               ← Board setup guide (pins, UART wiring)
 │   ├── updates/                   ← 📝 SESSION LOGS (every AI session leaves one)
 │   │   ├── README.md              ← Index of all sessions
 │   │   └── session_2026-06-04_*.md ← Individual session records
-│   ├── verification/              ← Test results and performance data
-│   ├── hardware/                  ← Board setup guide (pins, UART wiring)
-│   ├── decisions/                 ← Architecture Decision Records
-│   └── diagrams/                  ← Graphviz source files (.dot)
+│   └── verification/              ← Test results and performance data
 │
 ├── riscv_pipeline_offline/        ← 🔧 THE ACTUAL PROCESSOR DESIGN
 │   └── riscv_pipeline_offline.srcs/
@@ -397,4 +401,4 @@ git reset --hard <good-commit> # Go back to before the mistake
 
 ---
 
-*This guide was written for Kaustubh on 2026-06-04. If the project structure changes significantly, ask the AI to update this file.*
+*This guide was written for the project owner on 2026-06-04. If the project structure changes significantly, ask the AI to update this file.*

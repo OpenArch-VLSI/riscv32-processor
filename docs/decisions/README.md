@@ -5,7 +5,7 @@ were considered, and why. They are immutable records — superseded decisions ge
 a new ADR, not an edit to the old one.
 
 ## ADR Lifecycle
-`Accepted` → `Accepted` → `Superseded` | `Deprecated`
+`Proposed` → `Accepted` → `Superseded` | `Deprecated`
 
 ## Naming Convention
 `NNN_short_snake_case_title.md` where NNN is zero-padded (001, 002, ...)

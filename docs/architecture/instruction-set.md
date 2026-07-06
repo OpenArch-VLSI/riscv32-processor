@@ -1,8 +1,8 @@
 # Instruction Support Matrix
 
-> **Last updated:** 2026-06-03  
-> **Source of truth:** docs/architecture.md + RTL source  
-> **Legend:** ✅ Complete | ❌ Not implemented | ⏳ Pending FPGA test
+> **Last updated:** 2026-06-28  
+> **Source of truth:** docs/architecture/overview.md + RTL source  
+> **Legend:** ✅ Complete | ❌ Not Implemented | ⏳ Pending FPGA test
 
 ## Summary
 | Metric                        | Count |
@@ -92,30 +92,30 @@
 | FENCE.I     | I      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Decoded as NOP |
 | ECALL       | I      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Halts pipeline |
 | EBREAK      | I      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Halts pipeline |
-| CSRRW       | I      | Done  | Done | Pending    | Phase 5 |
-| CSRRS       | I      | Done  | Done | Pending    | Phase 5 |
-| CSRRC       | I      | Done  | Done | Pending    | Phase 5 |
-| CSRRWI      | I      | Done  | Done | Pending    | Phase 5 |
-| CSRRSI      | I      | Done  | Done | Pending    | Phase 5 |
-| CSRRCI      | I      | Done  | Done | Pending    | Phase 5 |
+| CSRRW       | I      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 5 |
+| CSRRS       | I      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 5 |
+| CSRRC       | I      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 5 |
+| CSRRWI      | I      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 5 |
+| CSRRSI      | I      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 5 |
+| CSRRCI      | I      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 5 |
 
 ### M Extension — Multiply / Divide
 | Instruction | Format | Implemented | Sim Tested | FPGA Verified | Notes |
 |-------------|--------|:-----------:|:----------:|:-------------:|-------|
-| MUL         | R      | Done  | Done | Pending    | Phase 6 |
-| MULH        | R      | Done  | Done | Pending    | Phase 6 |
-| MULHU       | R      | Done  | Done | Pending    | Phase 6 |
-| MULHSU      | R      | Done  | Done | Pending    | Phase 6 |
-| DIV         | R      | ❌ No        | ❌ No       | ❌ No         | Deferred to Phase 6 |
-| DIVU        | R      | ❌ No        | ❌ No       | ❌ No         | Deferred to Phase 6 |
-| REM         | R      | ❌ No        | ❌ No       | ❌ No         | Deferred to Phase 6 |
-| REMU        | R      | ❌ No        | ❌ No       | ❌ No         | Deferred to Phase 6 |
+| MUL         | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 |
+| MULH        | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 |
+| MULHU       | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 |
+| MULHSU      | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 |
+| DIV         | R      | ❌ Not Implemented | ❌ Not Implemented | ❌ Not Implemented | Deferred to Phase 6 |
+| DIVU        | R      | ❌ Not Implemented | ❌ Not Implemented | ❌ Not Implemented | Deferred to Phase 6 |
+| REM         | R      | ❌ Not Implemented | ❌ Not Implemented | ❌ Not Implemented | Deferred to Phase 6 |
+| REMU        | R      | ❌ Not Implemented | ❌ Not Implemented | ❌ Not Implemented | Deferred to Phase 6 |
 
 ### Packed-SIMD Extension (custom-0 opcode 0001011)
 | Instruction | Format | Implemented | Sim Tested | FPGA Verified | Notes |
 |-------------|--------|:-----------:|:----------:|:-------------:|-------|
-| PADD8       | R      | Done  | Done | Pending    | 4x 8-bit unsigned add |
-| PSUB8       | R      | Done  | Done | Pending    | 4x 8-bit unsigned sub |
-| PMAXU8      | R      | Done  | Done | Pending    | 4x unsigned 8-bit max |
-| PMINU8      | R      | Done  | Done | Pending    | 4x unsigned 8-bit min |
-| PAVG8       | R      | Done  | Done | Pending    | 4x unsigned 8-bit avg |
+| PADD8       | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | 4x 8-bit unsigned add |
+| PSUB8       | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | 4x 8-bit unsigned sub |
+| PMAXU8      | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | 4x unsigned 8-bit max |
+| PMINU8      | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | 4x unsigned 8-bit min |
+| PAVG8       | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | 4x unsigned 8-bit avg |

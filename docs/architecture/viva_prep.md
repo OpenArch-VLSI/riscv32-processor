@@ -6,7 +6,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 1. RISC-V ISA Fundamentals
 
-> Refer: [architecture.md](./overview.md) — RV32I Instruction Support Table
+> Refer: [overview.md](./overview.md) — RV32I Instruction Support Table
 
 - What is RISC-V? Difference between RISC-V and ARM/x86.
 - What does RV32I mean? (32-bit integer base ISA)
@@ -22,7 +22,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 2. 5-Stage Pipeline Architecture
 
-> Refer: [pipeline.dot](../diagrams/src/pipeline.dot), [architecture.md](./overview.md) — Pipeline Organization
+> Refer: [pipeline.dot](../diagrams/src/pipeline.dot), [overview.md](./overview.md) — Pipeline Organization
 
 - Name the 5 stages and what each does (IF, ID, EX, MEM, WB)
 - Draw the pipeline datapath with all pipeline registers (IF/ID, ID/EX, EX/MEM, MEM/WB)
@@ -37,7 +37,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 3. Pipeline Hazards
 
-> Refer: [architecture.md](./overview.md) — Forwarding, Load-use stall, Branch flush rows
+> Refer: [overview.md](./overview.md) — Forwarding, Load-use stall, Branch flush rows
 
 ### 3a. Data Hazards — Forwarding
 - What is a data hazard? Give an example (RAW dependency).
@@ -70,14 +70,14 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 4. Memory System and MMIO
 
-> Refer: [memory_map.dot](../diagrams/src/memory_map.dot), [architecture.md](./overview.md) — Memory and MMIO Map
+> Refer: [memory_map.dot](../diagrams/src/memory_map.dot), [overview.md](./overview.md) — Memory and MMIO Map
 
 - Explain the address decode scheme: how does `mem_stage.sv` select RAM vs UART vs perf counters?
   - `addr[31:28] == 0x0` → Data RAM
   - `addr[31:28] == 0x8` → UART MMIO
   - `addr[31:28] == 0xC` → Performance counters
 - What is MMIO (Memory-Mapped I/O)? Why use it instead of port-mapped I/O?
-- Draw the full memory map table from `architecture.md`
+- Draw the full memory map table from `overview.md`
 - What are byte write enables and why are they needed?
 - What is the difference between memory-mapped and port-mapped I/O?
 
@@ -85,7 +85,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 5. Subword Memory Operations
 
-> Refer: [architecture.md](./overview.md) — Subword load/store, Misaligned Access Policy
+> Refer: [overview.md](./overview.md) — Subword load/store, Misaligned Access Policy
 
 - What are subword operations? (`LB`, `LH`, `LBU`, `LHU`, `SB`, `SH`)
 - Difference between `LB` (sign-extended) and `LBU` (zero-extended)
@@ -99,7 +99,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 6. UART Peripheral
 
-> Refer: [architecture.md](./overview.md) — UART MMIO addresses
+> Refer: [overview.md](./overview.md) — UART MMIO addresses
 
 - What is UART? How does serial communication work?
 - UART MMIO register map:
@@ -115,7 +115,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 7. Performance Counters
 
-> Refer: [architecture.md](./overview.md) — Performance counters section
+> Refer: [overview.md](./overview.md) — Performance counters section
 
 - What performance counters are implemented?
   - `0xC0000000` — Cycle counter
@@ -131,7 +131,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 8. Special Instructions
 
-> Refer: [architecture.md](./overview.md) — FENCE/FENCE.I, ECALL/EBREAK, Illegal instruction
+> Refer: [overview.md](./overview.md) — FENCE/FENCE.I, ECALL/EBREAK, Illegal instruction
 
 - What do `FENCE` and `FENCE.I` do in the RISC-V spec? How are they handled here? (NOP)
 - What do `ECALL` and `EBREAK` do? How are they implemented? (halt signal, freezes pipeline)
@@ -144,7 +144,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 9. ALU and Control Unit
 
-> Refer: [architecture.md](./overview.md) — Module Inventory
+> Refer: [overview.md](./overview.md) — Module Inventory
 
 - What operations does the ALU support? (ADD, SUB, AND, OR, XOR, SLL, SRL, SRA, SLT, SLTU)
 - How does `alu_control.sv` decide the ALU operation?
@@ -156,7 +156,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 10. FPGA Implementation and Results
 
-> Refer: [architecture.md](./overview.md) — Implemented Proof Points, Top-Level Structure; docs/updates/README.md — Vivado Build Results
+> Refer: [overview.md](./overview.md) — Implemented Proof Points, Top-Level Structure; docs/updates/README.md — Vivado Build Results
 
 - Target board: PYNQ-Z2 / Zynq-7000 (`xc7z020clg400-1`)
 - Clock: 125 MHz board clock → 25 MHz CPU clock via `PLLE2_BASE`
@@ -179,7 +179,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 11. Simulation and Verification
 
-> Refer: [roadmap.md](../roadmap.md) — Verification Evidence; [architecture.md](./overview.md) — Implemented Proof Points
+> Refer: [roadmap.md](../roadmap.md) — Verification Evidence; [overview.md](./overview.md) — Implemented Proof Points
 
 - What does the testbench (`tb_top.sv`) verify? (pipeline, perf counters, UART, halt, subword ops)
 - What does "self-checking testbench" mean?
@@ -191,7 +191,7 @@ Topics organized by section with key points to prepare. Refer to the linked doc 
 
 ## 12. Assembly and Program Flow
 
-> Refer: [roadmap.md](../roadmap.md) — Phase 1; [architecture.md](./overview.md) — Assembly/program flow
+> Refer: [roadmap.md](../roadmap.md) — Phase 1; [overview.md](./overview.md) — Assembly/program flow
 
 - How is the program loaded into instruction memory? (ROM-style via `program_rom_init.svh`)
 - What assembler flow is used? (local RV32I assembler + build script → `program.mem`)

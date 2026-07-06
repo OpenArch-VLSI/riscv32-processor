@@ -7,10 +7,8 @@ This document outlines the project phases and their executability while the PYNQ
 Since the board is not available, you are blocked *only* from physical hardware verification. You are **not** blocked from RTL development, simulation, synthesis, and implementation.
 
 **Immediate Next Steps (Board Independent):**
-1. **Phase 4 (UART Monitor and Program Loader) - Simulation Verification:** Run a Vivado/xsim simulation with `fpga_top` as the DUT to validate the UART monitor command parser FSM end-to-end.
-2. **Phase 5 (Traps, Exceptions, and Timer Interrupts):** Start implementing the trap logic (CSRs: `mepc`, `mcause`, `mtvec`, `mstatus`), `ECALL`/`EBREAK` trap entry, timer peripheral (`0xC0000010`), and test them extensively in simulation.
-3. **Phase 6 (RV32M Multiply/Divide Extension):** Implement the `MUL` family (and optionally `DIV`), adding execution support, pipeline stalls if needed, and verify with self-checking testbenches.
-4. **Phase 7 (Run Small C Programs):** Build the C toolchain flow, create a linker script, startup code, `putchar` for UART, and compile simple C demos (like Fibonacci or bubble sort) into `.mem` files. Verify them in simulation using the monitor/loader flow.
+Phases 0–12 are complete in simulation and synthesis. Currently, the only remaining work that blocks closing these phases entirely is the mandatory physical hardware verification upon board arrival (see `docs/board_arrival_checklist.md`). 
+Phase 13 (Dual-Core SoC Extension) is the next unstarted phase, but it is explicitly marked as long-term and optional; it should not be started before the baseline physical hardware bring-up is complete. Therefore, there are no immediate board-independent development steps left.
 
 ## Phase Executability Analysis
 

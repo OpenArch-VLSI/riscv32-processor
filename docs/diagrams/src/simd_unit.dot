@@ -5,7 +5,7 @@
 
 digraph simd_unit {
     graph [
-        label="Planned Packed-SIMD Unit in 32-Bit Scalar Registers (Not Implemented Yet)",
+        label="Packed-SIMD Unit in 32-Bit Scalar Registers (Implemented — Phase 9)",
         labelloc=t,
         fontsize=20,
         rankdir=LR,

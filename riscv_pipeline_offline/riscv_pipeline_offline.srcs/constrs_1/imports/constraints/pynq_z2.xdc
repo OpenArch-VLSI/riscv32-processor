@@ -30,17 +30,17 @@ set_property -dict { PACKAGE_PIN Y19  IOSTANDARD LVCMOS33 } [get_ports { uart_rx
 set_false_path -from [get_ports { uart_rxd }]
 
 ## Phase 12: Button input (BTN1 only — BTN0 is already rst)
-## TODO — verify D20 is BTN1 on your specific PYNQ-Z2 board revision
+## BTN1 = D20 (verified against PYNQ-Z2 ref manual Table 9)
 set_property -dict { PACKAGE_PIN D20 IOSTANDARD LVCMOS33 } [get_ports { raw_btn_board }]
 ## raw_btn[0] tied to 0 internally in fpga_top (BTN0 reserved for rst) — no XDC entry needed
 
 ## Phase 12: Slide switch inputs
-## TODO — verify A20 = SW0, B20 = SW1 on your board
-set_property -dict { PACKAGE_PIN A20 IOSTANDARD LVCMOS33 } [get_ports { raw_sw[0] }]
-set_property -dict { PACKAGE_PIN B20 IOSTANDARD LVCMOS33 } [get_ports { raw_sw[1] }]
+## SW0 = M20, SW1 = M19 (verified against PYNQ-Z2 ref manual Table 10 and schematic Bank 35)
+set_property -dict { PACKAGE_PIN M20 IOSTANDARD LVCMOS33 } [get_ports { raw_sw[0] }]
+set_property -dict { PACKAGE_PIN M19 IOSTANDARD LVCMOS33 } [get_ports { raw_sw[1] }]
 
 ## Phase 12: PWM output — PMODA JA3
-## TODO — verify W18 is JA3 and is unused on your board
+## W18 = JA3_P on PMODA (verified against PYNQ-Z2 ref manual Table 13)
 set_property -dict { PACKAGE_PIN W18 IOSTANDARD LVCMOS33 } [get_ports { pwm_out }]
 
 ## Async inputs — tell timing engine to ignore setup/hold on these paths

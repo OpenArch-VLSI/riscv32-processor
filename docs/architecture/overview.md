@@ -88,7 +88,7 @@ The `.dot` files are generated text source diagrams. Render them to SVG or PNG w
 |------|---------|--------|
 | `diagrams/pipeline.dot` | Current pipeline datapath | Implemented architecture |
 | `diagrams/memory_map.dot` | Current memory and MMIO decode | Implemented architecture with dashed future expansion notes |
-| `diagrams/simd_unit.dot` | Packed-SIMD unit | Planned architecture, not implemented yet |
+| `diagrams/simd_unit.dot` | Packed-SIMD unit | Implemented architecture (Phase 9) — diagram source may need regenerating |
 | `diagrams/multicore.dot` | Dual-core shared-memory architecture | Planned architecture, not implemented yet |
 
 ---
@@ -100,6 +100,9 @@ The `.dot` files are generated text source diagrams. Render them to SVG or PNG w
 | `alu.sv` | `alu` | ALU datapath |
 | `alu_control.sv` | `alu_control` | ALU control decode |
 | `bht.sv` | `bht` | 64-entry Branch History Table dynamic predictor |
+| `btn_sw.sv` | `btn_sw` | Phase 12 MMIO button/switch input register |
+| `led_ctrl.sv` | `led_ctrl` | Phase 12 MMIO LED control register |
+| `pwm.sv` | `pwm` | Phase 12 MMIO PWM peripheral |
 | `csr_file.sv` | `csr_file` | M-mode CSRs (mstatus, mtvec, mepc, mcause) |
 | `timer.sv` | `timer` | Memory-mapped timer peripheral with interrupt generation |
 | `control_unit.sv` | `control_unit` | Main RV32I control decode with halt and illegal instruction detection |
@@ -205,6 +208,13 @@ Full exception-on-misaligned requires trap CSR infrastructure (Phase 5). In the 
 | `MULH` | R | Implemented | RV32M Extension |
 | `MULHSU` | R | Implemented | RV32M Extension |
 | `MULHU` | R | Implemented | RV32M Extension |
+| `CSRRW` | I | Implemented | M-mode CSR, Phase 5 |
+| `CSRRS` | I | Implemented | M-mode CSR, Phase 5 |
+| `CSRRC` | I | Implemented | M-mode CSR, Phase 5 |
+| `CSRRWI` | I | Implemented | M-mode CSR, Phase 5 |
+| `CSRRSI` | I | Implemented | M-mode CSR, Phase 5 |
+| `CSRRCI` | I | Implemented | M-mode CSR, Phase 5 |
+| `MRET` | I | Implemented | Trap return, Phase 5 |
 
 ### Packed-SIMD Extension (custom-0 opcode 0001011)
 
@@ -220,8 +230,6 @@ Full exception-on-misaligned requires trap CSR infrastructure (Phase 5). In the 
 
 | Instruction | Reason |
 |-------------|--------|
-| `CSRRW`, `CSRRS`, `CSRRC`, `CSRRWI`, `CSRRSI`, `CSRRCI` | Implemented in Phase 5 |
-| `MRET` | Implemented in Phase 5 |
 | `WFI` | Not applicable to this bare-metal design |
 | `DIV`, `DIVU`, `REM`, `REMU` | RV32M division not implemented yet |
 

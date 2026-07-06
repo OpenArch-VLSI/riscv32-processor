@@ -1,7 +1,7 @@
 # Hardware Setup and Build Guide
 
 > **Board:** PYNQ-Z2 / Zynq-7000 (`xc7z020clg400-1`)  
-> **Last verified:** 2026-06-04 (Timing and implementation verified in Vivado; Phase 4 UART monitor added)
+> **Last verified:** 2026-06-28 (Timing and implementation verified in Vivado; Phase 4 UART monitor added)
 
 ---
 
@@ -63,6 +63,10 @@
 | led[1]     | P14      | OUT       | LVCMOS33 | CPU Running status LED |
 | led[2]     | N16      | OUT       | LVCMOS33 | Regression checks PASS status LED |
 | led[3]     | M14      | OUT       | LVCMOS33 | Regression checks FAIL / Timeout status LED |
+| raw_btn_board | D20   | IN        | LVCMOS33 | Phase 12 button input, BTN1 only |
+| raw_sw[0]  | M20      | IN        | LVCMOS33 | Phase 12 slide switch |
+| raw_sw[1]  | M19      | IN        | LVCMOS33 | Phase 12 slide switch |
+| pwm_out    | W18      | OUT       | LVCMOS33 | Phase 12 PWM output, PMODA JA3 |
 
 ## Build Procedure
 1. Open Vivado and load the project:

@@ -1,8 +1,8 @@
 # Roadmap Implementation Status
 
-Last updated: 2026-06-27
+Last updated: 2026-06-28
 
-<!-- This file is manually maintained. Last updated: 2026-06-27 -->
+<!-- This file is manually maintained. Last updated: 2026-06-28 -->
 
 
 
@@ -69,21 +69,20 @@ This generated table is the quick triage view: what exists, what state it is in,
 - [2026-06-28] **Phase 12**: Implemented optional peripherals (LED control, button/switch input, PWM). Created `led_ctrl.sv`, `btn_sw.sv`, `pwm.sv`, and `tb_phase12.sv` (9/9 PASS including PWM waveform and disable checks). All 3 regression testbenches passing. Fixed critical synthesis bug in `fpga_top.sv` (multi-driven `led` net — removed conflicting `always_ff` assignment). Re-synthesis confirms 0 errors, 0 critical warnings. Synthesised design: 84a84c29.
 - [2026-06-28] **Phase 9 SIM VERIFICATION**: Completed simulation of `tb_phase9.sv` in Vivado xsim. 9/9 tests PASS. Fixed elaboration warning (unconnected `raw_btn` port in `tb_phase9.sv`). All 3 regression testbenches re-run and passing.
 
-
 - [2026-06-21] **Phase 10**: Created workload suite (`scalar_checksum.c`, `simd_checksum.c`, `branch_sort.c`). Fixed SIMD correctness bugs (alignment, 8-bit overflow) so scalar and SIMD output mathematically identical sums. Ran batch Vivado simulations. Generated `results/phase10_benchmark_report.md` proving 3.85x cycle speedup for SIMD and validating 64-entry BHT efficiency.
 
 - [2026-06-19] **Phase 9**: Implemented custom packed-SIMD extension (PADD8/PSUB8/PMAXU8/PMINU8/PAVG8) on RISC-V custom-0 opcode 0001011. Created tb_phase9.sv with 8 directed/edge-case tests. Simulation pending.
 - [2026-06-16] **Phase 8**: Created `benchmark.c` (Bubble sort) to measure CPI. Implemented Static BTFNT prediction and optimized pipeline flush logic. Implemented Dynamic Branch Prediction via a 64-entry BHT (Branch History Table) with 2-bit saturating counters in `bht.sv`. Wired `id_stage.sv` to predictively fetch branches and `ex_stage.sv` to train the BHT and flush only on mispredictions.
 - [2026-06-14] **Phase 7**: Installed xPack RISC-V GCC toolchain. Created C software infrastructure (`linker.ld`, `crt0.S`, `sw/Makefile`). Implemented `hello_world.c` using stack-based string building to support the strict Harvard architecture memory mapping. Verified simulation live in Vivado.
 - [2026-06-14] **Phase 5/6 review**: Validated CSRs, Traps, and Performance Counters.
-- [2026-06-04] **Phase 4**: Integrated system with `uart_monitor.sv` and fully verified trace and performance outputs using the UART loader script.
 - [2026-06-14] **Phase 6**: Verified RV32M Multiply Extension via `tb_phase6.sv`. All `MUL`, `MULH`, `MULHSU`, and `MULHU` tests passed perfectly. Phase 6 is complete in simulation.
+- [2026-06-04] **Phase 4**: Integrated system with `uart_monitor.sv` and fully verified trace and performance outputs using the UART loader script.
 - Debugged and fixed Phase 5 simulation failures. Resolved Timer interrupt logic, forced proper 32-bit `mtimecmp` values, enabled the timer `ctrl` register, padded the test payload with `jal x0, 0` for safe asynchronous trap returns, and achieved full `tb_phase5.sv` simulation pass. Phase 5 is Complete in simulation.
 - Implemented complete Phase 5 RTL: CSR file (mstatus/mtvec/mepc/mcause), timer peripheral, CSR instruction decode, trap entry for ECALL/EBREAK/illegal instructions, MRET execution, timer interrupt generation. Created tb_phase5.sv testbench.
 - Fixed UART monitor logic causing Vivado synthesis hang by refactoring `tx_buf` into a serial shift-register FSM (`ST_PRINT_HEX`).
 - Verified UART monitor FSM end-to-end via `tb_fpga_top.sv` simulation in Vivado.
 - Generated Implementation Plan for Phase 5 (Traps, Exceptions, Timers).
-- Added DS srijith, Raunit kapoor, and Hemanth v as contributors in `docs/planning/ownership.md`.
+- Added DS srijith, Raunit kapoor, and Hemanth v as contributors.
 - Created `docs/GETTING_STARTED.md` — comprehensive user guide for project owner with prompt template, folder structure, roadmap summary, and troubleshooting.
 - Enforced mandatory documentation update system: initialized git repo, installed pre-commit/post-commit/pre-push hooks with `check_docs_stale.ps1`, hardened `ai_context.md` with PRE-EXIT MANDATORY CHECKLIST and inline session log template, added `.gitignore` for Vivado artifacts.
 - Added readable assembly source for the current demo/regression ROM.
@@ -160,7 +159,7 @@ Do not manually mark a phase complete unless the generator can prove the impleme
 | hardware/setup.md | ✅ Complete | Updated pinouts and clock settings |
 | known_issues.md | ✅ Complete | Updated open issue counts |
 | decisions/001_initial_docs.md | ✅ Accepted | Documentation system rationale |
-| `docs/decisions/002–005` | ⏳ Proposed stubs | Completed stub metadata |
+| `docs/decisions/002–005` | ✅ Accepted | ADR content complete |
 
 ---
 
@@ -362,8 +361,8 @@ A complete, well-tested RV32I core is much stronger than an incomplete core with
 | `FENCE` / `FENCE.I` as NOP | Implemented in `control_unit.sv` |
 | `ECALL` / `EBREAK` halt | Implemented via `OPCODE_SYSTEM` decode; latches halt signal to freeze pipeline |
 | Illegal instruction detection | Implemented; unknown opcodes set `illegal_instr` and trigger halt |
-| Misaligned access policy | Documented in `docs/architecture.md` (unsupported; traps require Phase 5) |
-| RV32I instruction support table | Created in `docs/architecture.md` with implemented/tested/unsupported categories |
+| Misaligned access policy | Documented in `docs/architecture/overview.md` (unsupported; traps require Phase 5) |
+| RV32I instruction support table | Created in `docs/architecture/overview.md` with implemented/tested/unsupported categories |
 
 ### Deliverable
 

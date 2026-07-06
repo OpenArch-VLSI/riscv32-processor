@@ -30,13 +30,13 @@ digraph memory_map {
     ];
 
     address_decode [
-        label="{mem_stage.sv address decode|ram_sel: addr[31:28] == 0x0|uart_sel: addr[31:28] == 0x8|perf_sel: addr[31:28] == 0xC}",
+        label="{mem_stage.sv address decode|ram_sel: addr[31:28] == 0x0|uart_sel: addr[31:28] == 0x8|perf_sel/debug_sel/timer_sel: addr[31:28] == 0xC|ledctrl_sel/btnsw_sel/pwm_sel: addr[31:28] == 0xD}",
         fillcolor="#edf6ff"
     ];
 
     internal_bus [
-        label="{Internal bus boundary|direct MEM-stage decode today}",
-        style="rounded,dashed,filled",
+        label="{Internal bus boundary|Phase 11 bus_<periph>_* signal bundles}",
+        style="rounded,filled",
         fillcolor="#fafafa",
         color="#999999"
     ];
@@ -56,15 +56,23 @@ digraph memory_map {
     ];
 
     timer_debug [
-        label="{Planned timer/debug MMIO|0xC0000010+ timer/debug registers from roadmap|not implemented yet}",
-        style="rounded,dashed,filled",
-        fillcolor="#fafafa",
-        color="#999999"
+        label="{0xC0000010+ region|0xC0000010-0xC0000030 + 0xC0000040-0xC000007F debug/trace MMIO|0xC0000200-0xC0000208 timer MMIO}",
+        style="rounded,filled",
+        fillcolor="#fff4e6",
+        color="#555555"
+    ];
+
+    board_periphs [
+        label="{0xD0000000 region|LED control / button-switch / PWM registers}",
+        style="rounded,filled",
+        fillcolor="#fff4e6",
+        color="#555555"
     ];
 
     address_decode -> internal_bus [label="decode boundary"];
     internal_bus -> data_mem [label="RAM access"];
     internal_bus -> uart [label="UART MMIO"];
-    internal_bus -> perf [label="read-only perf MMIO"];
-    perf -> timer_debug [style=dashed, label="nearby future/peripheral space"];
+    internal_bus -> perf [label="perf MMIO"];
+    internal_bus -> timer_debug [label="timer/debug MMIO"];
+    internal_bus -> board_periphs [label="board MMIO"];
 }

@@ -18,9 +18,11 @@
 - [session_2026-06-16_1730_antigravity.md](session_2026-06-16_1730_antigravity.md)
 - [session_2026-06-19_1100_CommandCode.md](session_2026-06-19_1100_CommandCode.md)
 - [session_2026-06-21_0140_phase10.md](session_2026-06-21_0140_phase10.md)
+- [session_2026-06-21_1530_Phase11.md](session_2026-06-21_1530_Phase11.md) — Phase 11 (Memory System and Bus Cleanup) RTL written
 - [session_2026-06-23_1800_Antigravity.md](session_2026-06-23_1800_Antigravity.md) — Phase 11 implementation (internal peripheral bus refactor, tb_memory_map.sv)
 - [session_2026-06-24_1100_Antigravity.md](session_2026-06-24_1100_Antigravity.md) — Phase 11 deep verification pass (complete simulation outputs, report fixes)
 - [session_2026-06-26_1645_antigravity.md](session_2026-06-26_1645_antigravity.md) — Phase 11 documentation persistence pass
 - [session_2026-06-28_0320_CommandCode.md](session_2026-06-28_0320_CommandCode.md) — Phase 12 implementation + simulation verification + synthesis fix + full Prompt 3 documentation update
+- [session_summary_2026-06-28.md](session_summary_2026-06-28.md) — RV32I Pipeline SoC — Phase 9 Closure + Phase 12 Implementation summary
 - [session_2026-07-01_Phase8_Capture.md](session_2026-07-01_Phase8_Capture.md) — Phase 8 CPI capture and documentation update (branch_sort.mem re-run, CPI=1.258, baseline limitation documented)
 - [session_2026-07-01_DeepSeek.md](session_2026-07-01_DeepSeek.md) — Issue 3: Phase 1 Expected-Output Regression (9-program C toolchain baseline, tests/expected/, run_phase1_regression.ps1, 3-run PASS/FAIL/PASS verification)

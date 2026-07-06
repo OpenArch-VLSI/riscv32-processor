@@ -47,10 +47,26 @@ docs_pass3_report.md
 docs_pass4_report.md
 docs_pass5_report.md
 docs_phase11_report.md
+docs_pass8_report.md
+docs_pass9_report.md
 docs/updates/docs_issues.md 
 dup_report.txt
 
 # Temporary session scripts
 fix*.py
 append_report.py
+gen_report.py
+run_pass8_fix_t9.py
+run_pass8_fixes.py
+run_pass8_t1_t3.py
+run_pass8_t4_t5.py
+run_pass8_t6_t10.py
+run_pass8_t11_t15.py
+run_pass8_t16_t19.py
+out.txt
 
+# Local-only files (not part of the GitHub-facing project)
+docs/hardware/board_arrival_shopping_list.md
+tools/sync_doc_dates.py
+tools/install_hooks.py
+tools/hooks/

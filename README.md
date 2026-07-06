@@ -12,6 +12,7 @@ targeting the PYNQ-Z2 (Zynq-7000) FPGA.
 | **Branch Prediction** | 64-entry BHT dynamic predictor |
 | **Traps & CSRs** | M-mode CSRs, ECALL/EBREAK, timer interrupts, MRET |
 | **UART** | TX/RX at 115200 baud with interactive monitor (help/load/run/reset/regs/mem/perf/trace) |
+| **Board Peripherals** | Internal signal-bundle MMIO bus (Phase 11); LED control, debounced button/switch input, and PWM output registers (Phase 12) |
 | **C Toolchain** | Custom linker script, C runtime, and benchmark suite in `sw/` |
 | **Synthesis** | 7,127 LUTs (13.4%), WNS +5.265 ns @ 25 MHz on xc7z020 |
 

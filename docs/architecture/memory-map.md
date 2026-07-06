@@ -1,5 +1,6 @@
 # Memory Map
 
+<!-- diagrams/src/memory_map.dot updated 2026-07-05; .svg not yet re-rendered from source, run Graphviz to regenerate -->
 ![Memory Map](../diagrams/rendered/memory_map.svg)
 
 ## Memory and MMIO Map
@@ -31,11 +32,11 @@
 | `0xD0000004` | BTN_SW | R. Bit 1 = BTN1 (raw_btn_board, debounced). Bit 0 = always 0 (BTN0 reserved for rst, tied low internally). Bits [3:2] = SW1, SW0. Bits [31:4] zero. Writes ignored. 2-stage sync + 20-cycle debounce on buttons. |
 | `0xD0000008` | PWM_PERIOD | R/W. PWM counter period in clock cycles. Default: 1000. |
 | `0xD000000C` | PWM_DUTY | R/W. Active-high cycles per period. Default: 500. Clamped to PERIOD if DUTY > PERIOD. |
-| `0xD0000010` | PWM_CTRL | R/W. Bit 0 = enable. Bit 1 = polarity invert. Default: 0x0. PWM output on PMODA JA3, tentative pin W18 — verify against board schematic before bitstream. |
+| `0xD0000010` | PWM_CTRL | R/W. Bit 0 = enable. Bit 1 = polarity invert. Default: 0x0. PWM output on PMODA JA3, pin W18 (verified). |
 
 ## Phase 12 Peripheral Address Block (0xD000xxxx)
 
-Phase 12 peripherals decoded in mem_stage.sv via bus_ledctrl_*, bus_btnsw_*, bus_pwm_* bundles following the Phase 11 internal bus pattern. Bus mux priority: timer → debug → UART → perf → ledctrl → btnsw → pwm → RAM. XDC pin assignments require verification against PYNQ-Z2 schematic before bitstream generation.
+Phase 12 peripherals decoded in mem_stage.sv via bus_ledctrl_*, bus_btnsw_*, bus_pwm_* bundles following the Phase 11 internal bus pattern. Bus mux priority: timer → debug → UART → perf → ledctrl → btnsw → pwm → RAM. XDC pin assignments are verified against PYNQ-Z2 schematic.
 
 ## Internal Peripheral Bus
 
@@ -47,6 +48,6 @@ rather than ad-hoc per-peripheral wiring. Each peripheral has its own
 `bus_<periph>_ready` / `bus_<periph>_valid` signal group. The final
 read-data mux selects among peripherals by valid signal, in the same
 priority order used before the refactor (timer, debug, UART, performance
-counters, RAM). This is an internal RTL refactor only — it does not
+counters, ledctrl, btnsw, pwm, RAM). This is an internal RTL refactor only — it does not
 change any address in the table above. See `tb_memory_map.sv` for the
 regression test covering this bus.

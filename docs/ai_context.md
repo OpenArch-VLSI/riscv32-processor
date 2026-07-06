@@ -28,7 +28,7 @@ Read it fully before acting. Update it before leaving. No exceptions.
 Before acting, you must:
 
 1. **Read this entire file.** Do not skim. Every section matters.
-2. **Read** `docs/roadmap.md`, `docs/architecture/overview.md`, `docs/roadmap.md`.
+2. **Read** `docs/roadmap.md`, `docs/architecture/overview.md`.
 3. **Read the latest session log** in `docs/updates/` to understand what the previous agent did and left incomplete.
 4. **Consult the File Registry** below before creating any new file — it may already exist. If you create a new file, add it to the registry.
 5. **Do not invent** implementation details. Mark unknowns as: `TODO — verify from source`.
@@ -108,18 +108,14 @@ This project is a 5-stage pipelined RV32I-style soft SoC implemented on the PYNQ
   deferred until PYNQ-Z2 is available.
 
 ## 🎯 Next Priorities (For the Next Agent)
-1. **Phase 12 (Optional Peripherals):** Complete in Simulation. LED
-   control, button/switch input, and PWM peripheral implemented. Verified
-   via `tb_phase12.sv` (9/9 PASS). Synthesis clean (0 errors, 0 critical
-   warnings). Physical board proof deferred until PYNQ-Z2 is available.
-2. **Board Arrival Checklist:** Once the board is acquired, immediately
+1. **Board Arrival Checklist:** Once the board is acquired, immediately
    execute `docs/board_arrival_checklist.md`.
+2. **Phase 13 (Dual-Core SoC Extension):** Next unstarted phase per `docs/roadmap.md` (currently 0%), but explicitly marked as long-term and optional. Do not start before the baseline physical hardware bring-up is complete.
 
 ## 📁 Key Documentation References
 - [`docs/GETTING_STARTED.md`](./GETTING_STARTED.md): **User guide for the project owner.** Prompt template, folder structure, roadmap summary, troubleshooting.
 - [`docs/architecture/overview.md`](./architecture/overview.md): Full technical architecture, memory map, and instruction support table.
-- [`docs/roadmap.md`](./roadmap.md): Long-term plan and phase definitions.
-- [`docs/roadmap.md`](./roadmap.md): Live tracker of phase completion and remaining work.
+- [`docs/roadmap.md`](./roadmap.md): Live tracker of phase completion, remaining work, and 13-phase long-term plan definitions.
 - [`docs/architecture/viva_prep.md`](./architecture/viva_prep.md): General Q&A and knowledge base for the project design.
 - [`docs/architecture/uart-monitor.md`](./architecture/uart-monitor.md): UART monitor command reference and protocol specification.
 
@@ -134,29 +130,30 @@ Any AI agent modifying a doc file MUST verify its entry is still accurate.
 | File | Purpose | Status | Last Updated |
 |------|---------|--------|--------------|
 | `docs/ai_context.md` | PRIMARY BRAIN. Agent briefing, project state, priorities, file registry, session log rules. Read this first on every session. | ✅ Live | 2026-06-16 |
-| `docs/roadmap.md` | Live phase tracker. Shows what is complete, in-progress, and pending across all phases. | ✅ Live | 2026-06-16 |
-| `docs/architecture/overview.md` | Full technical architecture: pipeline stages, forwarding, hazard unit, MMIO memory map, CSR layout, instruction support. | ✅ Live | 2026-06-04 |
-| `docs/roadmap.md` | Long-term project plan and phase definitions. Phases 0-7+. | ✅ Live | 2026-06-04 |
+| `docs/roadmap.md` | Live tracker of phase completion, remaining work, and 13-phase long-term plan definitions. | ✅ Live | 2026-06-28 |
+| `docs/architecture/overview.md` | Full technical architecture: pipeline stages, forwarding, hazard unit, MMIO memory map, CSR layout, instruction support. | ✅ Live | 2026-07-05 |
 | `docs/architecture/viva_prep.md` | Q&A knowledge base for project design rationale. | ✅ Live | 2026-06-03 |
 | `docs/architecture/uart-monitor.md` | UART monitor command reference and protocol specification. | ✅ Live | 2026-06-04 |
 | `docs/architecture/instruction-set.md` | Instruction support matrix. Tracks implemented/tested/FPGA-verified status per RV32I instruction. | ✅ Complete | 2026-06-03 |
+| `docs/guides/Phase8_Benchmark_Suite_Guide.md` | Walkthrough for running the Phase 8 C benchmark suite via Vivado batch-mode TCL. | ✅ Complete | 2026-07-05 |
+| `docs/guides/Phase8_Verification_Guide.md` | Step-by-step verification guide for the Phase 8 dynamic branch predictor. | ✅ Complete | 2026-07-05 |
 | `docs/verification/test-plan.md` | Test status tracker. One entry per test with PASS/FAIL/TODO status and last-run date. | ✅ Complete | 2026-06-03 |
 | `docs/verification/performance.md` | Append-only FPGA utilization and timing history. One section per benchmark run. | ✅ Complete | 2026-06-03 |
-| `docs/ownership.md` | Contribution tracking. Author and AI-assisted contributions. Transparency record. | ✅ Complete | 2026-06-03 |
 | `docs/hardware/setup.md` | Full hardware setup and build guide. Board, pins, UART, build steps, test procedure. | ✅ Complete | 2026-06-03 |
+| `docs/hardware/board_arrival_shopping_list.md` | Hardware items required before and after board arrival. | ✅ Live | 2026-07-04 |
 | `docs/known_issues.md` | Living issue tracker. Bugs, limitations, technical debt, future investigations. | ✅ Complete | 2026-06-04 |
 | `docs/no_board_execution_plan.md` | Detailed breakdown of phase executability without the PYNQ-Z2 board. | ✅ Complete | 2026-06-04 |
-| `docs/board_arrival_checklist.md` | Mandatory checklist of hardware verification tasks to run once the board arrives. | ⌛ Complete | 2026-06-04 |
+| `docs/board_arrival_checklist.md` | Mandatory checklist of hardware verification tasks to run once the board arrives. | ⌛ Complete | 2026-06-28 |
 | `docs/updates/session_2026-06-26_1645_antigravity.md` | Session log: Phase 11 documentation persistence pass. | ✅ Complete | 2026-06-26 |
 | `.gitignore` | Git exclusion list for Vivado artifacts, build outputs, OS files. | ✅ Active | 2026-06-04 |
 | `tools/check_docs_stale.ps1` | Doc freshness checker. Compares source mtimes vs session log. Verifies README index. | ✅ Active | 2026-06-04 |
 | `tools/install_hooks.ps1` | Installs pre-commit, post-commit, pre-push git hooks. Run once after git init. | ✅ Active | 2026-06-04 |
 | `docs/decisions/README.md` | ADR system index and format guide. Lists all ADRs with status. | ✅ Complete | 2026-06-03 |
 | `docs/decisions/001_initial_docs.md` | ADR: Decision to create this documentation system. | ✅ Accepted | 2026-06-03 |
-| `docs/decisions/002_uart_mmio_layout.md` | ADR stub: UART MMIO address layout decision. | ⏳ Proposed | 2026-06-03 |
-| `docs/decisions/003_hazard_strategy.md` | ADR stub: Pipeline hazard handling strategy. | ⏳ Proposed | 2026-06-03 |
-| `docs/decisions/004_exception_handling.md` | ADR stub: Exception and trap handling approach. | ⏳ Proposed | 2026-06-03 |
-| `docs/decisions/005_cache_decision.md` | ADR stub: Cache architecture or explicit no-cache decision. | ⏳ Proposed | 2026-06-03 |
+| `docs/decisions/002_uart_mmio_layout.md` | ADR: UART MMIO address layout decision. | ✅ Accepted | 2026-06-03 |
+| `docs/decisions/003_hazard_strategy.md` | ADR: Pipeline hazard handling strategy. | ✅ Accepted | 2026-06-03 |
+| `docs/decisions/004_exception_handling.md` | ADR: Exception and trap handling approach. | ✅ Accepted | 2026-06-03 |
+| `docs/decisions/005_cache_decision.md` | ADR: Cache architecture or explicit no-cache decision. | ✅ Accepted | 2026-06-03 |
 | `docs/GETTING_STARTED.md` | 👈 USER GUIDE. For the project owner with minimal coding background. Prompt templates, folder structure, roadmap overview, troubleshooting. | ✅ Live | 2026-06-04 |
 | `docs/updates/README.md` | Index of all session logs. Append a link after every session. | ✅ Live | 2026-06-16 |
 
@@ -181,7 +178,7 @@ Any AI agent modifying a doc file MUST verify its entry is still accurate.
 - **2026-06-14**: Debugged and fixed Phase 5 simulation failures in `tb_phase5.sv`. Resolved Timer interrupt logic, forced proper 32-bit `mtimecmp` values, enabled the timer `ctrl` register, and padded the test payload with `jal x0, 0` to prevent safely asynchronous trap returns from tumbling into zeroes and triggering infinite illegal instruction traps. Phase 5 is now fully verified in simulation.
 - **2026-06-14**: Implemented Phase 5 RTL (Traps, Exceptions, Timer Interrupts). Created csr_file.sv (mstatus/mtvec/mepc/mcause), timer.sv (0xC0000200), tb_phase5.sv. Updated 7 existing source files for CSR decode, trap entry, MRET execution, and timer MMIO. Phase 5 RTL is complete; simulation pending.
 - **2026-06-13**: Identified and fixed a major hardware anti-pattern in `uart_monitor.sv` (multiple array writes per cycle causing a massive MUX network that hung Vivado synthesis). Rewrote the FSM to use a strict single-write-per-cycle shift register. Created `tb_fpga_top.sv` and fully verified the monitor end-to-end in xsim. Generated the Phase 5 Implementation Plan.
-- **2026-06-05**: Updated `docs/ownership.md` to add DS srijith, Raunit kapoor, and Hemanth v as contributors per user request.
+- **2026-06-05**: Recorded contributor credits for DS srijith, Raunit kapoor, and Hemanth v.
 - **2026-06-04**: Created `docs/no_board_execution_plan.md` and `docs/board_arrival_checklist.md` to clarify what can be developed in simulation/RTL without the physical FPGA board, and what must be done immediately once the board arrives. Appended both files to `status.md` and `ai_context.md`.
 - **2026-06-04**: Created `docs/GETTING_STARTED.md` — comprehensive user guide for the project owner. Includes prompt template, folder structure walkthrough, 13-phase roadmap summary, session log explanation, git safety net overview, and troubleshooting section.
 - **2026-06-04**: Enforced mandatory documentation update system: initialized git repo, installed pre-commit/post-commit/pre-push hooks running `check_docs_stale.ps1`, hardened `ai_context.md` with PRE-EXIT MANDATORY CHECKLIST and session log template, added `.gitignore`.
@@ -189,7 +186,7 @@ Any AI agent modifying a doc file MUST verify its entry is still accurate.
 - **2026-06-04**: Advanced Phase 4 further by wiring the loader port through `top.sv`, exercising it from `tb_top.sv` with an event-synchronized program load, and adding `tools/mem_to_load_commands.py` as a host-side command-stream helper.
 - **2026-06-04**: Started Phase 4 by converting the instruction memory into a loader-friendly RAM with a ROM preload, threading loader stub signals through `if_stage.sv` and `top.sv`, and updating the architecture/status/known-issues docs.
 - **2026-06-03**: Implemented the Phase 3 debug/reliability slice: MMIO debug registers, a 4-entry trace buffer, and simulation checks that validate the debug window and trace history.
-- **2026-06-03**: Created documentation system: instruction-set.md, verification.md, performance.md, ownership.md, setup.md, known_issues.md, DECISIONS/ directory with 001 ADR and 4 stubs.
+- **2026-06-03**: Created documentation system: instruction-set.md, verification.md, performance.md, setup.md, known_issues.md, DECISIONS/ directory with 001 ADR and 4 stubs.
 - **2026-06-03**: Reorganized the documentation directory into subfolders and filled in all placeholder metrics across all documentation files.
 
 ---

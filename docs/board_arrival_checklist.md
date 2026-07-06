@@ -24,14 +24,14 @@ This checklist contains all the deferred hardware-verification tasks. **As soon 
 - [ ] **Phase 8-10 (Benchmarks):** Run any implemented prediction/SIMD/workload benchmarks and record physical timing and CPI outputs.
 
 ### 4. Phase 9 (Custom SIMD Extension): Board Proof
-- [ ] **Load SIMD benchmark:** Load sw/benchmarks/simd_checksum.mem via tools/mem_to_load_commands.py.
+- [ ] **Load SIMD benchmark:** Load sw/simd_checksum.mem via tools/mem_to_load_commands.py.
 - [ ] **Verify results:** Run and confirm UART output shows correct PADD8/PSUB8/PAVG8 results matching tb_phase9.sv expected values.
 - [ ] **Speedup measurement:** Time SIMD vs scalar checksum runs. Confirm 3.85× speedup from Phase 10 holds on physical hardware.
 - [ ] **Save proof:** Capture UART terminal log to results/board_phase9_proof.txt.
 
 ### 5. Phase 12 (Optional Peripherals): Board Proof
 
-⚠️ Before flashing: verify XDC pins against PYNQ-Z2 schematic. Tentative: BTN1=D20, SW0=A20, SW1=B20, PWM_OUT=W18. Regenerate bitstream from current HEAD — Phase 12 peripherals added after last build.
+⚠️ Verified and correct: BTN1=D20, SW0=M20, SW1=M19, PWM_OUT=W18. Regenerate bitstream from current HEAD — Phase 12 peripherals added after last build.
 
 - [ ] **LED Control:** Load a program that writes alternating patterns to 0xD0000000. Verify LEDs toggle correctly and heartbeat disappears on first write. Note: led_sw_ctrl is irreversible without reset.
 - [ ] **Button/Switch:** Load a program that polls 0xD0000004 and prints to UART. Toggle BTN1 and SW0/SW1. Confirm bit 0 always reads 0 (BTN0 tied low internally).
