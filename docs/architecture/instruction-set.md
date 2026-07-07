@@ -106,10 +106,10 @@
 | MULH        | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 |
 | MULHU       | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 |
 | MULHSU      | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 |
-| DIV         | R      | ❌ Not Implemented | ❌ Not Implemented | ❌ Not Implemented | Deferred to Phase 6 |
-| DIVU        | R      | ❌ Not Implemented | ❌ Not Implemented | ❌ Not Implemented | Deferred to Phase 6 |
-| REM         | R      | ❌ Not Implemented | ❌ Not Implemented | ❌ Not Implemented | Deferred to Phase 6 |
-| REMU        | R      | ❌ Not Implemented | ❌ Not Implemented | ❌ Not Implemented | Deferred to Phase 6 |
+| DIV         | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 (32-cycle FSM) |
+| DIVU        | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 (32-cycle FSM) |
+| REM         | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 (32-cycle FSM) |
+| REMU        | R      | ✅ Complete  | ✅ Complete | ⏳ Pending    | Phase 6 (32-cycle FSM) |
 
 ### Packed-SIMD Extension (custom-0 opcode 0001011)
 | Instruction | Format | Implemented | Sim Tested | FPGA Verified | Notes |

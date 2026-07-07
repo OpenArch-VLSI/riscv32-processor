@@ -62,7 +62,7 @@ The UART monitor (`uart_monitor.sv`) provides 7 interactive commands over a seri
 |-------|---------------------|---------------|
 | IF | Fetch instruction and update PC | Instruction memory is ROM-preloaded and now exposes a write-port hook for future loader support; PC frozen on halt |
 | ID | Decode instruction, read registers, generate immediates and controls | Full RV32I decode including ECALL/EBREAK/FENCE and illegal instruction detection |
-| EX | ALU work, branch/jump target and decision, operand forwarding use | Forwarding supports EX/MEM and MEM/WB paths |
+| EX | ALU work, branch/jump target and decision, operand forwarding use | Forwarding supports EX/MEM and MEM/WB paths. Stalls pipeline up to 32 cycles for DIV/DIVU/REM/REMU (fast-tracks div-by-zero/signed-overflow). |
 | MEM | RAM, UART MMIO, performance counter MMIO, load/store formatting | Byte and halfword operations are implemented with byte enables and sign/zero extension |
 | WB | Select ALU or memory data and write register file | Writeback debug signals exposed at the CPU top |
 
@@ -107,7 +107,7 @@ The `.dot` files are generated text source diagrams. Render them to SVG or PNG w
 | `timer.sv` | `timer` | Memory-mapped timer peripheral with interrupt generation |
 | `control_unit.sv` | `control_unit` | Main RV32I control decode with halt and illegal instruction detection |
 | `data_mem.sv` | `data_mem` | Word-addressed data RAM with byte write enables |
-| `ex_stage.sv` | `ex_stage` | ALU, branch/jump decision, forwarding selection use |
+| `ex_stage.sv` | `ex_stage` | ALU, branch/jump decision, forwarding selection use, 32-cycle multi-cycle divider FSM (shift-subtract restoring division for DIV/DIVU/REM/REMU) |
 | `forwarding_unit.sv` | `forwarding_unit` | EX/MEM and MEM/WB forwarding control |
 | `fpga_top.sv` | `fpga_top` | PYNQ-Z2 wrapper, PLL clocking, reset synchronization, LEDs, UART pins |
 | `hazard_detection_unit.sv` | `hazard_detection_unit` | Load-use stall detection |
@@ -215,6 +215,10 @@ Full exception-on-misaligned requires trap CSR infrastructure (Phase 5). In the 
 | `CSRRSI` | I | Implemented | M-mode CSR, Phase 5 |
 | `CSRRCI` | I | Implemented | M-mode CSR, Phase 5 |
 | `MRET` | I | Implemented | Trap return, Phase 5 |
+| `DIV` | R | Implemented | RV32M, 32-cycle FSM |
+| `DIVU` | R | Implemented | RV32M, 32-cycle FSM |
+| `REM` | R | Implemented | RV32M, 32-cycle FSM |
+| `REMU` | R | Implemented | RV32M, 32-cycle FSM |
 
 ### Packed-SIMD Extension (custom-0 opcode 0001011)
 
@@ -231,7 +235,6 @@ Full exception-on-misaligned requires trap CSR infrastructure (Phase 5). In the 
 | Instruction | Reason |
 |-------------|--------|
 | `WFI` | Not applicable to this bare-metal design |
-| `DIV`, `DIVU`, `REM`, `REMU` | RV32M division not implemented yet |
 
 ---
 

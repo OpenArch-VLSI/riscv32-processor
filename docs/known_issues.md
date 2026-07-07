@@ -28,7 +28,6 @@
 
 ## Unsupported Features
 - Misaligned memory accesses (e.g., `LW` or `SW` on odd or non-word-aligned addresses) are not supported. Addresses are truncated to alignment boundary.
-- Division instructions (DIV/DIVU/REM/REMU) are not implemented yet. MUL is implemented.
 
 ## Technical Debt
 - (Resolved in Phase 11 — see ISSUE-007 in Resolved Issues below.)
@@ -122,3 +121,12 @@
   0 critical warnings (Checksum: 84a84c29).
 - **Notes:** Saved `results/synthesis_clean_2026-06-28.txt` with the
   pre-fix and post-fix synthesis output for audit trail.
+
+#### ISSUE-009: Division instructions causing severe timing failure
+- **Severity:** Critical
+- **Status:** Resolved
+- **Category:** Timing/Architecture
+- **Description:** DIV/DIVU/REM/REMU were originally implemented as a single-cycle combinational operation in `alu.sv`. This approach worked functionally but caused a severe timing regression (WNS -61.9ns, TNS -1969.7ns) due to deep combinational logic.
+- **Workaround:** None.
+- **Resolution:** Resolved by revising the architecture to use a 32-cycle iterative multi-cycle FSM divider (shift-subtract restoring division) in `ex_stage.sv`. Division-by-zero and signed-overflow are fast-tracked. The pipeline correctly stalls during execution.
+- **Notes:** Timing is fully restored. WNS improved from -61.9ns to +5.232ns, and TNS improved from -1969.7ns to 0.000ns.
