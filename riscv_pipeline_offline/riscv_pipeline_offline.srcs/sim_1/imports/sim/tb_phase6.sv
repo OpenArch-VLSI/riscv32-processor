@@ -211,7 +211,7 @@ module tb_phase6;
         // Force PC to 0x140 and run
         force uut.u_if_stage.pc_current = 32'h140;
         run_cycles(1); release uut.u_if_stage.pc_current;
-        run_cycles(100);
+        run_cycles(1000);
 
         // Check DIV results (tests 1-6)
         check_reg(15, 32'd3,            "DIV  10/3");

@@ -9,6 +9,11 @@
  *          CSR write data
  */
 module ex_stage (
+    input  logic        clk,
+    input  logic        rst,
+    input  logic        flush,
+    input  logic        id_ex_valid,
+    output logic        ex_stall,
     input  logic [31:0] id_ex_pc,
     input  logic [31:0] id_ex_rs1_data,
     input  logic [31:0] id_ex_rs2_data,
@@ -112,6 +117,109 @@ module ex_stage (
         .zero(alu_zero)
     );
 
+    // =================================================================
+    // Multi-Cycle Divider (Iterative Shift-Subtract)
+    // =================================================================
+    logic is_div_inst;
+    assign is_div_inst = (id_ex_alu_control == 5'b01110) || (id_ex_alu_control == 5'b01111) ||
+                         (id_ex_alu_control == 5'b10000) || (id_ex_alu_control == 5'b10001);
+
+    logic is_signed_div;
+    assign is_signed_div = (id_ex_alu_control == 5'b01110) || (id_ex_alu_control == 5'b10000);
+
+    typedef enum logic [1:0] { IDLE, DIVIDING, DONE } div_state_t;
+    div_state_t div_state;
+
+    logic [31:0] div_dividend;
+    logic [31:0] div_divisor;
+    logic [31:0] div_quotient;
+    logic [31:0] div_remainder;
+    logic [5:0]  div_count;
+    logic        div_sign_q;
+    logic        div_sign_r;
+    logic        div_by_zero;
+    logic        div_overflow;
+
+    assign ex_stall = (div_state == DIVIDING) || (is_div_inst && id_ex_valid && div_state == IDLE);
+
+    always_ff @(posedge clk) begin
+        if (rst || flush) begin
+            div_state <= IDLE;
+        end else begin
+            unique case (div_state)
+                IDLE: begin
+                    if (is_div_inst && id_ex_valid) begin
+                        if ((operand_b_selected == 32'd0) || (is_signed_div && (operand_a_forwarded == 32'h80000000) && (operand_b_selected == 32'hFFFFFFFF))) begin
+                            div_state <= DONE;
+                            div_by_zero <= (operand_b_selected == 32'd0);
+                            div_overflow <= (is_signed_div && (operand_a_forwarded == 32'h80000000) && (operand_b_selected == 32'hFFFFFFFF));
+                        end else begin
+                            div_state <= DIVIDING;
+                            div_count <= 6'd31;
+                            div_by_zero <= 1'b0;
+                            div_overflow <= 1'b0;
+                            
+                            if (is_signed_div) begin
+                                div_dividend <= operand_a_forwarded[31] ? -operand_a_forwarded : operand_a_forwarded;
+                                div_divisor  <= operand_b_selected[31] ? -operand_b_selected : operand_b_selected;
+                                div_sign_q   <= operand_a_forwarded[31] ^ operand_b_selected[31];
+                                div_sign_r   <= operand_a_forwarded[31];
+                            end else begin
+                                div_dividend <= operand_a_forwarded;
+                                div_divisor  <= operand_b_selected;
+                                div_sign_q   <= 1'b0;
+                                div_sign_r   <= 1'b0;
+                            end
+                            div_quotient <= 32'd0;
+                            div_remainder <= 32'd0;
+                        end
+                    end
+                end
+                DIVIDING: begin
+                    if (div_count == 0) begin
+                        div_state <= DONE;
+                    end else begin
+                        div_count <= div_count - 1;
+                    end
+                    
+                    begin : div_step
+                        logic [32:0] partial_rem;
+                        partial_rem = {1'b0, div_remainder[30:0], div_dividend[31]} - {1'b0, div_divisor};
+                        div_dividend <= {div_dividend[30:0], 1'b0};
+                        
+                        if (partial_rem[32]) begin // negative (borrow)
+                            div_remainder <= {div_remainder[30:0], div_dividend[31]};
+                            div_quotient <= {div_quotient[30:0], 1'b0};
+                        end else begin
+                            div_remainder <= partial_rem[31:0];
+                            div_quotient <= {div_quotient[30:0], 1'b1};
+                        end
+                    end
+                end
+                DONE: begin
+                    div_state <= IDLE;
+                end
+                default: div_state <= IDLE;
+            endcase
+        end
+    end
+
+    logic [31:0] final_quotient;
+    logic [31:0] final_remainder;
+
+    always_comb begin
+        if (div_by_zero) begin
+            final_quotient = 32'hFFFFFFFF;
+            final_remainder = operand_a_forwarded;
+        end else if (div_overflow) begin
+            final_quotient = 32'h80000000;
+            final_remainder = 32'd0;
+        end else begin
+            final_quotient = div_sign_q ? -div_quotient : div_quotient;
+            final_remainder = div_sign_r ? -div_remainder : div_remainder;
+        end
+    end
+
     always_comb begin
         unique case (id_ex_funct3)
             3'b000: branch_condition_met = (operand_a_forwarded == operand_b_forwarded);
@@ -167,7 +275,14 @@ module ex_stage (
             OPCODE_AUIPC: ex_mem_alu_result_in = id_ex_pc + id_ex_imm;
             OPCODE_JAL,
             OPCODE_JALR:  ex_mem_alu_result_in = id_ex_pc + 32'd4;
-            default:      ex_mem_alu_result_in = alu_result_raw;
+            default: begin
+                if (id_ex_alu_control == 5'b01110 || id_ex_alu_control == 5'b01111)
+                    ex_mem_alu_result_in = final_quotient;
+                else if (id_ex_alu_control == 5'b10000 || id_ex_alu_control == 5'b10001)
+                    ex_mem_alu_result_in = final_remainder;
+                else
+                    ex_mem_alu_result_in = alu_result_raw;
+            end
         endcase
 
         // For CSR instructions, the ALU result is the CSR read value

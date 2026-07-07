@@ -180,6 +180,7 @@ module top (
     logic        wb_reg_write;
 
     logic        stall;
+    logic        ex_stall;
     logic        flush;
     logic        flush_if_id;
     logic        flush_id_ex;
@@ -231,13 +232,15 @@ module top (
     logic [31:0] if_branch_target;
     logic        id_trap_valid;
 
-    // A trap in ID is only valid if an older instruction in EX is not flushing it!
-    assign id_trap_valid = trap_taken && !pc_sel && !mret_exec;
+    assign effective_stall = stall || ex_stall;
 
-    assign effective_timer_irq = timer_irq && mie;
+    // A trap in ID is only valid if an older instruction in EX is not flushing it!
+    assign id_trap_valid = trap_taken && !pc_sel && !mret_exec && !ex_stall;
+
+    assign effective_timer_irq = timer_irq && mie && !ex_stall;
     
     // Validate ID prediction (must not predict if bubbling or overridden by older flush)
-    assign id_predict_taken_valid = id_predict_taken && if_id_valid && !pc_sel && !mret_exec && !id_trap_valid && !effective_timer_irq && !stall;
+    assign id_predict_taken_valid = id_predict_taken && if_id_valid && !pc_sel && !mret_exec && !id_trap_valid && !effective_timer_irq && !effective_stall;
 
     assign pc_sel_combined = pc_sel || id_trap_valid || mret_exec || effective_timer_irq || id_predict_taken_valid;
     assign if_branch_target = (id_trap_valid || effective_timer_irq) ? mtvec :
@@ -255,7 +258,7 @@ module top (
     assign flush_id_ex = pc_sel || id_trap_valid || mret_exec || effective_timer_irq;
     assign flush = flush_id_ex; // For ID/EX and ID stage
     
-    assign effective_stall = stall;
+    // effective_stall is assigned above
 
     // =================================================================
     // Branch History Table (BHT)
@@ -405,7 +408,7 @@ module top (
     (* DONT_TOUCH = "yes" *) id_ex_reg u_id_ex_reg (
         .clk(clk),
         .rst(rst),
-        .stall(1'b0),
+        .stall(ex_stall),
         .flush(flush || stall),
         .valid_in(if_id_valid),
         .pc_in(id_pc),
@@ -464,6 +467,11 @@ module top (
     );
 
     (* DONT_TOUCH = "yes" *) ex_stage u_ex_stage (
+        .clk(clk),
+        .rst(rst),
+        .flush(flush_id_ex),
+        .id_ex_valid(id_ex_valid),
+        .ex_stall(ex_stall),
         .id_ex_pc(id_ex_pc),
         .id_ex_rs1_data(id_ex_rs1_data),
         .id_ex_rs2_data(id_ex_rs2_data),
@@ -522,7 +530,7 @@ module top (
         .clk(clk),
         .rst(rst),
         .stall(1'b0),
-        .flush(1'b0),
+        .flush(ex_stall),
         .valid_in(id_ex_valid),
         .pc_in(id_ex_pc),
         .instr_in(id_ex_instr),
