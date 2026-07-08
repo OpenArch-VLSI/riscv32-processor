@@ -70,3 +70,22 @@ docs/hardware/board_arrival_shopping_list.md
 tools/sync_doc_dates.py
 tools/install_hooks.py
 tools/hooks/
+
+# Vivado batch-mode scratch scripts (one-off diagnostic/hygiene tools,
+# not part of the reproducible build/test flow)
+check_ram_init.tcl
+check_ram_init_prop.tcl
+fix_and_verify.tcl
+fix_mem_synth.tcl
+fix_sim.tcl
+get_sim_opts.tcl
+query_files.tcl
+remove_files.tcl
+run_sim_only.tcl
+synth_debug_bus.tcl
+synth_mailbox.tcl
+
+# Local xsim batch-mode test runners (superseded by Vivado GUI-managed
+# simulation; hardcode machine-specific paths)
+run_tb_mailbox.bat
+run_tb_instr_mem_param.bat
