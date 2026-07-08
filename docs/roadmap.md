@@ -37,7 +37,7 @@ This generated table is the quick triage view: what exists, what state it is in,
 | Phase 10: Real Workloads and Benchmark Demos | Complete in Sim (90%) | [BOARD] Needs PYNQ-Z2 proof | physical hardware measurement |
 | Phase 11: Memory System and Bus Cleanup | Complete in Sim (100%) | None | physical hardware measurement (no board-dependent behavior to verify; bus is purely internal) |
 | Phase 12: Optional Peripherals | Complete in Sim (100%) | [BOARD] Needs PYNQ-Z2 proof | selected peripheral simulation and, if hardware-facing, board proof |
-| Phase 13: Dual-Core SoC Extension | Not started (0%) | [LATE] Depends on monitor/traps/bus/software | mailbox/shared-memory simulation, arbiter proof, final board demo |
+| Phase 13: Dual-Core SoC Extension | Not started (0%) | [LATE] Depends on monitor/traps/bus/software | mailbox simulation (private data memory per core, no arbiter), final board demo |
 
 ---
 
@@ -782,9 +782,10 @@ This is practical only if it is treated as a small shared-memory dual-core exper
 
 - 2 cores
 - 1 thread per core
-- shared BRAM or mailbox peripheral
-- shared UART/timer/performance registers
-- simple round-robin bus arbiter
+- private data memory per core (no shared BRAM, no bus arbiter — eliminates arbitration entirely)
+- dedicated mailbox peripheral for inter-core communication (see docs/updates/phase13_goals.md)
+- shared UART TX (hardware priority MUX, Core 0 > Core 1); UART RX routed to Core 0 only
+- private timer per core
 - no caches, no coherency
 
 ### Stretch Goals
