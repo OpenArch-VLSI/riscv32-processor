@@ -1,3 +1,4 @@
+`timescale 1ns / 1ps
 /*
  * Module: instr_mem
  * Description: 1024-word instruction memory with a ROM preload and a write
@@ -6,7 +7,9 @@
  * Inputs: clk, word_addr, load_en, load_word_addr, load_data
  * Outputs: instr
  */
-module instr_mem (
+module instr_mem #(
+    parameter string INIT_FILE = "program.mem"
+) (
     input  logic        clk,
     input  logic [9:0]  word_addr,
     input  logic        load_en,
@@ -23,7 +26,7 @@ module instr_mem (
             memory[i] = 32'h00000013;
         end
 
-        `include "program_rom_init.svh"
+        $readmemh(INIT_FILE, memory);
     end
 
     always_ff @(posedge clk) begin
