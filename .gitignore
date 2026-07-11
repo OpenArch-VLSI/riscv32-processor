@@ -82,6 +82,7 @@ get_sim_opts.tcl
 query_files.tcl
 remove_files.tcl
 run_sim_only.tcl
+run_tb_top.tcl
 synth_debug_bus.tcl
 synth_mailbox.tcl
 

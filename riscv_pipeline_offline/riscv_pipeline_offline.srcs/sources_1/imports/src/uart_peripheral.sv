@@ -24,7 +24,8 @@ module uart_peripheral #(
     output logic [31:0] read_data,
     // --- Physical UART pins ---
     input  logic        uart_rxd,       // from FPGA pin (already synchronised)
-    output logic        uart_txd        // to FPGA pin
+    output logic        uart_txd,       // to FPGA pin
+    output logic        tx_busy_o       // status output
 );
 
     // ---------------------------------------------------------------
@@ -110,5 +111,7 @@ module uart_peripheral #(
             endcase
         end
     end
+
+    assign tx_busy_o = tx_busy;
 
 endmodule

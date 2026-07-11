@@ -16,7 +16,9 @@
  *          dbg_perf_*, dbg_trace_*, dbg_trace_count, dbg_trace_head
  */
 (* keep_hierarchy = "yes" *)
-module top (
+module top #(
+    parameter logic CORE_ID = 1'b0
+)(
     input  logic        clk,
     input  logic        rst,
     output logic [31:0] debug_pc_current,
@@ -51,7 +53,15 @@ module top (
     output logic        led_sw_ctrl,
     input  logic [1:0]  raw_btn,
     input  logic [1:0]  raw_sw,
-    output logic        pwm_out
+    output logic        pwm_out,
+    // Phase 13 dual-core mailbox
+    output logic [31:0] mbx_addr,
+    output logic [31:0] mbx_wdata,
+    output logic        mbx_we,
+    output logic        mbx_re,
+    input  logic [31:0] mbx_rdata,
+    input  logic        mbx_valid,
+    output logic        uart_tx_busy_o
 );
 
     logic [31:0] pc_current;
@@ -565,7 +575,9 @@ module top (
         .csr_write_data_out(ex_mem_csr_write_data)
     );
 
-    (* DONT_TOUCH = "yes" *) mem_stage u_mem_stage (
+    (* DONT_TOUCH = "yes" *) mem_stage #(
+        .CORE_ID(CORE_ID)
+    ) u_mem_stage (
         .clk                    (clk),
         .rst                    (rst),
         .ex_mem_alu_result      (ex_mem_alu_result),
@@ -632,7 +644,14 @@ module top (
         .led_sw_ctrl            (led_sw_ctrl),
         .raw_btn                (raw_btn),
         .raw_sw                 (raw_sw),
-        .pwm_out                (pwm_out)
+        .pwm_out                (pwm_out),
+        .mbx_addr               (mbx_addr),
+        .mbx_wdata              (mbx_wdata),
+        .mbx_we                 (mbx_we),
+        .mbx_re                 (mbx_re),
+        .mbx_rdata              (mbx_rdata),
+        .mbx_valid              (mbx_valid),
+        .uart_tx_busy_o         (uart_tx_busy_o)
     );
 
     (* DONT_TOUCH = "yes" *) mem_wb_reg u_mem_wb_reg (

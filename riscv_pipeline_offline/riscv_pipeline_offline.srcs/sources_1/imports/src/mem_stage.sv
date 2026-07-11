@@ -14,7 +14,9 @@
  * Outputs: MEM/WB candidate values and controls, uart_txd pin, dbg_dmem_data,
  *          CSR passthrough signals
  */
-module mem_stage (
+module mem_stage #(
+    parameter logic CORE_ID = 1'b0
+)(
     input  logic        clk,
     input  logic        rst,
     input  logic [31:0] ex_mem_alu_result,
@@ -81,7 +83,15 @@ module mem_stage (
     output logic        led_sw_ctrl,
     input  logic [1:0]  raw_btn,
     input  logic [1:0]  raw_sw,
-    output logic        pwm_out
+    output logic        pwm_out,
+    // Phase 13 dual-core mailbox
+    output logic [31:0] mbx_addr,
+    output logic [31:0] mbx_wdata,
+    output logic        mbx_we,
+    output logic        mbx_re,
+    input  logic [31:0] mbx_rdata,
+    input  logic        mbx_valid,
+    output logic        uart_tx_busy_o
 );
 
     // ------------------------------------------------------------------
@@ -110,9 +120,11 @@ module mem_stage (
     assign ram_sel   = (ex_mem_alu_result[31:28] == 4'h0);
     assign uart_sel  = (ex_mem_alu_result[31:28] == 4'h8);
     assign perf_sel  = (ex_mem_alu_result[31:28] == 4'hC) && 
+                       (ex_mem_alu_result[11:8] == 4'h0) &&
                        (ex_mem_alu_result[9] == 1'b0) &&
                        (ex_mem_alu_result[7:4] == 4'h0);
     assign debug_sel = (ex_mem_alu_result[31:28] == 4'hC) &&
+                       (ex_mem_alu_result[11:8] == 4'h0) &&
                        (ex_mem_alu_result[9] == 1'b0) &&
                        (ex_mem_alu_result[7:4] >= 4'h1);
     assign timer_sel = (ex_mem_alu_result[31:28] == 4'hC) && 
@@ -131,6 +143,21 @@ module mem_stage (
     logic ram_mem_write;
     assign ram_mem_read  = ex_mem_mem_read  & ram_sel;
     assign ram_mem_write = ex_mem_mem_write & ram_sel;
+
+    localparam logic [31:0] CORE_ID_ADDR = 32'hC0000410;
+    localparam logic [31:0] MAILBOX_BASE = 32'hC0000500;
+    localparam logic [31:0] MAILBOX_END  = 32'hC000050C;
+
+    logic core_id_sel;
+    logic mbx_sel;
+
+    assign core_id_sel = (ex_mem_alu_result == CORE_ID_ADDR);
+    assign mbx_sel     = (ex_mem_alu_result >= MAILBOX_BASE && ex_mem_alu_result <= MAILBOX_END);
+
+    assign mbx_addr  = mbx_sel ? ex_mem_alu_result : 32'd0;
+    assign mbx_wdata = mbx_sel ? ex_mem_rs2_data : 32'd0;
+    assign mbx_we    = mbx_sel ? ex_mem_mem_write : 1'b0;
+    assign mbx_re    = mbx_sel ? ex_mem_mem_read : 1'b0;
 
     // ------------------------------------------------------------------
     // Internal Peripheral Bus Definition
@@ -439,7 +466,8 @@ module mem_stage (
         .write_data(bus_uart_wdata),
         .read_data (uart_read_data),
         .uart_rxd  (uart_rxd),
-        .uart_txd  (uart_txd)
+        .uart_txd  (uart_txd),
+        .tx_busy_o (uart_tx_busy_o)
     );
 
     assign bus_uart_rdata = uart_read_data;
@@ -613,7 +641,11 @@ module mem_stage (
     // ------------------------------------------------------------------
     always_comb begin
         mem_wb_mem_read_data_in = 32'd0;
-        if (bus_timer_valid) begin
+        if (core_id_sel) begin
+            mem_wb_mem_read_data_in = {31'b0, CORE_ID};
+        end else if (mbx_sel) begin
+            mem_wb_mem_read_data_in = mbx_rdata;
+        end else if (bus_timer_valid) begin
             mem_wb_mem_read_data_in = bus_timer_rdata;
         end else if (bus_debug_valid) begin
             mem_wb_mem_read_data_in = bus_debug_rdata;
