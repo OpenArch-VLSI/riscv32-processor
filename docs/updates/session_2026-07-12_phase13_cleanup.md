@@ -5,12 +5,11 @@
 **Phases affected:** 13  
 
 ## Work completed in this session:
-- Fixed all stale machine-specific absolute paths (nayak/Desktop
-  references) to relative paths across dual_core_top.sv,
-  tb_instr_mem_param.sv, tb_string_match.sv, results/synth_dual_core_top.tcl,
-  results/sim_tb_phase13.ps1, run_pattern_match.ps1, run_synthesis.tcl,
-  and run_tb_branch_sort.tcl. Verified tb_phase13 PASSED on sriji machine
-  after fix.
+- Fixed all stale machine-specific absolute paths to relative paths across
+  dual_core_top.sv, tb_instr_mem_param.sv, tb_string_match.sv,
+  results/synth_dual_core_top.tcl, results/sim_tb_phase13.ps1,
+  run_pattern_match.ps1, run_synthesis.tcl, and run_tb_branch_sort.tcl.
+  Verified tb_phase13 PASSED after fix.
 - Corrected tb_mailbox.sv Check 9 from a registered-read pattern to the
   correct same-cycle combinational pattern matching how mem_stage.sv
   consumes mailbox rdata. Re-ran tb_mailbox in xsim — PASSED.
