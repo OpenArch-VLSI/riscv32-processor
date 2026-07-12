@@ -26,3 +26,4 @@
 - [session_summary_2026-06-28.md](session_summary_2026-06-28.md) — RV32I Pipeline SoC — Phase 9 Closure + Phase 12 Implementation summary
 - [session_2026-07-01_Phase8_Capture.md](session_2026-07-01_Phase8_Capture.md) — Phase 8 CPI capture and documentation update (branch_sort.mem re-run, CPI=1.258, baseline limitation documented)
 - [session_2026-07-01_DeepSeek.md](session_2026-07-01_DeepSeek.md) — Issue 3: Phase 1 Expected-Output Regression (9-program C toolchain baseline, tests/expected/, run_phase1_regression.ps1, 3-run PASS/FAIL/PASS verification)
+- [session_2026-07-12_phase13_cleanup.md](session_2026-07-12_phase13_cleanup.md) — Phase 13 Cleanup
