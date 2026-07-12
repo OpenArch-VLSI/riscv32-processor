@@ -13,7 +13,7 @@ module tb_instr_mem_param;
 
     // Instance 0: core0
     instr_mem #(
-        .INIT_FILE("asm/core0_placeholder.mem")
+        .INIT_FILE("c:/Users/nayak/Desktop/riscv32-processor/asm/core0_placeholder.mem")
     ) mem0 (
         .clk(clk),
         .word_addr(word_addr),
@@ -25,7 +25,7 @@ module tb_instr_mem_param;
 
     // Instance 1: core1
     instr_mem #(
-        .INIT_FILE("asm/core1_placeholder.mem")
+        .INIT_FILE("c:/Users/nayak/Desktop/riscv32-processor/asm/core1_placeholder.mem")
     ) mem1 (
         .clk(clk),
         .word_addr(word_addr),

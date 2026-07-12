@@ -1,0 +1,612 @@
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/alu_control.sv" into library work
+INFO: [VRFC 10-311] analyzing module alu_control
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/alu.sv" into library work
+INFO: [VRFC 10-311] analyzing module alu
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/bht.sv" into library work
+INFO: [VRFC 10-311] analyzing module bht
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/btn_sw.sv" into library work
+INFO: [VRFC 10-311] analyzing module btn_sw
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/control_unit.sv" into library work
+INFO: [VRFC 10-311] analyzing module control_unit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/csr_file.sv" into library work
+INFO: [VRFC 10-311] analyzing module csr_file
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/data_mem.sv" into library work
+INFO: [VRFC 10-311] analyzing module data_mem
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/dual_core_top.sv" into library work
+INFO: [VRFC 10-311] analyzing module dual_core_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/ex_stage.sv" into library work
+INFO: [VRFC 10-311] analyzing module ex_stage
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/forwarding_unit.sv" into library work
+INFO: [VRFC 10-311] analyzing module forwarding_unit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/fpga_top.sv" into library work
+INFO: [VRFC 10-311] analyzing module fpga_top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/hazard_detection_unit.sv" into library work
+INFO: [VRFC 10-311] analyzing module hazard_detection_unit
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/id_stage.sv" into library work
+INFO: [VRFC 10-311] analyzing module id_stage
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/if_stage.sv" into library work
+INFO: [VRFC 10-311] analyzing module if_stage
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/imm_gen.sv" into library work
+INFO: [VRFC 10-311] analyzing module imm_gen
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/instr_mem.sv" into library work
+INFO: [VRFC 10-311] analyzing module instr_mem
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/led_ctrl.sv" into library work
+INFO: [VRFC 10-311] analyzing module led_ctrl
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/mailbox.sv" into library work
+INFO: [VRFC 10-311] analyzing module ipc_mailbox
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/mem_stage.sv" into library work
+INFO: [VRFC 10-311] analyzing module mem_stage
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/pipeline_registers.sv" into library work
+INFO: [VRFC 10-311] analyzing module if_id_reg
+INFO: [VRFC 10-311] analyzing module id_ex_reg
+INFO: [VRFC 10-311] analyzing module ex_mem_reg
+INFO: [VRFC 10-311] analyzing module mem_wb_reg
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/pwm.sv" into library work
+INFO: [VRFC 10-311] analyzing module pwm
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/reg_file.sv" into library work
+INFO: [VRFC 10-311] analyzing module reg_file
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/timer.sv" into library work
+INFO: [VRFC 10-311] analyzing module timer
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/top.sv" into library work
+INFO: [VRFC 10-311] analyzing module top
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/uart_monitor.sv" into library work
+INFO: [VRFC 10-311] analyzing module uart_monitor
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/uart_peripheral.sv" into library work
+INFO: [VRFC 10-311] analyzing module uart_peripheral
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/uart_rx.sv" into library work
+INFO: [VRFC 10-311] analyzing module uart_rx
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/uart_tx.sv" into library work
+INFO: [VRFC 10-311] analyzing module uart_tx
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/wb_stage.sv" into library work
+INFO: [VRFC 10-311] analyzing module wb_stage
+INFO: [VRFC 10-2263] Analyzing SystemVerilog file "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sim_1/imports/riscv_pipeline/sim/tb_top.sv" into library work
+INFO: [VRFC 10-311] analyzing module tb_top
+Vivado Simulator v2025.2
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+Running: C:/AMDDesignTools/2025.2/Vivado/bin/unwrapped/win64.o/xelab.exe --timescale 1ns/1ps tb_top -snapshot tbtop_snap 
+Multi-threading is on. Using 14 slave threads.
+Starting static elaboration
+Pass Through NonSizing Optimizer
+WARNING: [VRFC 10-3645] port 'debug_pc_current' remains unconnected for this instance [C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sim_1/imports/riscv_pipeline/sim/tb_top.sv:37]
+WARNING: [VRFC 10-5021] port 'dbg_reg_addr' is not connected on this instance [C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sim_1/imports/riscv_pipeline/sim/tb_top.sv:37]
+WARNING: [VRFC 10-3645] port 'id_ex_csr_addr' remains unconnected for this instance [C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/top.sv:376]
+WARNING: [VRFC 10-5021] port 'csr_addr_in' is not connected on this instance [C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src/top.sv:421]
+Completed static elaboration
+Starting simulation data flow analysis
+WARNING: [XSIM 43-4328] File: C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sim_1/imports/riscv_pipeline/sim/tb_top.sv Line: 205 : Sensitivity on input argument "addr" of task "mmio_read" may never get triggered.
+Completed simulation data flow analysis
+Time Resolution for simulation is 1ps
+Compiling module work.bht_default
+Compiling module work.csr_file
+Compiling module work.instr_mem
+Compiling module work.if_stage
+Compiling module work.if_id_reg
+Compiling module work.hazard_detection_unit
+Compiling module work.control_unit
+Compiling module work.alu_control
+Compiling module work.imm_gen
+Compiling module work.reg_file
+Compiling module work.id_stage
+Compiling module work.id_ex_reg
+Compiling module work.forwarding_unit
+Compiling module work.alu
+Compiling module work.ex_stage
+Compiling module work.ex_mem_reg
+Compiling module work.data_mem
+Compiling module work.uart_tx
+Compiling module work.uart_rx
+Compiling module work.uart_peripheral
+Compiling module work.timer
+Compiling module work.led_ctrl
+Compiling module work.btn_sw
+Compiling module work.pwm
+Compiling module work.mem_stage
+Compiling module work.mem_wb_reg
+Compiling module work.wb_stage
+Compiling module work.top
+Compiling module work.tb_top
+Built simulation snapshot tbtop_snap
+
+****** xsim v2025.2 (64-bit)
+  **** SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+  **** IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+  **** SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+  **** Start of session at: Sun Jul 12 14:04:51 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/tbtop_snap/xsim_script.tcl
+# xsim {tbtop_snap} -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+Loaded instruction memory through loader port from program.mem
+
+--- Basic ALU instructions ---
+x0 = 0x00000000 (0)
+x1 = 0x00000005 (5)
+x2 = 0x0000000a (10)
+x3 = 0x0000000f (15)
+x4 = 0x00000005 (5)
+x5 = 0x00000000 (0)
+x6 = 0x0000000f (15)
+x7 = 0x0000000f (15)
+x8 = 0x0000000f (15)
+x9 = 0x00000014 (20)
+x10 = 0x00000023 (35)
+x11 = 0x00000037 (55)
+x12 = 0x00000001 (1)
+x13 = 0x00000002 (2)
+x14 = 0x00000048 (72)
+x15 = 0x00000000 (0)
+x16 = 0x00000054 (84)
+x17 = 0x12345000 (305418240)
+x18 = 0x00001054 (4180)
+x19 = 0x00000064 (100)
+x20 = 0x00000060 (96)
+x21 = 0x00000000 (0)
+x22 = 0x00000000 (0)
+x23 = 0x00000007 (7)
+x24 = 0x0000001c (28)
+x25 = 0x0000000e (14)
+x26 = 0x00000007 (7)
+x27 = 0x00000001 (1)
+x28 = 0x00000000 (0)
+x29 = 0x00000001 (1)
+x30 = 0x00000000 (0)
+x31 = 0x0000003d (61)
+PASS: ADD result (x3 = 0x0000000f)
+PASS: SUB result (x4 = 0x00000005)
+PASS: AND result (x5 = 0x00000000)
+PASS: OR result (x6 = 0x0000000f)
+PASS: XOR result (x7 = 0x0000000f)
+
+--- Load and store ---
+x0 = 0x00000000 (0)
+x1 = 0x00000005 (5)
+x2 = 0x0000000a (10)
+x3 = 0x0000000f (15)
+x4 = 0x00000005 (5)
+x5 = 0x00000000 (0)
+x6 = 0x0000000f (15)
+x7 = 0x0000000f (15)
+x8 = 0x0000000f (15)
+x9 = 0x00000014 (20)
+x10 = 0x00000023 (35)
+x11 = 0x00000037 (55)
+x12 = 0x00000001 (1)
+x13 = 0x00000002 (2)
+x14 = 0x00000048 (72)
+x15 = 0x00000000 (0)
+x16 = 0x00000054 (84)
+x17 = 0x12345000 (305418240)
+x18 = 0x00001054 (4180)
+x19 = 0x00000064 (100)
+x20 = 0x00000060 (96)
+x21 = 0x00000000 (0)
+x22 = 0x00000000 (0)
+x23 = 0x00000007 (7)
+x24 = 0x0000001c (28)
+x25 = 0x0000000e (14)
+x26 = 0x00000007 (7)
+x27 = 0x00000001 (1)
+x28 = 0x00000000 (0)
+x29 = 0x00000001 (1)
+x30 = 0x00000000 (0)
+x31 = 0x0000003d (61)
+PASS: SW followed by LW memory round-trip (x8 = 0x0000000f)
+
+--- Data hazard with forwarding ---
+x0 = 0x00000000 (0)
+x1 = 0x00000005 (5)
+x2 = 0x0000000a (10)
+x3 = 0x0000000f (15)
+x4 = 0x00000005 (5)
+x5 = 0x00000000 (0)
+x6 = 0x0000000f (15)
+x7 = 0x0000000f (15)
+x8 = 0x0000000f (15)
+x9 = 0x00000014 (20)
+x10 = 0x00000023 (35)
+x11 = 0x00000037 (55)
+x12 = 0x00000001 (1)
+x13 = 0x00000002 (2)
+x14 = 0x00000048 (72)
+x15 = 0x00000000 (0)
+x16 = 0x00000054 (84)
+x17 = 0x12345000 (305418240)
+x18 = 0x00001054 (4180)
+x19 = 0x00000064 (100)
+x20 = 0x00000060 (96)
+x21 = 0x00000000 (0)
+x22 = 0x00000000 (0)
+x23 = 0x00000007 (7)
+x24 = 0x0000001c (28)
+x25 = 0x0000000e (14)
+x26 = 0x00000007 (7)
+x27 = 0x00000001 (1)
+x28 = 0x00000000 (0)
+x29 = 0x00000001 (1)
+x30 = 0x00000000 (0)
+x31 = 0x0000003d (61)
+PASS: Back-to-back dependent ADD with EX/MEM forwarding (x10 = 0x00000023)
+PASS: Chained ADD dependency (x11 = 0x00000037)
+PASS: EX/MEM forwarding asserted
+PASS: MEM/WB forwarding asserted
+
+--- Load-use hazard ---
+x0 = 0x00000000 (0)
+x1 = 0x00000005 (5)
+x2 = 0x0000000a (10)
+x3 = 0x0000000f (15)
+x4 = 0x00000005 (5)
+x5 = 0x00000000 (0)
+x6 = 0x0000000f (15)
+x7 = 0x0000000f (15)
+x8 = 0x0000000f (15)
+x9 = 0x00000014 (20)
+x10 = 0x00000023 (35)
+x11 = 0x00000037 (55)
+x12 = 0x00000001 (1)
+x13 = 0x00000002 (2)
+x14 = 0x00000048 (72)
+x15 = 0x00000000 (0)
+x16 = 0x00000054 (84)
+x17 = 0x12345000 (305418240)
+x18 = 0x00001054 (4180)
+x19 = 0x00000064 (100)
+x20 = 0x00000060 (96)
+x21 = 0x00000000 (0)
+x22 = 0x00000000 (0)
+x23 = 0x00000007 (7)
+x24 = 0x0000001c (28)
+x25 = 0x0000000e (14)
+x26 = 0x00000007 (7)
+x27 = 0x00000001 (1)
+x28 = 0x00000000 (0)
+x29 = 0x00000001 (1)
+x30 = 0x00000000 (0)
+x31 = 0x0000003d (61)
+PASS: LW followed immediately by dependent ADD (x9 = 0x00000014)
+PASS: Load-use stall inserted
+
+--- Branch taken ---
+x0 = 0x00000000 (0)
+x1 = 0x00000005 (5)
+x2 = 0x0000000a (10)
+x3 = 0x0000000f (15)
+x4 = 0x00000005 (5)
+x5 = 0x00000000 (0)
+x6 = 0x0000000f (15)
+x7 = 0x0000000f (15)
+x8 = 0x0000000f (15)
+x9 = 0x00000014 (20)
+x10 = 0x00000023 (35)
+x11 = 0x00000037 (55)
+x12 = 0x00000001 (1)
+x13 = 0x00000002 (2)
+x14 = 0x00000048 (72)
+x15 = 0x00000000 (0)
+x16 = 0x00000054 (84)
+x17 = 0x12345000 (305418240)
+x18 = 0x00001054 (4180)
+x19 = 0x00000064 (100)
+x20 = 0x00000060 (96)
+x21 = 0x00000000 (0)
+x22 = 0x00000000 (0)
+x23 = 0x00000007 (7)
+x24 = 0x0000001c (28)
+x25 = 0x0000000e (14)
+x26 = 0x00000007 (7)
+x27 = 0x00000001 (1)
+x28 = 0x00000000 (0)
+x29 = 0x00000001 (1)
+x30 = 0x00000000 (0)
+x31 = 0x0000003d (61)
+PASS: Taken BEQ flushed skipped instruction (x12 = 0x00000001)
+PASS: Flush asserted for taken branch or jump
+
+--- Branch not taken ---
+x0 = 0x00000000 (0)
+x1 = 0x00000005 (5)
+x2 = 0x0000000a (10)
+x3 = 0x0000000f (15)
+x4 = 0x00000005 (5)
+x5 = 0x00000000 (0)
+x6 = 0x0000000f (15)
+x7 = 0x0000000f (15)
+x8 = 0x0000000f (15)
+x9 = 0x00000014 (20)
+x10 = 0x00000023 (35)
+x11 = 0x00000037 (55)
+x12 = 0x00000001 (1)
+x13 = 0x00000002 (2)
+x14 = 0x00000048 (72)
+x15 = 0x00000000 (0)
+x16 = 0x00000054 (84)
+x17 = 0x12345000 (305418240)
+x18 = 0x00001054 (4180)
+x19 = 0x00000064 (100)
+x20 = 0x00000060 (96)
+x21 = 0x00000000 (0)
+x22 = 0x00000000 (0)
+x23 = 0x00000007 (7)
+x24 = 0x0000001c (28)
+x25 = 0x0000000e (14)
+x26 = 0x00000007 (7)
+x27 = 0x00000001 (1)
+x28 = 0x00000000 (0)
+x29 = 0x00000001 (1)
+x30 = 0x00000000 (0)
+x31 = 0x0000003d (61)
+PASS: Not-taken BEQ continued sequential execution (x13 = 0x00000002)
+
+--- JAL and JALR ---
+x0 = 0x00000000 (0)
+x1 = 0x00000005 (5)
+x2 = 0x0000000a (10)
+x3 = 0x0000000f (15)
+x4 = 0x00000005 (5)
+x5 = 0x00000000 (0)
+x6 = 0x0000000f (15)
+x7 = 0x0000000f (15)
+x8 = 0x0000000f (15)
+x9 = 0x00000014 (20)
+x10 = 0x00000023 (35)
+x11 = 0x00000037 (55)
+x12 = 0x00000001 (1)
+x13 = 0x00000002 (2)
+x14 = 0x00000048 (72)
+x15 = 0x00000000 (0)
+x16 = 0x00000054 (84)
+x17 = 0x12345000 (305418240)
+x18 = 0x00001054 (4180)
+x19 = 0x00000064 (100)
+x20 = 0x00000060 (96)
+x21 = 0x00000000 (0)
+x22 = 0x00000000 (0)
+x23 = 0x00000007 (7)
+x24 = 0x0000001c (28)
+x25 = 0x0000000e (14)
+x26 = 0x00000007 (7)
+x27 = 0x00000001 (1)
+x28 = 0x00000000 (0)
+x29 = 0x00000001 (1)
+x30 = 0x00000000 (0)
+x31 = 0x0000003d (61)
+PASS: JAL wrote PC+4 link (x14 = 0x00000048)
+PASS: JAL skipped wrong-path instruction (x15 = 0x00000000)
+PASS: JAL reached target (x16 = 0x00000054)
+PASS: JALR wrote PC+4 link (x20 = 0x00000060)
+PASS: JALR flushed first wrong-path instruction (x21 = 0x00000000)
+PASS: JALR flushed second wrong-path instruction (x22 = 0x00000000)
+
+--- LUI, AUIPC, shifts, and comparisons ---
+x0 = 0x00000000 (0)
+x1 = 0x00000005 (5)
+x2 = 0x0000000a (10)
+x3 = 0x0000000f (15)
+x4 = 0x00000005 (5)
+x5 = 0x00000000 (0)
+x6 = 0x0000000f (15)
+x7 = 0x0000000f (15)
+x8 = 0x0000000f (15)
+x9 = 0x00000014 (20)
+x10 = 0x00000023 (35)
+x11 = 0x00000037 (55)
+x12 = 0x00000001 (1)
+x13 = 0x00000002 (2)
+x14 = 0x00000048 (72)
+x15 = 0x00000000 (0)
+x16 = 0x00000054 (84)
+x17 = 0x12345000 (305418240)
+x18 = 0x00001054 (4180)
+x19 = 0x00000064 (100)
+x20 = 0x00000060 (96)
+x21 = 0x00000000 (0)
+x22 = 0x00000000 (0)
+x23 = 0x00000007 (7)
+x24 = 0x0000001c (28)
+x25 = 0x0000000e (14)
+x26 = 0x00000007 (7)
+x27 = 0x00000001 (1)
+x28 = 0x00000000 (0)
+x29 = 0x00000001 (1)
+x30 = 0x00000000 (0)
+x31 = 0x0000003d (61)
+PASS: LUI upper immediate placement (x17 = 0x12345000)
+PASS: AUIPC added upper immediate to PC (x18 = 0x00001054)
+PASS: JALR target executed (x23 = 0x00000007)
+PASS: SLLI result (x24 = 0x0000001c)
+PASS: SRLI result (x25 = 0x0000000e)
+PASS: SRAI result (x26 = 0x00000007)
+PASS: SLTI result (x27 = 0x00000001)
+PASS: SLTIU result (x28 = 0x00000000)
+PASS: SLT result (x29 = 0x00000001)
+PASS: SLTU result (x30 = 0x00000000)
+
+ALL PIPELINE REGRESSION TESTS PASSED
+
+--- Performance Counter Tests ---
+  Cycle  count: 80
+  Instr  count: 60
+  Stall  count: 7
+  Flush  count: 3
+PASS: Cycle counter is non-zero (80)
+PASS: Instruction counter is non-zero (60)
+PASS: Instruction counter includes non-writeback retires (60 > 43)
+PASS: Stall counter recorded stalls (7)
+PASS: Flush counter recorded flushes (3)
+  CPI = 1.33  (cycles/instr = 80/60)
+
+--- Performance Counter MMIO Tests ---
+PASS (MMIO): Cycle counter read 0x00000050
+PASS (MMIO): Instruction counter read 0x0000003c
+PASS (MMIO): Stall counter read 0x00000007
+PASS (MMIO): Flush counter read 0x00000003
+
+--- Debug MMIO Tests ---
+PASS (MMIO): Current PC read 0x000000ec
+PASS (MMIO): Last committed PC read 0x000000ec
+PASS (MMIO): Last committed instruction read 0xfe0f9ee3
+PASS (MMIO): Last writeback data read 0x0000003d
+PASS (MMIO): Last writeback status read 0x0000001d
+PASS (MMIO): Faulting PC read 0x00000000
+PASS (MMIO): Faulting instruction read 0x00000013
+PASS: trace buffer captured 4 entry(s)
+PASS: trace PC matches last commit (0x000000ec)
+PASS: trace instruction matches last commit (0xfe0f9ee3)
+PASS: trace writeback data matches last commit (0x0000003d)
+PASS: trace register index matches last commit (x29)
+PASS: trace commit-valid flag is set
+PASS: trace reg-write flag matches last commit
+PASS: trace illegal flag stayed low
+PASS: trace halt flag stayed low
+PASS: illegal instruction latch stayed low
+
+--- Edge-Case Pipeline Tests ---
+PASS: x0 remains zero (0x00000000)
+PASS: Data memory[0] = 15 (store verified)
+PASS: SB wrote individual byte lanes (mem[1] = 0x127f80ff)
+PASS: SH wrote aligned halfword lanes (mem[2] = 0x0000fffe)
+PASS: LB sign-extended 0xff (mem[3] = 0xffffffff)
+PASS: LBU zero-extended 0xff (mem[4] = 0x000000ff)
+PASS: LH sign-extended 0x80ff (mem[5] = 0xffff80ff)
+PASS: LHU zero-extended 0x80ff (mem[6] = 0x000080ff)
+PASS: LH sign-extended SH value (mem[7] = 0xfffffffe)
+PASS: LHU zero-extended SH value (mem[8] = 0x0000fffe)
+PASS: PC advanced to 0x000000ec (program executed)
+
+--- UART Performance Report Test ---
+[UART_MON] t=33690000  0x43
+PASS (UART TX): Cycles label[0]  0x43
+[UART_MON] t=55490000  0x79
+PASS (UART TX): Cycles label[1]  0x79
+[UART_MON] t=77270000  0x63
+PASS (UART TX): Cycles label[2]  0x63
+[UART_MON] t=99050000  0x6c
+PASS (UART TX): Cycles label[3]  0x6c
+[UART_MON] t=120830000  0x65
+PASS (UART TX): Cycles label[4]  0x65
+[UART_MON] t=142610000  0x73
+PASS (UART TX): Cycles label[5]  0x73
+[UART_MON] t=164390000  0x3a
+PASS (UART TX): Cycles label[6]  0x3a
+[UART_MON] t=186170000  0x20
+PASS (UART TX): Cycles label[7]  0x20
+[UART_MON] t=207980000  0x32
+[UART_MON] t=229800000  0x36
+[UART_MON] t=251610000  0x36
+[UART_MON] t=273410000  0x0a
+PASS (UART TX): Cycles line decimal payload length 3
+[UART_MON] t=295190000  0x49
+PASS (UART TX): Instructions label[0]  0x49
+[UART_MON] t=316970000  0x6e
+PASS (UART TX): Instructions label[1]  0x6e
+[UART_MON] t=338750000  0x73
+PASS (UART TX): Instructions label[2]  0x73
+[UART_MON] t=360530000  0x74
+PASS (UART TX): Instructions label[3]  0x74
+[UART_MON] t=382310000  0x72
+PASS (UART TX): Instructions label[4]  0x72
+[UART_MON] t=404090000  0x75
+PASS (UART TX): Instructions label[5]  0x75
+[UART_MON] t=425870000  0x63
+PASS (UART TX): Instructions label[6]  0x63
+[UART_MON] t=447650000  0x74
+PASS (UART TX): Instructions label[7]  0x74
+[UART_MON] t=469430000  0x69
+PASS (UART TX): Instructions label[8]  0x69
+[UART_MON] t=491210000  0x6f
+PASS (UART TX): Instructions label[9]  0x6f
+[UART_MON] t=512990000  0x6e
+PASS (UART TX): Instructions label[10]  0x6e
+[UART_MON] t=534770000  0x73
+PASS (UART TX): Instructions label[11]  0x73
+[UART_MON] t=556550000  0x3a
+PASS (UART TX): Instructions label[12]  0x3a
+[UART_MON] t=578330000  0x20
+PASS (UART TX): Instructions label[13]  0x20
+[UART_MON] t=600110000  0x31
+[UART_MON] t=621920000  0x38
+[UART_MON] t=643730000  0x35
+[UART_MON] t=665530000  0x0a
+PASS (UART TX): Instructions line decimal payload length 3
+[UART_MON] t=687310000  0x53
+PASS (UART TX): Stalls label[0]  0x53
+[UART_MON] t=709090000  0x74
+PASS (UART TX): Stalls label[1]  0x74
+[UART_MON] t=730870000  0x61
+PASS (UART TX): Stalls label[2]  0x61
+[UART_MON] t=752650000  0x6c
+PASS (UART TX): Stalls label[3]  0x6c
+[UART_MON] t=774430000  0x6c
+PASS (UART TX): Stalls label[4]  0x6c
+[UART_MON] t=796210000  0x73
+PASS (UART TX): Stalls label[5]  0x73
+[UART_MON] t=817990000  0x3a
+PASS (UART TX): Stalls label[6]  0x3a
+[UART_MON] t=839770000  0x20
+PASS (UART TX): Stalls label[7]  0x20
+[UART_MON] t=861590000  0x37
+[UART_MON] t=883390000  0x0a
+PASS (UART TX): Stalls line decimal payload length 1
+[UART_MON] t=905170000  0x46
+PASS (UART TX): Flushes label[0]  0x46
+[UART_MON] t=926950000  0x6c
+PASS (UART TX): Flushes label[1]  0x6c
+[UART_MON] t=948730000  0x75
+PASS (UART TX): Flushes label[2]  0x75
+[UART_MON] t=970510000  0x73
+PASS (UART TX): Flushes label[3]  0x73
+[UART_MON] t=992290000  0x68
+PASS (UART TX): Flushes label[4]  0x68
+[UART_MON] t=1014070000  0x65
+PASS (UART TX): Flushes label[5]  0x65
+[UART_MON] t=1035850000  0x73
+PASS (UART TX): Flushes label[6]  0x73
+[UART_MON] t=1057630000  0x3a
+PASS (UART TX): Flushes label[7]  0x3a
+[UART_MON] t=1079410000  0x20
+PASS (UART TX): Flushes label[8]  0x20
+[UART_MON] t=1101210000  0x34
+[UART_MON] t=1122990000  0x0a
+PASS (UART TX): Flushes line decimal payload length 1
+[UART_MON] t=1144770000  0x49
+PASS (UART TX): IPC label[0]  0x49
+[UART_MON] t=1166550000  0x50
+PASS (UART TX): IPC label[1]  0x50
+[UART_MON] t=1188330000  0x43
+PASS (UART TX): IPC label[2]  0x43
+[UART_MON] t=1210110000  0x3a
+PASS (UART TX): IPC label[3]  0x3a
+[UART_MON] t=1231890000  0x20
+PASS (UART TX): IPC label[4]  0x20
+[UART_MON] t=1253680000  0x30
+[UART_MON] t=1275500000  0x2e
+[UART_MON] t=1297280000  0x36
+[UART_MON] t=1319060000  0x39
+[UART_MON] t=1340880000  0x0a
+PASS (UART TX): IPC line formatted as d.dd
+PASS (UART): tx_busy de-asserted after report
+
+--- Phase 2 System Tests (ECALL, EBREAK, illegal) ---
+PASS: halt was never asserted during demo run
+
+*** ALL TESTS PASSED (pipeline + perf counters + UART) ***
+
+--- Phase 4 Monitor Status ---
+  uart_monitor.sv created with commands: help load run reset regs mem perf trace
+  fpga_top.sv updated: UART mux, CPU reset control, debug ports wired
+  top.sv updated: debug read ports (reg_file, dmem, perf, trace) exposed
+  reg_file.sv, data_mem.sv: async debug read ports added
+  tools/mem_to_load_commands.py: host-side loader command generator
+  Full monitor test at fpga_top level pending Vivado/xsim build
+PASS (MONITOR): UART RX sim helper exercised (check waveform)
+
+*** ALL TESTS PASSED (pipeline + perf counters + UART + monitor) ***
+$finish called at time : 1413656 ns : File "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sim_1/imports/riscv_pipeline/sim/tb_top.sv" Line 811
+run: Time (s): cpu = 00:00:00 ; elapsed = 00:00:28 . Memory (MB): peak = 203.047 ; gain = 0.289
+exit
+INFO: xsimkernel Simulation Memory Usage: 14548 KB (Peak: 14548 KB), Simulation CPU Usage: 27281 ms
+INFO: [Common 17-206] Exiting xsim at Sun Jul 12 14:05:20 2026...

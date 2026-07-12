@@ -5,7 +5,9 @@
  * Inputs: clk, rst, stall, pc_sel, branch_target, instr_load_* (loader hook)
  * Outputs: if_id_pc, if_id_instr, pc_current
  */
-module if_stage (
+module if_stage #(
+    parameter string INSTR_INIT_FILE = "program.mem"
+) (
     input  logic        clk,
     input  logic        rst,
     input  logic        stall,
@@ -32,7 +34,9 @@ module if_stage (
         end
     end
 
-    instr_mem u_instr_mem (
+    instr_mem #(
+        .INIT_FILE(INSTR_INIT_FILE)
+    ) u_instr_mem (
         .clk(clk),
         .word_addr(pc_current[11:2]),
         .load_en(instr_load_en),

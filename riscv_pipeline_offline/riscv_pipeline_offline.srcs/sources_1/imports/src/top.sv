@@ -17,7 +17,8 @@
  */
 (* keep_hierarchy = "yes" *)
 module top #(
-    parameter logic CORE_ID = 1'b0
+    parameter logic CORE_ID = 1'b0,
+    parameter string INSTR_INIT_FILE = "program.mem"
 )(
     input  logic        clk,
     input  logic        rst,
@@ -335,7 +336,9 @@ module top #(
     // =================================================================
     // Pipeline
     // =================================================================
-    (* DONT_TOUCH = "yes" *) if_stage u_if_stage (
+    (* DONT_TOUCH = "yes" *) if_stage #(
+        .INSTR_INIT_FILE(INSTR_INIT_FILE)
+    ) u_if_stage (
         .clk(clk),
         .rst(rst),
         .stall(effective_stall),

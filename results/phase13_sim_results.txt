@@ -1,0 +1,98 @@
+
+****** xsim v2025.2 (64-bit)
+  **** SW Build 6299465 on Fri Nov 14 19:35:11 GMT 2025
+  **** IP Build 6300035 on Fri Nov 14 10:48:45 MST 2025
+  **** SharedData Build 6298862 on Thu Nov 13 04:50:51 MST 2025
+  **** Start of session at: Sun Jul 12 14:06:16 2026
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source xsim.dir/p13_snap/xsim_script.tcl
+# xsim {p13_snap} -autoloadwcfg -runall
+Time resolution is 1 ps
+run -all
+[88100000] RX: C (0x43)
+[175380000] RX: 0 (0x30)
+[262660000] RX: : (0x3a)
+[349940000] RX:   (0x20)
+[437220000] RX: S (0x53)
+[524500000] RX: E (0x45)
+[611780000] RX: N (0x4e)
+[699060000] RX: T (0x54)
+[786380000] RX:   (0x20)
+[873620000] RX: 8 (0x38)
+[960860000] RX: 
+ (0x0a)
+[960860000] LINE[0]: "C0: SENT 8"
+[960860000] MATCHED: C0: SENT 8
+[1048860000] RX: C (0x43)
+[1136140000] RX: 1 (0x31)
+[1223420000] RX: : (0x3a)
+[1310700000] RX:   (0x20)
+[1397980000] RX: R (0x52)
+[1485260000] RX: C (0x43)
+[1572540000] RX: V (0x56)
+[1659820000] RX: D (0x44)
+[1747140000] RX:   (0x20)
+[1834380000] RX: 8 (0x38)
+[1921620000] RX: 
+ (0x0a)
+[1921620000] LINE[1]: "C1: RCVD 8"
+[1921620000] MATCHED: C1: RCVD 8
+[2008860000] RX: C (0x43)
+[2096100000] RX: 1 (0x31)
+[2183340000] RX: : (0x3a)
+[2270580000] RX:   (0x20)
+[2357820000] RX: S (0x53)
+[2445060000] RX: E (0x45)
+[2532300000] RX: N (0x4e)
+[2619540000] RX: T (0x54)
+[2706780000] RX:   (0x20)
+[2794020000] RX: 1 (0x31)
+[2881260000] RX: 6 (0x36)
+[2968500000] RX: 
+ (0x0a)
+[2968500000] LINE[2]: "C1: SENT 16"
+[2968500000] MATCHED: C1: SENT 16
+[3056340000] RX: C (0x43)
+[3143620000] RX: 0 (0x30)
+[3230900000] RX: : (0x3a)
+[3318180000] RX:   (0x20)
+[3405460000] RX: A (0x41)
+[3492740000] RX: C (0x43)
+[3580020000] RX: K (0x4b)
+[3667300000] RX:   (0x20)
+[3754620000] RX: R (0x52)
+[3841860000] RX: C (0x43)
+[3929100000] RX: V (0x56)
+[4016340000] RX: D (0x44)
+[4103580000] RX: 
+ (0x0a)
+[4103580000] LINE[3]: "C0: ACK RCVD"
+[4103580000] MATCHED: C0: ACK RCVD
+[4190740000] RX: C (0x43)
+[4278020000] RX: 0 (0x30)
+[4365300000] RX: : (0x3a)
+[4452580000] RX:   (0x20)
+[4539860000] RX: D (0x44)
+[4627140000] RX: U (0x55)
+[4714420000] RX: A (0x41)
+[4801700000] RX: L (0x4c)
+[4888940000] RX: - (0x2d)
+[4976180000] RX: C (0x43)
+[5063420000] RX: O (0x4f)
+[5150660000] RX: R (0x52)
+[5237900000] RX: E (0x45)
+[5325140000] RX:   (0x20)
+[5412380000] RX: O (0x4f)
+[5499620000] RX: K (0x4b)
+[5586860000] RX: 
+ (0x0a)
+[5586860000] LINE[4]: "C0: DUAL-CORE OK"
+[5586860000] MATCHED: C0: DUAL-CORE OK
+*** tb_phase13 PASSED — DUAL-CORE COMMUNICATION VERIFIED ***
+$finish called at time : 5586860 ns : File "C:/Users/nayak/Desktop/riscv32-processor/riscv_pipeline_offline/riscv_pipeline_offline.srcs/sim_1/imports/tb_phase13.sv" Line 272
+run: Time (s): cpu = 00:00:00 ; elapsed = 00:00:36 . Memory (MB): peak = 204.039 ; gain = 0.035
+exit
+INFO: xsimkernel Simulation Memory Usage: 13076 KB (Peak: 13076 KB), Simulation CPU Usage: 35967 ms
+INFO: [Common 17-206] Exiting xsim at Sun Jul 12 14:06:54 2026...

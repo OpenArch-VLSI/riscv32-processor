@@ -232,6 +232,7 @@ module ex_stage (
         endcase
     end
 
+    logic [31:0] packed_result;
     always_comb begin
         // Default jump/branch target
         ex_mem_branch_target_in = id_ex_pc + id_ex_imm;
@@ -323,7 +324,6 @@ module ex_stage (
     // Packed-SIMD result computation
     // Each instruction operates on 4 packed 8-bit lanes:
     //   lane 0 = bits [7:0], lane 1 = [15:8], lane 2 = [23:16], lane 3 = [31:24]
-    logic [31:0] packed_result;
     always_comb begin
         packed_result = 32'd0;
         unique case (id_ex_packed_op)

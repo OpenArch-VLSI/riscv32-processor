@@ -21,7 +21,7 @@ module tb_mailbox;
     logic [31:0] c1_rdata;
     logic        c1_valid;
 
-    mailbox uut (
+    ipc_mailbox uut (
         .clk     (clk),
         .rst_n   (rst_n),
         .c0_addr (c0_addr),

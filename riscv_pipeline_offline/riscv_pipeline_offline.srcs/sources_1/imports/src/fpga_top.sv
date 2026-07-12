@@ -1,13 +1,21 @@
 /*
  * Module: fpga_top
- * Description: PYNQ Z2 board wrapper for the RV32I pipeline demo.
+ * Description: PYNQ Z2 board wrapper for the dual-core RV32I SoC (Phase 13).
  *              Generates a 25 MHz CPU clock from the 125 MHz board clock,
- *              drives LEDs with heartbeat/running/pass/fail status, and
- *              integrates the UART monitor for Phase 4.
+ *              instantiates dual_core_top (2x pipeline cores + IPC mailbox),
+ *              and keeps the Phase 4 UART monitor for reset/run control and
+ *              UART passthrough.
+ *
+ *              LED map: led[0] heartbeat (board clock alive)
+ *                       led[1] PLL locked
+ *                       led[2] core 0 halted
+ *                       led[3] core 1 halted
+ *
+ *              Note: the monitor's instruction-loader and debug-readback
+ *              commands are not wired into the dual-core cluster (each core
+ *              boots from its own preloaded instruction memory). Its inputs
+ *              are tied off; RUN/RESET and UART passthrough remain functional.
  */
-
-
-
 
 module fpga_top (
     input  logic       clk,
@@ -16,14 +24,11 @@ module fpga_top (
     // UART pins
     input  logic       uart_rxd,
     output logic       uart_txd,
-    // Phase 12 peripheral I/O
+    // Phase 12 peripheral I/O (unused in the dual-core configuration)
     input  logic        raw_btn_board,  // BTN1 only (BTN0 is rst)
     input  logic [1:0]  raw_sw,
     output logic        pwm_out
 );
-
-    localparam logic [5:0] LAST_EXPECT_INDEX = 6'd26;
-    localparam logic [31:0] TIMEOUT_CYCLES = 32'd5_000_000;
 
     logic pll_clk;
     logic cpu_clk;
@@ -87,42 +92,13 @@ module fpga_top (
         end
     end
 
-    logic [31:0] debug_pc_current;
-    logic        debug_wb_reg_write;
-    logic [4:0]  debug_wb_rd;
-    logic [31:0] debug_wb_write_data;
-    logic        cpu_halt;
+    logic cpu_halt;
 
     // UART monitor signals
     logic        cpu_reset_n;
     logic        monitor_mode;
     logic        cpu_uart_txd;
     logic        mon_uart_txd;
-    logic        mon_instr_load_en;
-    logic [9:0]  mon_instr_load_word_addr;
-    logic [31:0] mon_instr_load_data;
-    logic [4:0]  mon_dbg_reg_addr;
-    logic [31:0] mon_dbg_reg_data;
-    logic [9:0]  mon_dbg_dmem_addr;
-    logic [31:0] mon_dbg_dmem_data;
-    logic [1:0]  mon_dbg_trace_sel;
-    logic [31:0] mon_dbg_trace_pc;
-    logic [31:0] mon_dbg_trace_instr;
-    logic [31:0] mon_dbg_trace_wb_data;
-    logic [31:0] mon_dbg_trace_status;
-    logic [2:0]  mon_dbg_trace_count;
-    logic [1:0]  mon_dbg_trace_head;
-    logic [31:0] cpu_dbg_perf_cycle;
-    logic [31:0] cpu_dbg_perf_instr;
-    logic [31:0] cpu_dbg_perf_stall;
-    logic [31:0] cpu_dbg_perf_flush;
-
-    // Phase 12 peripheral signals
-    logic [3:0]  led_out;
-    logic        led_sw_ctrl;
-    logic [1:0]  raw_btn;   // 2-bit internal: raw_btn[1] = board input, raw_btn[0] = tied to 0
-
-    assign raw_btn = {raw_btn_board, 1'b0};
 
     // UART mux: when in monitor mode, txd comes from monitor.
     // When running, txd comes from CPU. rxd always goes to monitor
@@ -161,182 +137,53 @@ module fpga_top (
         .uart_txd             (mon_uart_txd),
         .cpu_reset_n          (cpu_reset_n),
         .monitor_mode         (monitor_mode),
-        .instr_load_en        (mon_instr_load_en),
-        .instr_load_word_addr (mon_instr_load_word_addr),
-        .instr_load_data      (mon_instr_load_data),
-        .dbg_reg_addr         (mon_dbg_reg_addr),
-        .dbg_reg_data         (mon_dbg_reg_data),
-        .dbg_dmem_addr        (mon_dbg_dmem_addr),
-        .dbg_dmem_data        (mon_dbg_dmem_data),
-        .dbg_perf_cycle       (cpu_dbg_perf_cycle),
-        .dbg_perf_instr       (cpu_dbg_perf_instr),
-        .dbg_perf_stall       (cpu_dbg_perf_stall),
-        .dbg_perf_flush       (cpu_dbg_perf_flush),
-        .dbg_trace_pc         (mon_dbg_trace_pc),
-        .dbg_trace_instr      (mon_dbg_trace_instr),
-        .dbg_trace_wb_data    (mon_dbg_trace_wb_data),
-        .dbg_trace_status     (mon_dbg_trace_status),
-        .dbg_trace_count      (mon_dbg_trace_count),
-        .dbg_trace_head       (mon_dbg_trace_head),
-        .dbg_trace_sel        (mon_dbg_trace_sel)
+        // Loader / debug-readback: not connected in the dual-core config
+        .instr_load_en        (),
+        .instr_load_word_addr (),
+        .instr_load_data      (),
+        .dbg_reg_addr         (),
+        .dbg_reg_data         (32'd0),
+        .dbg_dmem_addr        (),
+        .dbg_dmem_data        (32'd0),
+        .dbg_perf_cycle       (32'd0),
+        .dbg_perf_instr       (32'd0),
+        .dbg_perf_stall       (32'd0),
+        .dbg_perf_flush       (32'd0),
+        .dbg_trace_pc         (32'd0),
+        .dbg_trace_instr      (32'd0),
+        .dbg_trace_wb_data    (32'd0),
+        .dbg_trace_status     (32'd0),
+        .dbg_trace_count      (3'd0),
+        .dbg_trace_head       (2'd0),
+        .dbg_trace_sel        ()
     );
 
-    top u_cpu (
-        .clk                 (cpu_clk),
-        .rst                 (cpu_rst_effective),
-        .debug_pc_current    (debug_pc_current),
-        .debug_wb_reg_write  (debug_wb_reg_write),
-        .debug_wb_rd         (debug_wb_rd),
-        .debug_wb_write_data (debug_wb_write_data),
-        .halt                (cpu_halt),
-        .instr_load_en       (mon_instr_load_en),
-        .instr_load_word_addr(mon_instr_load_word_addr),
-        .instr_load_data     (mon_instr_load_data),
-        // UART pins
-        .uart_rxd            (cpu_uart_rxd),
-        .uart_txd            (cpu_uart_txd),
-        // Debug read ports for UART monitor
-        .dbg_reg_addr        (mon_dbg_reg_addr),
-        .dbg_reg_data        (mon_dbg_reg_data),
-        .dbg_dmem_addr       (mon_dbg_dmem_addr),
-        .dbg_dmem_data       (mon_dbg_dmem_data),
-        .dbg_perf_cycle      (cpu_dbg_perf_cycle),
-        .dbg_perf_instr      (cpu_dbg_perf_instr),
-        .dbg_perf_stall      (cpu_dbg_perf_stall),
-        .dbg_perf_flush      (cpu_dbg_perf_flush),
-        .dbg_trace_sel       (mon_dbg_trace_sel),
-        .dbg_trace_pc        (mon_dbg_trace_pc),
-        .dbg_trace_instr     (mon_dbg_trace_instr),
-        .dbg_trace_wb_data   (mon_dbg_trace_wb_data),
-        .dbg_trace_status    (mon_dbg_trace_status),
-        .dbg_trace_count     (mon_dbg_trace_count),
-        .dbg_trace_head      (mon_dbg_trace_head),
-        // Phase 12 peripheral I/O
-        .led_out             (led_out),
-        .led_sw_ctrl         (led_sw_ctrl),
-        .raw_btn             (raw_btn),
-        .raw_sw              (raw_sw),
-        .pwm_out             (pwm_out)
+    logic [3:0] core_status_led;
+
+    dual_core_top u_cpu (
+        .clk      (cpu_clk),
+        .rst_n    (~cpu_rst_effective),
+        .uart_rxd (cpu_uart_rxd),
+        .uart_txd (cpu_uart_txd),
+        .led      (core_status_led),
+        .halt     (cpu_halt)
     );
 
-    logic [5:0]  pass_index;
-    logic [31:0] timeout_counter;
-    logic        pass_latched;
-    logic        fail_latched;
-
-    function automatic logic [4:0] expected_rd(input logic [5:0] index);
-        case (index)
-            6'd0:  expected_rd = 5'd1;
-            6'd1:  expected_rd = 5'd2;
-            6'd2:  expected_rd = 5'd3;
-            6'd3:  expected_rd = 5'd4;
-            6'd4:  expected_rd = 5'd5;
-            6'd5:  expected_rd = 5'd6;
-            6'd6:  expected_rd = 5'd7;
-            6'd7:  expected_rd = 5'd8;
-            6'd8:  expected_rd = 5'd9;
-            6'd9:  expected_rd = 5'd10;
-            6'd10: expected_rd = 5'd11;
-            6'd11: expected_rd = 5'd12;
-            6'd12: expected_rd = 5'd13;
-            6'd13: expected_rd = 5'd14;
-            6'd14: expected_rd = 5'd16;
-            6'd15: expected_rd = 5'd17;
-            6'd16: expected_rd = 5'd18;
-            6'd17: expected_rd = 5'd19;
-            6'd18: expected_rd = 5'd20;
-            6'd19: expected_rd = 5'd23;
-            6'd20: expected_rd = 5'd24;
-            6'd21: expected_rd = 5'd25;
-            6'd22: expected_rd = 5'd26;
-            6'd23: expected_rd = 5'd27;
-            6'd24: expected_rd = 5'd28;
-            6'd25: expected_rd = 5'd29;
-            6'd26: expected_rd = 5'd30;
-            default: expected_rd = 5'd0;
-        endcase
-    endfunction
-
-    function automatic logic [31:0] expected_data(input logic [5:0] index);
-        case (index)
-            6'd0:  expected_data = 32'd5;
-            6'd1:  expected_data = 32'd10;
-            6'd2:  expected_data = 32'd15;
-            6'd3:  expected_data = 32'd5;
-            6'd4:  expected_data = 32'd0;
-            6'd5:  expected_data = 32'd15;
-            6'd6:  expected_data = 32'd15;
-            6'd7:  expected_data = 32'd15;
-            6'd8:  expected_data = 32'd20;
-            6'd9:  expected_data = 32'd35;
-            6'd10: expected_data = 32'd55;
-            6'd11: expected_data = 32'd1;
-            6'd12: expected_data = 32'd2;
-            6'd13: expected_data = 32'h00000048;
-            6'd14: expected_data = 32'd84;
-            6'd15: expected_data = 32'h12345000;
-            6'd16: expected_data = 32'h00001054;
-            6'd17: expected_data = 32'd100;
-            6'd18: expected_data = 32'h00000060;
-            6'd19: expected_data = 32'd7;
-            6'd20: expected_data = 32'd28;
-            6'd21: expected_data = 32'd14;
-            6'd22: expected_data = 32'd7;
-            6'd23: expected_data = 32'd1;
-            6'd24: expected_data = 32'd0;
-            6'd25: expected_data = 32'd1;
-            6'd26: expected_data = 32'd0;
-            default: expected_data = 32'd0;
-        endcase
-    endfunction
-
-    always_ff @(posedge cpu_clk) begin
-        if (cpu_rst) begin
-            pass_index <= 6'd0;
-            timeout_counter <= 32'd0;
-            pass_latched <= 1'b0;
-            fail_latched <= 1'b0;
-        end else if (!pass_latched && !fail_latched) begin
-            if (timeout_counter >= TIMEOUT_CYCLES) begin
-                fail_latched <= 1'b1;
-            end else begin
-                timeout_counter <= timeout_counter + 32'd1;
-            end
-
-            if (debug_wb_reg_write && (debug_wb_rd != 5'd0)) begin
-                if ((debug_wb_rd == expected_rd(pass_index)) &&
-                    (debug_wb_write_data == expected_data(pass_index))) begin
-                    if (pass_index == LAST_EXPECT_INDEX) begin
-                        pass_latched <= 1'b1;
-                    end else begin
-                        pass_index <= pass_index + 6'd1;
-                    end
-                end else begin
-                    fail_latched <= 1'b1;
-                end
-            end
-        end
-    end
+    // Unused Phase 12 peripheral pin in the dual-core configuration
+    assign pwm_out = 1'b0;
 
     logic [24:0] heartbeat_counter;
-    logic [1:0]  pass_sync;
-    logic [1:0]  fail_sync;
 
     always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             heartbeat_counter <= 25'd0;
-            pass_sync <= 2'b00;
-            fail_sync <= 2'b00;
         end else begin
             heartbeat_counter <= heartbeat_counter + 25'd1;
-            pass_sync <= {pass_sync[0], pass_latched};
-            fail_sync <= {fail_sync[0], fail_latched};
         end
     end
 
-    assign led = led_sw_ctrl ? led_out
-                             : {fail_sync[1], pass_sync[1],
-                                pll_locked && !pass_sync[1] && !fail_sync[1],
-                                heartbeat_counter[24]};
+    // core_status_led[0] = core 0 halted, [1] = core 1 halted (see dual_core_top)
+    assign led = {core_status_led[1], core_status_led[0],
+                  pll_locked, heartbeat_counter[24]};
 
 endmodule
