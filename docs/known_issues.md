@@ -1,6 +1,6 @@
 # Known Issues
 
-> **Last updated:** 2026-06-28  
+> **Last updated:** 2026-07-12  
 > Issues are never deleted — resolved issues are marked with resolution notes.
 
 ## Summary
@@ -8,7 +8,7 @@
 |----------|-----:|------------:|---------:|------:|
 | Critical |    0 |           0 |        2 |     2 |
 | High     |    0 |           0 |        4 |     4 |
-| Medium   |    1 |           0 |        1 |     2 |
+| Medium   |    2 |           0 |        1 |     3 |
 | Low      |    0 |           0 |        0 |     0 |
 
 ## Open Issues
@@ -22,6 +22,14 @@
 - **Resolution:** 
 - **Notes:** Hardware demo is required to complete Phase 0.
 
+#### ISSUE-010: UART Hardware Byte-Drop Risk
+- **Severity:** Medium
+- **Status:** Open
+- **Category:** Architecture/Hardware Risk
+- **Description:** The hardware UART transmitter (`uart_tx.sv`) silently drops bytes written to it while `tx_busy` is high, as the `tx_start` pulse is only sampled in the `IDLE` state. The CPU pipeline does not stall on busy.
+- **Workaround:** Software must explicitly poll the `tx_busy` bit in the UART status register (`0x80000000`) before every byte write (as currently implemented by the `PUTC` assembly macro).
+- **Resolution:** 
+- **Notes:** This is a latent risk if new assembly/C code is added without using a busy-polling subroutine.
 
 ## Known Limitations
 - The processor clock is set to 25 MHz; timing slack indicates it could run at higher speeds (~60 MHz) but requires regeneration of UART clock divider constants.

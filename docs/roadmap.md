@@ -1,8 +1,8 @@
 # Roadmap Implementation Status
 
-Last updated: 2026-06-28
+Last updated: 2026-07-12
 
-<!-- This file is manually maintained. Last updated: 2026-06-28 -->
+<!-- This file is manually maintained. Last updated: 2026-07-12 -->
 
 
 
@@ -37,7 +37,8 @@ This generated table is the quick triage view: what exists, what state it is in,
 | Phase 10: Real Workloads and Benchmark Demos | Complete in Sim (90%) | [BOARD] Needs PYNQ-Z2 proof | physical hardware measurement |
 | Phase 11: Memory System and Bus Cleanup | Complete in Sim (100%) | None | physical hardware measurement (no board-dependent behavior to verify; bus is purely internal) |
 | Phase 12: Optional Peripherals | Complete in Sim (100%) | [BOARD] Needs PYNQ-Z2 proof | selected peripheral simulation and, if hardware-facing, board proof |
-| Phase 13: Dual-Core SoC Extension | Not started (0%) | [LATE] Depends on monitor/traps/bus/software | mailbox simulation (private data memory per core, no arbiter), final board demo |
+| Phase 13: Dual-Core SoC Extension | Complete in Sim (100%) | [BOARD] Needs PYNQ-Z2 proof | physical hardware measurement |
+| Phase 14: Hardware Bring-Up | Not started (0%) | [LATE] Depends on board | synthesis to bitstream for PYNQ-Z2, UART bring-up over CP2102, hardware validation of dual-core |
 
 ---
 
@@ -58,7 +59,8 @@ This generated table is the quick triage view: what exists, what state it is in,
 | 10 | Real Workloads and Benchmark Demos | Complete in Sim | 90% | benchmark suite created, simulated in Vivado, speedup report compiled | Physical hardware measurement |
 | 11 | Memory System and Bus Cleanup | Complete in Sim | 100% | internal peripheral bus (`bus_<periph>_*`) defined in `mem_stage.sv`; `tb_memory_map.sv` passes all 6 MMIO checks | physical hardware measurement (no board-dependent behavior; bus is purely internal) |
 | 12 | Optional Peripherals | Complete in Sim | 100% | LED, button/switch, PWM RTL + tb_phase12.sv verified (9/9 PASS); synthesis clean | board arrival |
-| 13 | Dual-Core SoC Extension | Not started | 0% | roadmap section exists; no dual-core RTL detected | implement only after bus/monitor/trap/software work |
+| 13 | Dual-Core SoC Extension | Complete in Sim | 100% | dual-core RTL, mailbox, tb_phase13.sv pass | physical hardware measurement |
+| 14 | Hardware Bring-Up | Not started | 0% | none | synthesis to bitstream for PYNQ-Z2, UART bring-up over CP2102, hardware validation of dual-core |
 
 ---
 
@@ -773,6 +775,7 @@ If you add display output, make it a peripheral demo, not the main architecture 
 ## Phase 13: Dual-Core SoC Extension
 
 **Priority: Long-term optional**  
+**Status: Complete in Sim**
 **Effort: 4-8 weeks after bus, traps, and software support**  
 **Practicality: Medium if kept simple**
 

@@ -1,8 +1,8 @@
 # Architecture
 
-Last updated: 2026-06-28
+Last updated: 2026-07-12
 
-<!-- This file is manually maintained. Last updated: 2026-06-28 -->
+<!-- This file is manually maintained. Last updated: 2026-07-12 -->
 
 
 
@@ -10,7 +10,7 @@ Last updated: 2026-06-28
 
 ## Current Architecture Summary
 
-The implemented system is a small bare-metal RISC-V soft SoC centered on a 5-stage RV32I pipelined processor. The current verified architecture includes: a ROM-preloaded instruction memory with a UART monitor-driven loader, data RAM, UART MMIO, performance-counter MMIO, debug MMIO, a 4-entry commit trace buffer, forwarding, load-use stall handling, branch/jump flushing, subword memory operations, FENCE/FENCE.I as NOP, ECALL/EBREAK/illegal instruction trapping with MRET, M-mode CSRs, timer interrupts, a 64-entry BHT dynamic branch predictor, a custom packed-SIMD extension (PADD8/PSUB8/PMAXU8/PMINU8/PAVG8) on custom-0 opcode, an internal peripheral signal-bundle bus, and three board-level peripherals (LED control, button/switch input, PWM).
+The implemented system is a small bare-metal RISC-V soft SoC centered on a dual-core topology of two 5-stage RV32I pipelined processors. The current verified architecture includes: a ROM-preloaded instruction memory with a UART monitor-driven loader, private data RAM per core, shared IPC mailbox, priority-encoded UART TX mux (Core 0 has priority when both are busy), performance-counter MMIO, debug MMIO, a 4-entry commit trace buffer, forwarding, load-use stall handling, branch/jump flushing, subword memory operations, FENCE/FENCE.I as NOP, ECALL/EBREAK/illegal instruction trapping with MRET, M-mode CSRs, timer interrupts, a 64-entry BHT dynamic branch predictor, a custom packed-SIMD extension (PADD8/PSUB8/PMAXU8/PMINU8/PAVG8) on custom-0 opcode, an internal peripheral signal-bundle bus, and three board-level peripherals (LED control, button/switch input, PWM).
 
 The UART monitor (`uart_monitor.sv`) provides 7 interactive commands over a serial terminal and controls CPU reset and UART passthrough. Debug read ports in `reg_file.sv`, `data_mem.sv`, `id_stage.sv`, `mem_stage.sv`, and `top.sv` let the monitor inspect register file, data memory, performance counters, and trace buffer state without going through MMIO.
 
@@ -35,7 +35,7 @@ The UART monitor (`uart_monitor.sv`) provides 7 interactive commands over a seri
 | Area | Status | Evidence |
 |------|--------|----------|
 | Board wrapper | Yes | `fpga_top.sv` wraps the CPU for PYNQ-Z2, including reset, LEDs, PLL, and UART pins |
-| CPU core | Yes | `top.sv` instantiates the 5-stage pipeline and shared control blocks |
+| CPU cores | Yes | `top.sv` instantiates the dual-core 5-stage pipelines and shared control blocks |
 | 5-stage pipeline | Yes | IF, ID, EX, MEM, and WB stage modules are present |
 | Pipeline registers | Yes | IF/ID, ID/EX, EX/MEM, and MEM/WB registers are present |
 | Forwarding | Yes | `forwarding_unit.sv` is present and wired through EX |
@@ -89,7 +89,7 @@ The `.dot` files are generated text source diagrams. Render them to SVG or PNG w
 | `diagrams/pipeline.dot` | Current pipeline datapath | Implemented architecture |
 | `diagrams/memory_map.dot` | Current memory and MMIO decode | Implemented architecture with dashed future expansion notes |
 | `diagrams/simd_unit.dot` | Packed-SIMD unit | Implemented architecture (Phase 9) — diagram source may need regenerating |
-| `diagrams/multicore.dot` | Dual-core shared-memory architecture | Planned architecture, not implemented yet |
+| `diagrams/multicore.dot` | Dual-core shared-memory architecture | Implemented architecture (Phase 13) |
 
 ---
 
@@ -243,7 +243,6 @@ Full exception-on-misaligned requires trap CSR infrastructure (Phase 5). In the 
 | Architecture Item | Detection Status |
 |-------------------|------------------|
 | Misaligned load/store exception support | Not detected (documented policy above) |
-| Dual-core / shared-memory variant | Not detected |
 
 ---
 

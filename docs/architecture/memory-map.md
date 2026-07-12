@@ -1,5 +1,7 @@
 # Memory Map
 
+Last updated: 2026-07-12
+
 <!-- diagrams/src/memory_map.dot updated 2026-07-05; .svg not yet re-rendered from source, run Graphviz to regenerate -->
 ![Memory Map](../diagrams/rendered/memory_map.svg)
 
@@ -28,6 +30,11 @@
 | `0xC0000200` | timer mtime (free-running counter) | implemented as read/write timer MMIO |
 | `0xC0000204` | timer mtimecmp (compare value) | implemented as read/write timer MMIO |
 | `0xC0000208` | timer control/status (bit 0 = enable, bit 1 = pending) | implemented as read/write timer MMIO |
+| `0xC0000410` | core ID | implemented as read-only MMIO |
+| `0xC0000500` | mailbox C0_TO_C1_DATA | implemented as read/write shared mailbox data |
+| `0xC0000504` | mailbox C0_TO_C1_FLAG | implemented as read/write shared mailbox flag |
+| `0xC0000508` | mailbox C1_TO_C0_DATA | implemented as read/write shared mailbox data |
+| `0xC000050C` | mailbox C1_TO_C0_FLAG | implemented as read/write shared mailbox flag |
 | `0xD0000000` | LED_CTRL | R/W. Bits [3:0] drive board LEDs directly. First write asserts led_sw_ctrl=1 — CPU permanently takes LED control from heartbeat until rst. Read returns current register value. Bits [31:4] zero. |
 | `0xD0000004` | BTN_SW | R. Bit 1 = BTN1 (raw_btn_board, debounced). Bit 0 = always 0 (BTN0 reserved for rst, tied low internally). Bits [3:2] = SW1, SW0. Bits [31:4] zero. Writes ignored. 2-stage sync + 20-cycle debounce on buttons. |
 | `0xD0000008` | PWM_PERIOD | R/W. PWM counter period in clock cycles. Default: 1000. |
