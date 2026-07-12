@@ -159,11 +159,13 @@ module tb_mailbox;
         #10 c0_we = 1'b0;
 
         c1_re = 1'b1; c1_addr = 32'd0;
-        #10; // hold high for exactly 1 clock cycle (10ns because #10 was used between edges)
-        c1_re = 1'b0;
-        // Check immediately after deasserting
-        if (c1_valid !== 1'b1) $fatal(1, "MAILBOX TEST FAILED");
+        #5; // Wait half a cycle for combinational logic to settle
         if (c1_rdata !== 32'h12345678) $fatal(1, "MAILBOX TEST FAILED");
+        #5; // Complete the clock cycle
+        c1_re = 1'b0;
+        
+        // Check valid signal (which is registered, so it arrives the cycle after re)
+        if (c1_valid !== 1'b1) $fatal(1, "MAILBOX TEST FAILED");
         #10;
 
         $display("*** tb_mailbox PASSED ***");
