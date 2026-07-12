@@ -5,8 +5,8 @@ module dual_core_top #(
     // core 0 (e.g. sw/string_match_interactive.mem for the interactive
     // pattern-matching demo) without touching RTL:
     //   set_property generic {CORE0_INIT_FILE=<path>} [current_fileset]
-    parameter string CORE0_INIT_FILE = "c:/Users/nayak/Desktop/riscv32-processor/asm/core0_demo.mem",
-    parameter string CORE1_INIT_FILE = "c:/Users/nayak/Desktop/riscv32-processor/asm/core1_demo.mem"
+    parameter string CORE0_INIT_FILE = "../../../../../asm/core0_demo.mem",
+    parameter string CORE1_INIT_FILE = "../../../../../asm/core1_demo.mem"
 )(
     input  logic        clk,
     input  logic        rst_n,

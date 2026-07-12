@@ -27,7 +27,7 @@ module tb_string_match;
     localparam integer BIT_NS       = CLKS_PER_BIT * 40;   // 8680 ns
 
     top #(
-        .INSTR_INIT_FILE("c:/Users/nayak/Desktop/riscv32-processor/sw/string_match_interactive.mem")
+        .INSTR_INIT_FILE("../../../../../sw/string_match_interactive.mem")
     ) u_dut (
         .clk                 (clk),
         .rst                 (rst),

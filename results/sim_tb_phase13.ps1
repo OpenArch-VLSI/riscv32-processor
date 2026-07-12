@@ -1,7 +1,7 @@
-$src = Get-ChildItem -Path c:\Users\nayak\Desktop\riscv32-processor\riscv_pipeline_offline\riscv_pipeline_offline.srcs\sources_1\imports\src\*.sv | Select-Object -ExpandProperty FullName
+$src = Get-ChildItem -Path ..\riscv_pipeline_offline\riscv_pipeline_offline.srcs\sources_1\imports\src\*.sv | Select-Object -ExpandProperty FullName
 $src = $src | Where-Object { $_ -notmatch 'dual_core_top\.sv$' }
-$src += "c:\Users\nayak\Desktop\riscv32-processor\riscv_pipeline_offline\riscv_pipeline_offline.srcs\sources_1\imports\src\dual_core_top.sv"
-$tb = "c:\Users\nayak\Desktop\riscv32-processor\riscv_pipeline_offline\riscv_pipeline_offline.srcs\sim_1\imports\tb_phase13.sv"
+$src += "..\riscv_pipeline_offline\riscv_pipeline_offline.srcs\sources_1\imports\src\dual_core_top.sv"
+$tb = "..\riscv_pipeline_offline\riscv_pipeline_offline.srcs\sim_1\imports\tb_phase13.sv"
 
 $xvlog_args = @("-sv") + $src + @($tb)
 & C:\AMDDesignTools\2025.2\Vivado\bin\xvlog.bat $xvlog_args

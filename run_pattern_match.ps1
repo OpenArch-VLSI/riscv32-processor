@@ -7,7 +7,7 @@
 # Empty text quits. First run compiles the simulation snapshot (~30 s);
 # after that each round only costs the simulation itself.
 
-$repo  = "c:\Users\nayak\Desktop\riscv32-processor"
+$repo  = $PSScriptRoot
 $vbin  = "C:\AMDDesignTools\2025.2\Vivado\bin"
 $build = Join-Path $repo "results\xsim_pattern_match"
 
