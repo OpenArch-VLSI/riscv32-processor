@@ -7,3 +7,11 @@ void putchar(char c) {
     }
     UART_TX_REG = c;
 }
+
+char getchar(void) {
+    // Wait until a received byte is available (reading RX clears the flag)
+    while ((UART_STATUS_REG & UART_RX_VLD_BIT) == 0) {
+        // Poll
+    }
+    return (char)(UART_RX_REG & 0xFF);
+}

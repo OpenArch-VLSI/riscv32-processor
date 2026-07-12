@@ -1,6 +1,13 @@
 `timescale 1ns / 1ps
 
-module dual_core_top (
+module dual_core_top #(
+    // Boot images. Override CORE0_INIT_FILE to run a different program on
+    // core 0 (e.g. sw/string_match_interactive.mem for the interactive
+    // pattern-matching demo) without touching RTL:
+    //   set_property generic {CORE0_INIT_FILE=<path>} [current_fileset]
+    parameter string CORE0_INIT_FILE = "c:/Users/nayak/Desktop/riscv32-processor/asm/core0_demo.mem",
+    parameter string CORE1_INIT_FILE = "c:/Users/nayak/Desktop/riscv32-processor/asm/core1_demo.mem"
+)(
     input  logic        clk,
     input  logic        rst_n,
     input  logic        uart_rxd,
@@ -31,7 +38,7 @@ module dual_core_top (
 
     top #(
         .CORE_ID(1'b0),
-        .INSTR_INIT_FILE("c:/Users/nayak/Desktop/riscv32-processor/asm/core0_demo.mem")
+        .INSTR_INIT_FILE(CORE0_INIT_FILE)
     ) u_core0 (
         .clk(clk),
         .rst(rst),
@@ -60,7 +67,7 @@ module dual_core_top (
 
     top #(
         .CORE_ID(1'b1),
-        .INSTR_INIT_FILE("c:/Users/nayak/Desktop/riscv32-processor/asm/core1_demo.mem")
+        .INSTR_INIT_FILE(CORE1_INIT_FILE)
     ) u_core1 (
         .clk(clk),
         .rst(rst),

@@ -11,5 +11,6 @@
 #define UART_RX_VLD_BIT  0x02
 
 void putchar(char c);
+char getchar(void);
 
 #endif
