@@ -137,6 +137,7 @@ Any AI agent modifying a doc file MUST verify its entry is still accurate.
 | `docs/architecture/instruction-set.md` | Instruction support matrix. Tracks implemented/tested/FPGA-verified status per RV32I instruction. | ✅ Complete | 2026-06-03 |
 | `docs/guides/Phase8_Benchmark_Suite_Guide.md` | Walkthrough for running the Phase 8 C benchmark suite via Vivado batch-mode TCL. | ✅ Complete | 2026-07-05 |
 | `docs/guides/Phase8_Verification_Guide.md` | Step-by-step verification guide for the Phase 8 dynamic branch predictor. | ✅ Complete | 2026-07-05 |
+| `docs/guides/Phase14_Hardware_BringUp_Guide.md` | Beginner-friendly hardware bring-up guide for Phase 14 on the PYNQ-Z2 board. | ✅ Complete | 2026-07-13 |
 | `docs/verification/test-plan.md` | Test status tracker. One entry per test with PASS/FAIL/TODO status and last-run date. | ✅ Complete | 2026-06-03 |
 | `docs/verification/performance.md` | Append-only FPGA utilization and timing history. One section per benchmark run. | ✅ Complete | 2026-06-03 |
 | `docs/hardware/setup.md` | Full hardware setup and build guide. Board, pins, UART, build steps, test procedure. | ✅ Complete | 2026-06-03 |
