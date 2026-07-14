@@ -9,7 +9,7 @@
 
 </div>
 
-<h1 align="center">⚙️ RV32IM Dual-Core Pipelined RISC-V Processor</h1>
+<h1 align="center">RV32IM Dual Core Pipelined RISC-V Processor</h1>
 
 <p align="center">
   <strong>A bare-metal, FPGA-targeted RISC-V soft SoC built in SystemVerilog.</strong><br />
@@ -18,17 +18,17 @@
 </p>
 
 <p align="center">
-  <a href="#architecture">Architecture</a> ·
-  <a href="#quick-start">Quick start</a> ·
-  <a href="#verification-and-results">Verification &amp; results</a> ·
-  <a href="#documentation">Documentation</a> ·
+  <a href="#architecture">Architecture</a> |
+  <a href="#quick-start">Quick start</a> |
+  <a href="#verification-and-results">Verification &amp; results</a> |
+  <a href="#documentation">Documentation</a> |
   <a href="#comparable-projects-and-references">Comparable projects</a>
 </p>
 
 <p align="center">
-  <a href="Docs/architecture/overview.md"><strong>2 × five-stage RV32IM pipelines</strong></a> ·
-  <a href="Docs/verification/performance.md"><strong>7,127 LUTs</strong></a> ·
-  <a href="Docs/verification/performance.md"><strong>+5.265 ns WNS</strong></a> ·
+  <a href="Docs/architecture/overview.md"><strong>Two five-stage RV32IM pipelines</strong></a> |
+  <a href="Docs/verification/performance.md"><strong>7,127 LUTs</strong></a> |
+  <a href="Docs/verification/performance.md"><strong>+5.265 ns WNS</strong></a> |
   <a href="Docs/hardware/setup.md"><strong>PYNQ-Z2 target</strong></a>
 </p>
 
@@ -62,7 +62,7 @@ Hardware-specific claims should be read carefully: the repository contains board
 | Scope | Current state | Evidence |
 | --- | --- | --- |
 | RTL simulation | Verified across pipeline, hazards, RV32M, CSRs/timer, branch prediction, SIMD, MMIO, peripherals, monitor, C programs, and mailbox flows | [Verification status](Docs/verification/test-plan.md) |
-| FPGA implementation | Synthesis and timing reports are checked in for the PYNQ-Z2 target | [Utilization](riscv_pipeline_offline/utilization_report.txt) · [timing](riscv_pipeline_offline/timing_report.txt) |
+| FPGA implementation | Synthesis and timing reports are checked in for the PYNQ-Z2 target | [Utilization](riscv_pipeline_offline/utilization_report.txt) and [timing](riscv_pipeline_offline/timing_report.txt) |
 | Physical-board bring-up | Pending complete, repeatable validation | [Known issue / tracking](Docs/known_issues.md#issue-001-physical-board-test-deferred) |
 
 ## Architecture
@@ -106,13 +106,13 @@ The Memory stage uses an internal signal-bundle bus to isolate RAM and MMIO peri
 | Address | Block | Purpose |
 | --- | --- | --- |
 | `0x0000_0000` region | Data RAM | Core-local data memory |
-| `0x8000_0000`–`0x8000_0008` | UART | Status, TX byte, RX byte |
-| `0xC000_0000`–`0xC000_000C` | Performance | Cycle, retired-instruction, stall, and flush counters |
-| `0xC000_0010`–`0xC000_007F` | Debug | Current/committed/fault state and commit trace buffer |
-| `0xC000_0200`–`0xC000_0208` | Timer | `mtime`, `mtimecmp`, enable/pending control |
+| `0x8000_0000` to `0x8000_0008` | UART | Status, TX byte, RX byte |
+| `0xC000_0000` to `0xC000_000C` | Performance | Cycle, retired-instruction, stall, and flush counters |
+| `0xC000_0010` to `0xC000_007F` | Debug | Current/committed/fault state and commit trace buffer |
+| `0xC000_0200` to `0xC000_0208` | Timer | `mtime`, `mtimecmp`, enable/pending control |
 | `0xC000_0410` | Core ID | Read-only hardware core identifier |
-| `0xC000_0500`–`0xC000_050C` | Mailbox | Bidirectional Core 0 ↔ Core 1 data and flags |
-| `0xD000_0000`–`0xD000_0010` | Board peripherals | LED, button/switch, PWM period/duty/control |
+| `0xC000_0500` to `0xC000_050C` | Mailbox | Bidirectional data and flags between Core 0 and Core 1 |
+| `0xD000_0000` to `0xD000_0010` | Board peripherals | LED, button/switch, PWM period/duty/control |
 
 ### UART monitor
 
@@ -187,13 +187,13 @@ Replace `COM3` with the host serial port. The loader supports raw text, UART byt
 | --- | --- | --- |
 | Verification suite | 33 passing checks, 0 failures, 2 deferred hardware/tooling checks | [Verification status](Docs/verification/test-plan.md) |
 | Pipeline / UART / performance regression | Pass | [Final regression artifact](results/final_clean_regression.txt) |
-| Branch predictor | 64-entry BHT verified; `branch_sort` measured 20,613 cycles with 65 flushes | [CPI metrics](results/phase8_cpi_metrics.txt) · [benchmark summary](results/phase10_benchmark_report.md) |
+| Branch predictor | 64-entry BHT verified; `branch_sort` measured 20,613 cycles with 65 flushes | [CPI metrics](results/phase8_cpi_metrics.txt) and [benchmark summary](results/phase10_benchmark_report.md) |
 | Custom SIMD | 9/9 directed tests passed | [Phase 9 clean result](results/final_clean_phase9.txt) |
-| SIMD throughput | Checksum: 1,542 scalar cycles vs. 400 packed-SIMD cycles (**3.85×** cycle speedup) | [Detailed benchmark report](results/phase10_benchmark_report.md) |
+| SIMD throughput | Checksum: 1,542 scalar cycles vs. 400 packed-SIMD cycles (**3.85x** cycle speedup) | [Detailed benchmark report](results/phase10_benchmark_report.md) |
 | MMIO bus | RAM, UART isolation, counters, timer, debug, and unmapped-address test passed | [Test plan entry](Docs/verification/test-plan.md#phase-11-tests) |
 | Board peripherals | 9/9 LED, button/switch, and PWM tests passed in simulation | [Phase 12 clean result](results/final_clean_phase12.txt) |
-| Dual-core mailbox | Core 0 → Core 1 → Core 0 handshake passed | [Phase 13 simulation log](results/phase13_sim_results.txt) · [concise proof output](results/board_phase13_proof.txt) |
-| FPGA implementation | 7,127 LUTs (13.4%), 1,737 registers (1.63%), 1 BRAM (0.71%), 0 DSPs; reported WNS +5.265 ns | [Performance history](Docs/verification/performance.md) · [utilization report](riscv_pipeline_offline/utilization_report.txt) · [timing report](riscv_pipeline_offline/timing_report.txt) |
+| Dual-core mailbox | Bidirectional mailbox handshake passed | [Phase 13 simulation log](results/phase13_sim_results.txt) and [concise proof output](results/board_phase13_proof.txt) |
+| FPGA implementation | 7,127 LUTs (13.4%), 1,737 registers (1.63%), 1 BRAM (0.71%), 0 DSPs; reported WNS +5.265 ns | [Performance history](Docs/verification/performance.md), [utilization report](riscv_pipeline_offline/utilization_report.txt), and [timing report](riscv_pipeline_offline/timing_report.txt) |
 
 These figures are project-specific measurements, not a normalized comparison with other cores: clock, FPGA family, memory configuration, tool version, and benchmark methodology all affect them.
 
@@ -240,12 +240,12 @@ This project is primarily a learning/research and FPGA-integration design: it pr
 
 | Project / reference | Why it is relevant | Useful links |
 | --- | --- | --- |
-| **PicoRV32** | A compact, configurable RV32 core; helpful contrast with this repository’s pipelined design. Its upstream README includes Xilinx 7-series size/frequency figures, CPI tables, interfaces, tests, and a PicoSoC example. | [Repository](https://github.com/YosysHQ/picorv32) · [performance and CPI section](https://github.com/YosysHQ/picorv32#cycles-per-instruction-performance) · [Xilinx 7-series evaluation](https://github.com/YosysHQ/picorv32#evaluation-timing-and-utilization-on-xilinx-7-series-fpgas) |
-| **VexRiscv** | A configurable, FPGA-focused RV32 processor generated with SpinalHDL. A strong reference for configurable pipelines, cache options, and published configuration-level performance figures. | [Repository](https://github.com/SpinalHDL/VexRiscv) · [CPU configurations and performance](https://github.com/SpinalHDL/VexRiscv#cpu-configurations) · [Murax SoC examples](https://github.com/SpinalHDL/VexRiscv#murax) |
-| **Ibex** | A security-conscious 32-bit in-order core widely used as a verification and integration reference. Its repository documents supported configurations, verification infrastructure, and demo systems. | [Repository](https://github.com/lowRISC/ibex) · [documentation](https://ibex-core.readthedocs.io/en/latest/) · [demo system](https://github.com/lowRISC/ibex-demo-system) |
-| **NEORV32** | A self-contained MCU-style RISC-V SoC in VHDL with extensive documentation, software framework, and FPGA-oriented examples. Useful when comparing peripheral-rich soft SoC integration approaches. | [Repository](https://github.com/stnolting/neorv32) · [documentation](https://stnolting.github.io/neorv32/) · [processor checklist](https://stnolting.github.io/neorv32/#_neorv32_processor_checklist) |
-| **SERV** | A bit-serial RV32I core optimized for tiny FPGA/ASIC area. It provides the opposite design point to this throughput-oriented five-stage pipeline. | [Repository](https://github.com/olofk/serv) · [documentation](https://serv.readthedocs.io/) · [results](https://serv.readthedocs.io/en/latest/results.html) |
-| **RISC-V ISA specifications** | The normative source for the base ISA, standard extensions, privileged architecture, and custom opcode-space rules used by this project. | [Unprivileged ISA specification](https://docs.riscv.org/reference/isa/unpriv/unpriv-index.html) · [Privileged architecture specification](https://docs.riscv.org/reference/isa/priv/priv-index.html) |
+| **PicoRV32** | A compact, configurable RV32 core; helpful contrast with this repository's pipelined design. Its upstream README includes Xilinx 7-series size/frequency figures, CPI tables, interfaces, tests, and a PicoSoC example. | [Repository](https://github.com/YosysHQ/picorv32), [performance and CPI section](https://github.com/YosysHQ/picorv32#cycles-per-instruction-performance), and [Xilinx 7-series evaluation](https://github.com/YosysHQ/picorv32#evaluation-timing-and-utilization-on-xilinx-7-series-fpgas) |
+| **VexRiscv** | A configurable, FPGA-focused RV32 processor generated with SpinalHDL. A strong reference for configurable pipelines, cache options, and published configuration-level performance figures. | [Repository](https://github.com/SpinalHDL/VexRiscv), [CPU configurations and performance](https://github.com/SpinalHDL/VexRiscv#cpu-configurations), and [Murax SoC examples](https://github.com/SpinalHDL/VexRiscv#murax) |
+| **Ibex** | A security-conscious 32-bit in-order core widely used as a verification and integration reference. Its repository documents supported configurations, verification infrastructure, and demo systems. | [Repository](https://github.com/lowRISC/ibex), [documentation](https://ibex-core.readthedocs.io/en/latest/), and [demo system](https://github.com/lowRISC/ibex-demo-system) |
+| **NEORV32** | A self-contained MCU-style RISC-V SoC in VHDL with extensive documentation, software framework, and FPGA-oriented examples. Useful when comparing peripheral-rich soft SoC integration approaches. | [Repository](https://github.com/stnolting/neorv32), [documentation](https://stnolting.github.io/neorv32/), and [processor checklist](https://stnolting.github.io/neorv32/#_neorv32_processor_checklist) |
+| **SERV** | A bit-serial RV32I core optimized for tiny FPGA/ASIC area. It provides the opposite design point to this throughput-oriented five-stage pipeline. | [Repository](https://github.com/olofk/serv), [documentation](https://serv.readthedocs.io/), and [results](https://serv.readthedocs.io/en/latest/results.html) |
+| **RISC-V ISA specifications** | The normative source for the base ISA, standard extensions, privileged architecture, and custom opcode-space rules used by this project. | [Unprivileged ISA specification](https://docs.riscv.org/reference/isa/unpriv/unpriv-index.html) and [Privileged architecture specification](https://docs.riscv.org/reference/isa/priv/priv-index.html) |
 
 ## Contributing
 
