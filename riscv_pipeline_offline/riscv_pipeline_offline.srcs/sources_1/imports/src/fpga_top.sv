@@ -81,7 +81,9 @@ module fpga_top (
     logic       cpu_rst;
     logic       cpu_rst_async;
 
-    assign cpu_rst_async = rst | ~pll_locked;
+    assign cpu_rst_async = rst;  // pll_locked removed from async path — UART TX switching
+                                  // noise was glitching pll_locked LOW and pulsing
+                                  // cpu_rst_async, restarting both cores every character.
     assign cpu_rst = cpu_rst_sync[1];
 
     always_ff @(posedge cpu_clk or posedge cpu_rst_async) begin
@@ -112,11 +114,15 @@ module fpga_top (
     logic uart_rxd_sync;
     assign cpu_uart_rxd = monitor_mode ? 1'b1 : uart_rxd_sync;
 
-    assign uart_txd = monitor_mode ? mon_uart_txd : cpu_uart_txd;
+    assign uart_txd = cpu_uart_txd;  // monitor TX mux bypassed — CPU output goes
+                                      // directly to wire. Monitor mode no longer
+                                      // blocks core UART output.
 
     // CPU reset: active when cpu_reset_n is 0 OR during board power-on reset
     logic cpu_rst_effective;
-    assign cpu_rst_effective = cpu_rst || ~cpu_reset_n;
+    assign cpu_rst_effective = cpu_rst;  // monitor reset gate bypassed — cores start
+                                          // automatically when BTN0 is released.
+                                          // cpu_reset_n from monitor is unused.
 
     // 2-stage synchroniser for uart_rxd into cpu_clk domain
     // (uart_rx inside also has its own 2-FF synchroniser for belt-and-braces)
@@ -163,7 +169,10 @@ module fpga_top (
     dual_core_top u_cpu (
         .clk      (cpu_clk),
         .rst_n    (~cpu_rst_effective),
-        .uart_rxd (cpu_uart_rxd),
+        .uart_rxd (1'b1),        // tied to UART idle level — CP2102 RX noise was
+                                  // causing framing errors and spurious traps that
+                                  // restarted cores from PC=0. Assembly never reads
+                                  // UART RX so this is safe.
         .uart_txd (cpu_uart_txd),
         .led      (core_status_led),
         .halt     (cpu_halt)
