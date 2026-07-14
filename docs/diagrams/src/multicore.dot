@@ -5,7 +5,7 @@
 
 digraph multicore {
     graph [
-        label="Planned Dual-Core Extension (Not Implemented Yet)",
+        label="Current Dual-Core Architecture",
         labelloc=t,
         fontsize=20,
         rankdir=LR,
@@ -16,35 +16,34 @@ digraph multicore {
 
     node [
         shape=box,
-        style="rounded,dashed,filled",
-        fillcolor="#fafafa",
-        color="#777777",
+        style="rounded,filled",
+        fillcolor="#f7f7f7",
+        color="#555555",
         fontname="Consolas",
         fontsize=11
     ];
 
     edge [
-        style="dashed",
-        color="#777777",
+        color="#555555",
         fontname="Consolas",
         fontsize=10
     ];
 
-    core0 [label="Core 0\n5-stage scalar pipeline\n1 software thread"];
-    core1 [label="Core 1\n5-stage scalar pipeline\n1 software thread"];
-    arbiter [label="Simple round-robin arbiter\nno caches\nno coherency"];
-    shared_bram [label="Shared BRAM / data memory\nor mailbox window"];
-    mailbox [label="Mailbox registers\ncore-to-core messages"];
-    shared_uart [label="Shared UART MMIO\nsingle terminal output"];
-    shared_timer [label="Shared timer / perf registers\nrequires trap/timer support first"];
-    software [label="Bare-metal software scheduling\nplanned only after monitor/traps/timer"];
+    core0 [label="Core 0 (top.sv)\n5-stage scalar pipeline\nCORE_ID = 0"];
+    core1 [label="Core 1 (top.sv)\n5-stage scalar pipeline\nCORE_ID = 1"];
+    
+    mailbox [label="IPC Mailbox\nipc_mailbox.sv\nBase: 0xC0000500", fillcolor="#fff4e6"];
+    uart_mux [label="UART TX Multiplexer\nShared output", fillcolor="#fff4e6"];
+    halt_logic [label="Halt Logic\nled[0]=core0_halt\nled[1]=core1_halt", fillcolor="#f1f8e9"];
 
-    core0 -> arbiter [label="memory/MMIO request"];
-    core1 -> arbiter [label="memory/MMIO request"];
-    arbiter -> shared_bram;
-    arbiter -> mailbox;
-    arbiter -> shared_uart;
-    arbiter -> shared_timer;
-    shared_timer -> software [label="timer tick"];
-    mailbox -> software [label="coordination"];
+    core0 -> mailbox [label="mbx_addr/wdata/we"];
+    core1 -> mailbox [label="mbx_addr/wdata/we"];
+    mailbox -> core0 [label="mbx_rdata/valid"];
+    mailbox -> core1 [label="mbx_rdata/valid"];
+    
+    core0 -> uart_mux [label="uart_tx, tx_busy"];
+    core1 -> uart_mux [label="uart_tx, tx_busy"];
+    
+    core0 -> halt_logic [label="halt"];
+    core1 -> halt_logic [label="halt"];
 }

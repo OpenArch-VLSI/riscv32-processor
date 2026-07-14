@@ -62,6 +62,13 @@ digraph memory_map {
         color="#555555"
     ];
 
+    multicore_mmio [
+        label="{0xC0000400+ region|0xC0000410 CORE_ID (read-only)|0xC0000500-0xC000050C Mailbox (dual-core)}",
+        style="rounded,filled",
+        fillcolor="#fff4e6",
+        color="#555555"
+    ];
+
     board_periphs [
         label="{0xD0000000 region|LED control / button-switch / PWM registers}",
         style="rounded,filled",
@@ -74,5 +81,6 @@ digraph memory_map {
     internal_bus -> uart [label="UART MMIO"];
     internal_bus -> perf [label="perf MMIO"];
     internal_bus -> timer_debug [label="timer/debug MMIO"];
+    internal_bus -> multicore_mmio [label="multicore MMIO"];
     internal_bus -> board_periphs [label="board MMIO"];
 }

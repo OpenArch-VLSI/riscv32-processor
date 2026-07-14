@@ -39,7 +39,7 @@ digraph pipeline {
         id_ex     [label="ID/EX\nid_ex_reg"];
         ex_stage  [label="EX\nex_stage.sv\nALU + branch/jump decision"];
         ex_mem    [label="EX/MEM\nex_mem_reg"];
-        mem_stage [label="MEM\nmem_stage.sv\nRAM + UART MMIO + perf MMIO"];
+        mem_stage [label="MEM\nmem_stage.sv\nRAM + UART + Perf + Mailbox"];
         mem_wb    [label="MEM/WB\nmem_wb_reg"];
         wb_stage  [label="WB\nwb_stage.sv\nwriteback mux"];
         reg_file  [label="Register file\nreg_file.sv"];
@@ -49,6 +49,7 @@ digraph pipeline {
     data_ram  [label="Data RAM\ndata_mem.sv\nbyte enables", fillcolor="#edf6ff"];
     uart      [label="UART MMIO\nuart_peripheral.sv\nuart_tx + uart_rx", fillcolor="#fff4e6"];
     perf      [label="Performance counters\ncycles / instrs / stalls / flushes", fillcolor="#fff4e6"];
+    mailbox   [label="Mailbox Interface\nTo dual_core_top", fillcolor="#fff4e6"];
 
     hazard    [label="Hazard detection\nload-use stall", fillcolor="#f1f8e9"];
     forward   [label="Forwarding unit\nEX/MEM + MEM/WB paths", fillcolor="#f1f8e9"];
@@ -69,6 +70,7 @@ digraph pipeline {
     mem_stage -> data_ram [label="load/store"];
     mem_stage -> uart [label="0x80000000 region"];
     perf -> mem_stage [label="0xC0000000 region"];
+    mem_stage -> mailbox [label="0xC0000500 region"];
 
     hazard -> if_stage [label="stall"];
     hazard -> if_id [label="stall"];
