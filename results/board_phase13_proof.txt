@@ -1,0 +1,7 @@
+UART terminal output
+
+C0: SENT 8
+C1: RCVD 8
+C1: SENT 16
+C0: ACK RCVD
+C0: DUAL-CORE OK
