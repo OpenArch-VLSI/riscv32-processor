@@ -1,10 +1,10 @@
 <div align="center">
 
-[![Target: PYNQ-Z2](https://img.shields.io/badge/TARGET-PYNQ--Z2-f47b3a?style=for-the-badge&labelColor=343a40)](Docs/hardware/setup.md)
-[![FPGA: XC7Z020](https://img.shields.io/badge/FPGA-XC7Z020-e63946?style=for-the-badge&labelColor=343a40)](Docs/hardware/setup.md)
+[![Target: PYNQ-Z2](https://img.shields.io/badge/TARGET-PYNQ--Z2-f47b3a?style=for-the-badge&labelColor=343a40)](docs/hardware/setup.md)
+[![FPGA: XC7Z020](https://img.shields.io/badge/FPGA-XC7Z020-e63946?style=for-the-badge&labelColor=343a40)](docs/hardware/setup.md)
 [![RTL: SystemVerilog](https://img.shields.io/badge/RTL-SYSTEMVERILOG-4c8eda?style=for-the-badge&labelColor=343a40)](riscv_pipeline_offline/riscv_pipeline_offline.srcs/sources_1/imports/src)
-[![ISA: RV32IM + SIMD](https://img.shields.io/badge/ISA-RV32IM%20%2B%20SIMD-6f4aa8?style=for-the-badge&labelColor=343a40)](Docs/architecture/instruction-set.md)
-[![Pipeline: Dual Core / 5 Stage](https://img.shields.io/badge/PIPELINE-DUAL--CORE%20%2F%205--STAGE-0077b6?style=for-the-badge&labelColor=343a40)](Docs/architecture/overview.md)
+[![ISA: RV32IM + SIMD](https://img.shields.io/badge/ISA-RV32IM%20%2B%20SIMD-6f4aa8?style=for-the-badge&labelColor=343a40)](docs/architecture/instruction-set.md)
+[![Pipeline: Dual Core / 5 Stage](https://img.shields.io/badge/PIPELINE-DUAL--CORE%20%2F%205--STAGE-0077b6?style=for-the-badge&labelColor=343a40)](docs/architecture/overview.md)
 [![License: Apache 2.0](https://img.shields.io/badge/LICENSE-APACHE%202.0-0f82c0?style=for-the-badge&labelColor=343a40)](LICENSE)
 
 </div>
@@ -26,15 +26,15 @@
 </p>
 
 <p align="center">
-  <a href="Docs/architecture/overview.md"><strong>Two five-stage RV32IM pipelines</strong></a> |
-  <a href="Docs/verification/performance.md"><strong>7,127 LUTs</strong></a> |
-  <a href="Docs/verification/performance.md"><strong>+5.265 ns WNS</strong></a> |
-  <a href="Docs/hardware/setup.md"><strong>PYNQ-Z2 target</strong></a>
+  <a href="docs/architecture/overview.md"><strong>Two five-stage RV32IM pipelines</strong></a> |
+  <a href="docs/verification/performance.md"><strong>7,127 LUTs</strong></a> |
+  <a href="docs/verification/performance.md"><strong>+5.265 ns WNS</strong></a> |
+  <a href="docs/hardware/setup.md"><strong>PYNQ-Z2 target</strong></a>
 </p>
 
 ---
 
-![Dual-core architecture](Docs/diagrams/rendered/multicore.svg)
+![Dual-core architecture](docs/diagrams/rendered/multicore.svg)
 
 ## Highlights
 
@@ -55,21 +55,21 @@
 
 The RTL is simulation-verified and has been synthesized and implemented for the PYNQ-Z2 target. The latest checked-in dual-core test prints a complete mailbox handshake and ends with `DUAL-CORE COMMUNICATION VERIFIED`.
 
-Hardware-specific claims should be read carefully: the repository contains board artifacts and constraints, but a complete, repeatable physical-board validation remains an open item. See [known issues](Docs/known_issues.md) for the authoritative limitations and risks.
+Hardware-specific claims should be read carefully: the repository contains board artifacts and constraints, but a complete, repeatable physical-board validation remains an open item. See [known issues](docs/known_issues.md) for the authoritative limitations and risks.
 
 ### Validation scope
 
 | Scope | Current state | Evidence |
 | --- | --- | --- |
-| RTL simulation | Verified across pipeline, hazards, RV32M, CSRs/timer, branch prediction, SIMD, MMIO, peripherals, monitor, C programs, and mailbox flows | [Verification status](Docs/verification/test-plan.md) |
+| RTL simulation | Verified across pipeline, hazards, RV32M, CSRs/timer, branch prediction, SIMD, MMIO, peripherals, monitor, C programs, and mailbox flows | [Verification status](docs/verification/test-plan.md) |
 | FPGA implementation | Synthesis and timing reports are checked in for the PYNQ-Z2 target | [Utilization](riscv_pipeline_offline/utilization_report.txt) and [timing](riscv_pipeline_offline/timing_report.txt) |
-| Physical-board bring-up | Pending complete, repeatable validation | [Known issue / tracking](Docs/known_issues.md#issue-001-physical-board-test-deferred) |
+| Physical-board bring-up | Pending complete, repeatable validation | [Known issue / tracking](docs/known_issues.md#issue-001-physical-board-test-deferred) |
 
 ## Architecture
 
 Each core is a classic in-order five-stage pipeline. The system wrapper supplies private instruction/data memories for the cores, shared mailbox registers, a shared UART output path, and board-facing peripherals.
 
-![Pipeline datapath](Docs/diagrams/rendered/pipeline.svg)
+![Pipeline datapath](docs/diagrams/rendered/pipeline.svg)
 
 ### Pipeline behavior
 
@@ -97,11 +97,11 @@ The custom packed-SIMD instructions use the standard RISC-V `custom-0` opcode sp
 | `PMINU8` | Per-lane unsigned minimum |
 | `PAVG8` | Per-lane unsigned average, rounded down |
 
-For encodings, supported-instruction details, and deliberate omissions, see the [instruction-set matrix](Docs/architecture/instruction-set.md).
+For encodings, supported-instruction details, and deliberate omissions, see the [instruction-set matrix](docs/architecture/instruction-set.md).
 
 ### Memory and peripherals
 
-The Memory stage uses an internal signal-bundle bus to isolate RAM and MMIO peripherals. The full register-level contract is in the [memory map](Docs/architecture/memory-map.md).
+The Memory stage uses an internal signal-bundle bus to isolate RAM and MMIO peripherals. The full register-level contract is in the [memory map](docs/architecture/memory-map.md).
 
 | Address | Block | Purpose |
 | --- | --- | --- |
@@ -116,7 +116,7 @@ The Memory stage uses an internal signal-bundle bus to isolate RAM and MMIO peri
 
 ### UART monitor
 
-At reset, the monitor owns the physical UART and keeps the processor in reset. It accepts `help`, `load`, `run`, `reset`, `regs`, `mem`, `perf`, and `trace`; `!!!` returns a running system to monitor mode. The [UART monitor reference](Docs/architecture/uart-monitor.md) documents every command, wire-up, and loader mode.
+At reset, the monitor owns the physical UART and keeps the processor in reset. It accepts `help`, `load`, `run`, `reset`, `regs`, `mem`, `perf`, and `trace`; `!!!` returns a running system to monitor mode. The [UART monitor reference](docs/architecture/uart-monitor.md) documents every command, wire-up, and loader mode.
 
 ## Repository layout
 
@@ -153,7 +153,7 @@ source run_synthesis.tcl  ;# Synthesis only
 source run_build.tcl      ;# Synthesis, implementation, and bitstream flow
 ```
 
-Board pin assignments, serial wiring, and bring-up procedure are documented in the [hardware setup guide](Docs/hardware/setup.md). Before programming hardware, also use the [board-arrival checklist](Docs/board_arrival_checklist.md).
+Board pin assignments, serial wiring, and bring-up procedure are documented in the [hardware setup guide](docs/hardware/setup.md). Before programming hardware, also use the [board-arrival checklist](docs/board_arrival_checklist.md).
 
 ### Build a bare-metal program
 
@@ -177,7 +177,7 @@ pip install pyserial
 python tools/mem_to_load_commands.py sw/hello_world.mem -f interactive --port COM3 --baud 115200
 ```
 
-Replace `COM3` with the host serial port. The loader supports raw text, UART byte-stream, and interactive modes; see the [monitor documentation](Docs/architecture/uart-monitor.md#host-side-loader).
+Replace `COM3` with the host serial port. The loader supports raw text, UART byte-stream, and interactive modes; see the [monitor documentation](docs/architecture/uart-monitor.md#host-side-loader).
 
 ## Verification and results
 
@@ -185,15 +185,15 @@ Replace `COM3` with the host serial port. The loader supports raw text, UART byt
 
 | Result | Outcome | Evidence |
 | --- | --- | --- |
-| Verification suite | 33 passing checks, 0 failures, 2 deferred hardware/tooling checks | [Verification status](Docs/verification/test-plan.md) |
+| Verification suite | 33 passing checks, 0 failures, 2 deferred hardware/tooling checks | [Verification status](docs/verification/test-plan.md) |
 | Pipeline / UART / performance regression | Pass | [Final regression artifact](results/final_clean_regression.txt) |
 | Branch predictor | 64-entry BHT verified; `branch_sort` measured 20,613 cycles with 65 flushes | [CPI metrics](results/phase8_cpi_metrics.txt) and [benchmark summary](results/phase10_benchmark_report.md) |
 | Custom SIMD | 9/9 directed tests passed | [Phase 9 clean result](results/final_clean_phase9.txt) |
 | SIMD throughput | Checksum: 1,542 scalar cycles vs. 400 packed-SIMD cycles (**3.85x** cycle speedup) | [Detailed benchmark report](results/phase10_benchmark_report.md) |
-| MMIO bus | RAM, UART isolation, counters, timer, debug, and unmapped-address test passed | [Test plan entry](Docs/verification/test-plan.md#phase-11-tests) |
+| MMIO bus | RAM, UART isolation, counters, timer, debug, and unmapped-address test passed | [Test plan entry](docs/verification/test-plan.md#phase-11-tests) |
 | Board peripherals | 9/9 LED, button/switch, and PWM tests passed in simulation | [Phase 12 clean result](results/final_clean_phase12.txt) |
 | Dual-core mailbox | Bidirectional mailbox handshake passed | [Phase 13 simulation log](results/phase13_sim_results.txt) and [concise proof output](results/board_phase13_proof.txt) |
-| FPGA implementation | 7,127 LUTs (13.4%), 1,737 registers (1.63%), 1 BRAM (0.71%), 0 DSPs; reported WNS +5.265 ns | [Performance history](Docs/verification/performance.md), [utilization report](riscv_pipeline_offline/utilization_report.txt), and [timing report](riscv_pipeline_offline/timing_report.txt) |
+| FPGA implementation | 7,127 LUTs (13.4%), 1,737 registers (1.63%), 1 BRAM (0.71%), 0 DSPs; reported WNS +5.265 ns | [Performance history](docs/verification/performance.md), [utilization report](riscv_pipeline_offline/utilization_report.txt), and [timing report](riscv_pipeline_offline/timing_report.txt) |
 
 These figures are project-specific measurements, not a normalized comparison with other cores: clock, FPGA family, memory configuration, tool version, and benchmark methodology all affect them.
 
@@ -210,7 +210,7 @@ riscv_pipeline_offline/run_tb_fpga_top.tcl     # UART monitor / FPGA wrapper
 tools/run_all_sims.ps1                         # regression helper
 ```
 
-Use the [test plan](Docs/verification/test-plan.md) as the authoritative test inventory and the [`results/`](results) directory as the preserved output record.
+Use the [test plan](docs/verification/test-plan.md) as the authoritative test inventory and the [`results/`](results) directory as the preserved output record.
 
 ## Design constraints and known limitations
 
@@ -219,20 +219,20 @@ Use the [test plan](Docs/verification/test-plan.md) as the authoritative test in
 - **Physical-board verification is incomplete.** Treat simulation and implementation reports as evidence of RTL correctness and timing closure, not a substitute for full board qualification.
 - **No cache or virtual-memory system.** `FENCE`/`FENCE.I` are no-ops, and the system is intended for small, bare-metal workloads.
 
-See [known issues](Docs/known_issues.md), [architecture decisions](Docs/decisions/README.md), and the [roadmap](Docs/roadmap.md) for context and planned work.
+See [known issues](docs/known_issues.md), [architecture decisions](docs/decisions/README.md), and the [roadmap](docs/roadmap.md) for context and planned work.
 
 ## Documentation
 
 | Need | Link |
 | --- | --- |
-| Full design and module guide | [Architecture overview](Docs/architecture/overview.md) |
-| Instructions and custom extension | [Instruction-set matrix](Docs/architecture/instruction-set.md) |
-| Registers and address decoding | [Memory map](Docs/architecture/memory-map.md) |
-| UART monitor commands and host loader | [UART monitor reference](Docs/architecture/uart-monitor.md) |
-| FPGA wiring and build notes | [Hardware setup](Docs/hardware/setup.md) |
-| Test coverage and status | [Verification status](Docs/verification/test-plan.md) |
-| Benchmarks, resources, and timing history | [Performance history](Docs/verification/performance.md) |
-| All project documentation | [Documentation index](Docs/README.md) |
+| Full design and module guide | [Architecture overview](docs/architecture/overview.md) |
+| Instructions and custom extension | [Instruction-set matrix](docs/architecture/instruction-set.md) |
+| Registers and address decoding | [Memory map](docs/architecture/memory-map.md) |
+| UART monitor commands and host loader | [UART monitor reference](docs/architecture/uart-monitor.md) |
+| FPGA wiring and build notes | [Hardware setup](docs/hardware/setup.md) |
+| Test coverage and status | [Verification status](docs/verification/test-plan.md) |
+| Benchmarks, resources, and timing history | [Performance history](docs/verification/performance.md) |
+| All project documentation | [Documentation index](docs/README.md) |
 
 ## Comparable projects and references
 
@@ -249,7 +249,7 @@ This project is primarily a learning/research and FPGA-integration design: it pr
 
 ## Contributing
 
-Keep RTL, tests, and documents consistent. For a non-trivial change, update the relevant architecture and verification pages, preserve a result artifact where practical, and record unresolved risks in [known issues](Docs/known_issues.md). The repository history and [change log](CHANGELOG.md) provide additional project context.
+Keep RTL, tests, and documents consistent. For a non-trivial change, update the relevant architecture and verification pages, preserve a result artifact where practical, and record unresolved risks in [known issues](docs/known_issues.md). The repository history and [change log](CHANGELOG.md) provide additional project context.
 
 ## License
 
