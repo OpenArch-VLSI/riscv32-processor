@@ -8,7 +8,7 @@ create_clock -add -name sys_clk_pin -period 8.000 -waveform {0.000 4.000} [get_p
 ## Active-high reset on pushbutton BTN0
 set_property -dict { PACKAGE_PIN D19 IOSTANDARD LVCMOS33 } [get_ports { rst }]
 
-## Board LEDs: heartbeat, running, pass, fail
+## LEDs: [0]=heartbeat(R14), [1]=pll_locked(P14), [2]=core0_halt(N16), [3]=core1_halt(M14)
 set_property -dict { PACKAGE_PIN R14 IOSTANDARD LVCMOS33 } [get_ports { led[0] }]
 set_property -dict { PACKAGE_PIN P14 IOSTANDARD LVCMOS33 } [get_ports { led[1] }]
 set_property -dict { PACKAGE_PIN N16 IOSTANDARD LVCMOS33 } [get_ports { led[2] }]
@@ -39,8 +39,8 @@ set_property -dict { PACKAGE_PIN D20 IOSTANDARD LVCMOS33 } [get_ports { raw_btn_
 set_property -dict { PACKAGE_PIN M20 IOSTANDARD LVCMOS33 } [get_ports { raw_sw[0] }]
 set_property -dict { PACKAGE_PIN M19 IOSTANDARD LVCMOS33 } [get_ports { raw_sw[1] }]
 
-## Phase 12: PWM output — PMODA JA3
-## W18 = JA3_P on PMODA (verified against PYNQ-Z2 ref manual Table 13)
+## Phase 12: PWM output — PMODA connector hole Pin 9 (JA4_P, FPGA pin W18)
+## NOTE: The XDC comment previously incorrectly labeled this as JA3_P. W18 is JA4_P.
 set_property -dict { PACKAGE_PIN W18 IOSTANDARD LVCMOS33 } [get_ports { pwm_out }]
 
 ## Async inputs — tell timing engine to ignore setup/hold on these paths
